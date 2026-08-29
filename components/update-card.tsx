@@ -8,7 +8,7 @@ export function UpdateCard({ update }: { update: UpdatePreview }) {
 
   return (
     <article className="border-t border-black/10 py-6 first:border-t-0">
-      <Link href="/updates" className="group grid gap-5 sm:grid-cols-[9rem_1fr_auto] sm:items-center">
+      <Link href={`/updates/${update.slug}`} className="group grid gap-5 sm:grid-cols-[9rem_1fr_auto] sm:items-center">
         <div className="relative aspect-[4/3] overflow-hidden bg-[var(--color-warm-grey)]">
           <Image src={update.image} alt="" fill sizes="144px" className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
         </div>

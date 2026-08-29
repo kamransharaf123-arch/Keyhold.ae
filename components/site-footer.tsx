@@ -25,7 +25,7 @@ export function SiteFooter() {
                 <FooterLink key={item.href} href={item.href}>{item.label}</FooterLink>
               ))}
               {featuredProjects.slice(0, 3).map((project) => (
-                <FooterLink key={project.slug} href="/projects">{project.title}</FooterLink>
+                <FooterLink key={project.slug} href={`/projects/${project.slug}`}>{project.title}</FooterLink>
               ))}
               <FooterLink href="/projects">View All Projects</FooterLink>
             </FooterList>

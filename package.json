@@ -1,13 +1,15 @@
 {
-  "name": "keyhold-module-1",
-  "version": "1.0.0",
+  "name": "keyhold-module-2",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "verify:source": "node scripts/verify-source.mjs"
+    "verify:source": "node scripts/verify-source.mjs",
+    "verify:module2": "node scripts/verify-module-2.mjs",
+    "verify": "npm run verify:module2 && npm run verify:source && npm run typecheck && npm run build"
   },
   "dependencies": {
     "next": "16.3.3",

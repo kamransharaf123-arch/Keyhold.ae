@@ -1,0 +1,10 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" fill="#F7F4EE"/>
+  <rect x="150" y="110" width="900" height="680" stroke="#171717" stroke-width="10"/>
+  <path d="M150 410H520V110M520 410H1050M760 410V790M520 620H760" stroke="#171717" stroke-width="8"/>
+  <path d="M330 410V520M520 520H410M760 590H890M890 590V790" stroke="#8B8984" stroke-width="5"/>
+  <rect x="192" y="155" width="270" height="190" rx="3" stroke="#B79A6B" stroke-width="5"/>
+  <rect x="810" y="155" width="180" height="105" rx="3" stroke="#B79A6B" stroke-width="5"/>
+  <circle cx="660" cy="555" r="72" stroke="#B79A6B" stroke-width="5"/>
+  <text x="600" y="845" text-anchor="middle" fill="#8B8984" font-family="Arial, sans-serif" font-size="28" letter-spacing="4">SCHEMATIC DEMO FLOOR PLAN</text>
+</svg>

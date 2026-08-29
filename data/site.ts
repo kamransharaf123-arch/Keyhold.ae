@@ -1,3 +1,12 @@
+import {
+  areas as areaProfiles,
+  constructionUpdates,
+  developers as developerProfiles,
+  projects as realEstateProjects,
+} from "@/data/real-estate";
+import { formatProjectPrice } from "@/lib/format";
+import type { ProjectCategory } from "@/types/real-estate";
+
 export type NavItem = {
   label: string;
   href: string;
@@ -7,7 +16,7 @@ export type ProjectPreview = {
   slug: string;
   title: string;
   location: string;
-  category: "Off-Plan" | "Ready" | "Short-Term" | "Long-Term";
+  category: ProjectCategory;
   price: string;
   meta: string;
   image: string;
@@ -70,97 +79,31 @@ export const projectNav: NavItem[] = [
   { label: "Long-Term Rentals", href: "/projects/long-term-rentals" },
 ];
 
+function toPreview(project: (typeof realEstateProjects)[number]): ProjectPreview {
+  return {
+    slug: project.slug,
+    title: project.title,
+    location: project.location,
+    category: project.category,
+    price: formatProjectPrice(project),
+    meta: `${project.bedroomsLabel} · ${project.propertyTypes.join(" / ")}`,
+    image: project.heroImage,
+  };
+}
+
 // Demo content only. Replace with verified live inventory before launch.
-export const featuredProjects: ProjectPreview[] = [
-  {
-    slug: "coastal-residences",
-    title: "Coastal Residences",
-    location: "Dubai, UAE",
-    category: "Off-Plan",
-    price: "From AED 2.1M",
-    meta: "1–3 bedrooms · Waterfront",
-    image: "/images/project-1.svg",
-  },
-  {
-    slug: "downtown-collection",
-    title: "Downtown Collection",
-    location: "Downtown Dubai",
-    category: "Ready",
-    price: "From AED 3.4M",
-    meta: "2–4 bedrooms · City living",
-    image: "/images/project-2.svg",
-  },
-  {
-    slug: "marina-private-homes",
-    title: "Marina Private Homes",
-    location: "Dubai Marina",
-    category: "Long-Term",
-    price: "From AED 240K / year",
-    meta: "2–3 bedrooms · Marina view",
-    image: "/images/project-3.svg",
-  },
-];
+export const projectCatalog: ProjectPreview[] = realEstateProjects.map(toPreview);
+export const featuredProjects: ProjectPreview[] = realEstateProjects.filter((project) => project.featured).map(toPreview);
 
-export const projectCatalog: ProjectPreview[] = [
-  ...featuredProjects,
-  {
-    slug: "desert-golf-villas",
-    title: "Desert Golf Villas",
-    location: "Dubai, UAE",
-    category: "Off-Plan",
-    price: "From AED 5.8M",
-    meta: "4–5 bedrooms · Golf community",
-    image: "/images/project-4.svg",
-  },
-  {
-    slug: "palm-view-residence",
-    title: "Palm View Residence",
-    location: "Palm Jumeirah",
-    category: "Short-Term",
-    price: "From AED 1,850 / night",
-    meta: "2 bedrooms · Sea view",
-    image: "/images/project-5.svg",
-  },
-  {
-    slug: "creekside-ready-home",
-    title: "Creekside Ready Home",
-    location: "Dubai Creek Harbour",
-    category: "Ready",
-    price: "AED 2.95M",
-    meta: "2 bedrooms · Vacant on transfer",
-    image: "/images/project-6.svg",
-  },
-];
-
-export const updates: UpdatePreview[] = [
-  {
-    slug: "coastal-residences-august-2026",
-    project: "Coastal Residences",
-    location: "Dubai, UAE",
-    progress: 64,
-    status: "Superstructure progressing",
-    updatedAt: "August 2026",
-    image: "/images/update-1.svg",
-  },
-  {
-    slug: "desert-golf-villas-august-2026",
-    project: "Desert Golf Villas",
-    location: "Dubai, UAE",
-    progress: 38,
-    status: "Structural works underway",
-    updatedAt: "August 2026",
-    image: "/images/update-2.svg",
-  },
-  {
-    slug: "coastal-residences-july-2026",
-    project: "Coastal Residences",
-    location: "Dubai, UAE",
-    progress: 58,
-    status: "Facade installation started",
-    updatedAt: "July 2026",
-    image: "/images/update-3.svg",
-  },
-];
+export const updates: UpdatePreview[] = constructionUpdates.map((update) => ({
+  slug: update.slug,
+  project: update.project,
+  location: update.location,
+  progress: update.progress,
+  status: update.status,
+  updatedAt: update.updatedAt,
+  image: update.image,
+}));
 
 export const insights: InsightPreview[] = [
   {
@@ -216,20 +159,5 @@ export const services = [
   },
 ];
 
-export const areas = [
-  "Palm Jumeirah",
-  "Downtown Dubai",
-  "Dubai Marina",
-  "Dubai Hills Estate",
-  "Dubai Creek Harbour",
-  "Business Bay",
-];
-
-export const developers = [
-  "Emaar",
-  "Nakheel",
-  "Meraas",
-  "Sobha",
-  "OMNIYAT",
-  "Binghatti",
-];
+export const areas = areaProfiles.map((area) => area.name);
+export const developers = developerProfiles.map((developer) => developer.name);

@@ -10,7 +10,7 @@ type ProjectCardProps = {
 export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <article className="group">
-      <Link href="/projects" className="block" aria-label={`Explore ${project.title}`}>
+      <Link href={`/projects/${project.slug}`} className="block" aria-label={`Explore ${project.title}`}>
         <div className="relative aspect-[4/5] overflow-hidden bg-[var(--color-warm-grey)]">
           <Image
             src={project.image}
