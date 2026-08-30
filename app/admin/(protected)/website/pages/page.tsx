@@ -1,0 +1,14 @@
+import { AdminCard, AdminNotice, AdminPageHeader, StatusPill } from "@/components/admin/admin-ui";
+import { PageForm, SectionForm, type PageRow, type SectionRow } from "@/components/admin/website-forms";
+import { requireAdmin } from "@/lib/admin/session";
+import { cmsSelect } from "@/lib/cms/rest";
+
+export default async function WebsitePagesAdmin({ searchParams }: { searchParams: Promise<{ notice?: string; error?: string }> }) {
+  await requireAdmin();
+  const [query, pages, sections] = await Promise.all([
+    searchParams,
+    cmsSelect<PageRow>("cms_pages", "select=*&order=route.asc"),
+    cmsSelect<SectionRow>("cms_page_sections", "select=*&order=sort_order.asc,section_key.asc"),
+  ]);
+  return <><AdminPageHeader eyebrow="Website manager" title="Pages & Sections" description="Edit hero text, images, CTAs, SEO and every page section. Section order and visibility control the public composition after Claude completes the public rendering cutover."/><AdminNotice notice={query.notice} error={query.error}/><div className="grid gap-5">{pages.map((page)=>{const own=sections.filter((section)=>section.page_id===page.id);return <AdminCard key={page.id}><details><summary className="flex cursor-pointer list-none flex-wrap items-center justify-between gap-3"><span><span className="font-display text-2xl">{page.nav_title}</span><span className="ml-3 text-xs text-[var(--color-stone)]">{page.route}</span></span><StatusPill status={page.status}/></summary><div className="mt-6 grid gap-6 border-t border-black/10 pt-6"><div><p className="eyebrow mb-4">Page settings</p><PageForm item={page}/></div><div className="border-t border-black/10 pt-6"><div className="mb-4 flex items-center justify-between"><div><p className="eyebrow">Sections</p><p className="mt-1 text-sm text-[var(--color-stone)]">{own.length} section{own.length===1?"":"s"}</p></div></div><div className="grid gap-3">{own.map((section)=><details key={section.id} className="border border-black/10 p-4"><summary className="cursor-pointer list-none"><span className="font-semibold">{section.section_key}</span><span className="ml-3 text-xs text-[var(--color-stone)]">{section.section_type} · order {section.sort_order} · {section.enabled?"visible":"hidden"}</span></summary><div className="mt-5 border-t border-black/10 pt-5"><SectionForm pageId={page.id} item={section}/></div></details>)}<details className="border border-dashed border-black/15 bg-[var(--color-bone)] p-4"><summary className="cursor-pointer font-semibold">+ Add section to {page.nav_title}</summary><div className="mt-5"><SectionForm pageId={page.id}/></div></details></div></div></div></details></AdminCard>})}<AdminCard eyebrow="Advanced" title="Add another public page"><p className="mb-5 text-sm leading-7 text-[var(--color-stone)]">Creating a CMS page does not create a new Next.js route by itself. Use this only for a route Claude has implemented or is about to implement.</p><PageForm/></AdminCard></div></>;
+}

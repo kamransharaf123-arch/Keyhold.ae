@@ -1,5 +1,6 @@
 import { writeFile } from "node:fs/promises";
 import path from "node:path";
+import { buildWebsiteContent } from "./cms-website-snapshot.mjs";
 
 const outPath = path.join(process.cwd(), "data", "cms-snapshot.json");
 const supabaseUrl = (process.env.NEXT_PUBLIC_SUPABASE_URL || "").replace(/\/$/, "");
@@ -10,6 +11,8 @@ const fallback = {
   enabled: false,
   generatedAt: null,
   source: "demo-fallback",
+  websiteEnabled: false,
+  website: null,
   developers: [],
   areas: [],
   projects: [],
@@ -226,6 +229,17 @@ try {
   }));
 
   const services = serviceRows.map((row) => ({ title: row.title, text: row.text }));
+  let websiteEnabled = false;
+  let website = null;
+  try {
+    website = await buildWebsiteContent(table);
+    websiteEnabled = website.enabled;
+  } catch (error) {
+    console.warn(`[cms-sync] Website Studio tables unavailable (${error instanceof Error ? error.message : String(error)}). Website Studio disabled for this build.`);
+    websiteEnabled = false;
+    website = null;
+  }
+
   const settings = settingsRows[0];
   const siteSettings = settings ? {
     name: settings.company_name,
@@ -239,7 +253,7 @@ try {
     languages: Array.isArray(settings.languages) && settings.languages.length ? settings.languages : ["EN"],
   } : null;
 
-  const snapshot = { enabled: true, generatedAt: new Date().toISOString(), source: "supabase-cms", developers, areas, projects, constructionUpdates, intelligenceProfiles, insights, services, siteSettings };
+  const snapshot = { enabled: true, generatedAt: new Date().toISOString(), source: "supabase-cms", websiteEnabled, website, developers, areas, projects, constructionUpdates, intelligenceProfiles, insights, services, siteSettings };
   await writeFile(outPath, `${JSON.stringify(snapshot, null, 2)}\n`, "utf8");
   console.log(`[cms-sync] Wrote ${projects.length} projects, ${developers.length} developers, ${areas.length} areas, ${constructionUpdates.length} updates and ${intelligenceProfiles.length} intelligence profiles.`);
 } catch (error) {

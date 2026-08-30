@@ -14,50 +14,77 @@ import { ProjectGallery } from "@/components/real-estate/project-gallery";
 import { ProjectSection } from "@/components/real-estate/section-shell";
 import { RegulatoryCard } from "@/components/real-estate/regulatory-card";
 import { UnitSelector } from "@/components/real-estate/unit-selector";
-import { projectCatalog, siteConfig } from "@/data/site";
+import { projects as enProjects } from "@/data/catalog";
+import { projectsForLocale, areasForLocale, developersForLocale, constructionUpdatesForLocale } from "@/data/localized-catalog";
 import { formatDateTimeDubai, formatProjectPrice, formatSqftRange } from "@/lib/format";
-import {
-  getAreaBySlug,
-  getConstructionUpdatesForProject,
-  getDeveloperBySlug,
-  getProjectBySlug,
-  getRelatedProjects,
-} from "@/lib/real-estate";
+import { websitePageMetadata } from "@/lib/cms/website-metadata";
+import { localizedHref } from "@/lib/i18n/locale";
+import { localizedProjectCatalog } from "@/lib/i18n/localized-site";
+import type { KeyHoldLocale } from "@/types/localization";
+import { getRelatedProjects } from "@/lib/real-estate";
+
+const COPY = {
+  en: {
+    guidePrice: "Guide price / rate", checked: "Availability checked", enquire: "Enquire about this project", simulate: "Simulate investment", viewUnits: "View unit selector*",
+    overviewEyebrow: "Overview", overviewTitle: "The project at a glance.", propertyType: "Property type", bedrooms: "Bedrooms", size: "Size", handover: "Handover / status",
+    amenitiesEyebrow: "Amenities", amenitiesTitle: "What the project includes.",
+    paymentEyebrow: "Payment plan", paymentTitle: "Understand when capital is due.",
+    floorPlansEyebrow: "Floor plans", floorPlansTitle: "Layouts supplied for this record.",
+    unitsEyebrow: "Unit selector", unitsTitle: "Explore the displayed unit inventory.",
+    investmentEyebrow: "Investment analysis", investmentTitle: "Model gross yield, net yield, true cost, cash flow and exit scenarios.",
+    intelligenceEyebrow: "KeyHold Intelligence", intelligenceTitle: "Score the opportunity, surface the risks and show the evidence.",
+    documentsEyebrow: "Documents", documentsTitle: "Project materials in one place.",
+    regulatoryEyebrow: "DLD / RERA", regulatoryTitle: "Regulatory information should be verifiable.",
+    updatesEyebrow: "Construction updates", updatesTitle: "Follow progress over time.",
+    related: "Related projects",
+    availabilityEyebrow: "Current availability", availabilityTitle: "Confirm the latest unit and commercial terms.", availabilityBody: "Displayed inventory can change. A KeyHold advisor should confirm current developer or seller availability before any reservation or payment.", speakToAdvisor: "Speak to an Advisor",
+  },
+  fr: {
+    guidePrice: "Prix / tarif indicatif", checked: "Disponibilité vérifiée le", enquire: "Se renseigner sur ce projet", simulate: "Simuler l’investissement", viewUnits: "Voir le sélecteur d’unités*",
+    overviewEyebrow: "Présentation", overviewTitle: "Le projet en un coup d’œil.", propertyType: "Type de bien", bedrooms: "Chambres", size: "Surface", handover: "Livraison / statut",
+    amenitiesEyebrow: "Équipements", amenitiesTitle: "Ce que comprend le projet.",
+    paymentEyebrow: "Plan de paiement", paymentTitle: "Comprenez quand le capital est dû.",
+    floorPlansEyebrow: "Plans", floorPlansTitle: "Agencements fournis pour ce dossier.",
+    unitsEyebrow: "Sélecteur d’unités", unitsTitle: "Explorez l’inventaire d’unités affiché.",
+    investmentEyebrow: "Analyse d’investissement", investmentTitle: "Modélisez le rendement brut, net, le coût réel, les flux de trésorerie et les scénarios de sortie.",
+    intelligenceEyebrow: "KeyHold Intelligence", intelligenceTitle: "Notez l’opportunité, mettez en évidence les risques et montrez les preuves.",
+    documentsEyebrow: "Documents", documentsTitle: "Les documents du projet réunis en un seul endroit.",
+    regulatoryEyebrow: "DLD / RERA", regulatoryTitle: "Les informations réglementaires doivent être vérifiables.",
+    updatesEyebrow: "Avancement de construction", updatesTitle: "Suivez l’avancement dans le temps.",
+    related: "Projets similaires",
+    availabilityEyebrow: "Disponibilité actuelle", availabilityTitle: "Confirmez les dernières conditions d’unité et commerciales.", availabilityBody: "L’inventaire affiché peut changer. Un conseiller KeyHold doit confirmer la disponibilité actuelle auprès du promoteur ou du vendeur avant toute réservation ou paiement.", speakToAdvisor: "Parler à un conseiller",
+  },
+} as const;
 
 export function generateStaticParams() {
-  return projectCatalog.map((project) => ({ slug: project.slug }));
+  return enProjects.map((project) => ({ slug: project.slug }));
+}
+
+function getProjectByLocale(slug: string, locale: KeyHoldLocale) {
+  return projectsForLocale(locale).find((project) => project.slug === slug);
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
-  if (!project) return { title: "Project Not Found" };
-
-  return {
-    title: project.title,
-    description: project.shortDescription,
-    alternates: { canonical: `/projects/${project.slug}` },
-    openGraph: {
-      title: `${project.title} | KeyHold`,
-      description: project.shortDescription,
-      url: `${siteConfig.url}/projects/${project.slug}`,
-      images: [{ url: project.heroImage }],
-    },
-  };
+  const project = getProjectByLocale(slug, "en");
+  const fallback: Metadata = project
+    ? { title: project.title, description: project.shortDescription, openGraph: { title: `${project.title} | KeyHold`, description: project.shortDescription, images: [{ url: project.heroImage }] } }
+    : { title: "Project Not Found" };
+  return websitePageMetadata(`project:${slug}`, `/projects/${slug}`, fallback, "en");
 }
 
-export default async function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const project = getProjectBySlug(slug);
+export function ProjectDetailContent({ slug, locale = "en" }: { slug: string; locale?: KeyHoldLocale }) {
+  const project = getProjectByLocale(slug, locale);
   if (!project) notFound();
+  const copy = COPY[locale];
 
   const investmentEligible = Boolean(project.investment) && project.priceFromAed !== null;
 
-  const developer = getDeveloperBySlug(project.developerSlug);
-  const area = getAreaBySlug(project.areaSlug);
-  const updates = getConstructionUpdatesForProject(project.slug);
+  const developer = developersForLocale(locale).find((item) => item.slug === project.developerSlug);
+  const area = areasForLocale(locale).find((item) => item.slug === project.areaSlug);
+  const updates = constructionUpdatesForLocale(locale).filter((item) => item.projectSlug === project.slug).sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
   const related = getRelatedProjects(project);
-  const previewBySlug = new Map(projectCatalog.map((item) => [item.slug, item]));
+  const previewBySlug = new Map(localizedProjectCatalog(locale).map((item) => [item.slug, item]));
 
   return (
     <>
@@ -67,22 +94,22 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[0.67rem] font-semibold uppercase tracking-[0.16em] text-[var(--color-stone)]">
               <span>{project.category}</span>
               <span aria-hidden="true">·</span>
-              {area ? <Link href={`/areas/${area.slug}`} className="hover:text-[var(--color-graphite)]">{area.name}</Link> : <span>{project.location}</span>}
-              {developer ? <><span aria-hidden="true">·</span><Link href={`/developers/${developer.slug}`} className="hover:text-[var(--color-graphite)]">{developer.name}</Link></> : null}
+              {area ? <Link href={localizedHref(`/areas/${area.slug}`, locale)} className="hover:text-[var(--color-graphite)]">{area.name}</Link> : <span>{project.location}</span>}
+              {developer ? <><span aria-hidden="true">·</span><Link href={localizedHref(`/developers/${developer.slug}`, locale)} className="hover:text-[var(--color-graphite)]">{developer.name}</Link></> : null}
             </div>
             <h1 className="display-title mt-4 text-5xl sm:text-6xl lg:text-7xl">{project.title}</h1>
             <p className="mt-5 max-w-2xl text-base leading-8 text-[var(--color-stone)]">{project.shortDescription}</p>
           </div>
           <div className="lg:text-right">
-            <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-stone)]">Guide price / rate</p>
+            <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-stone)]">{copy.guidePrice}</p>
             <p className="font-display mt-2 text-3xl">{formatProjectPrice(project)}</p>
-            <p className="mt-2 text-xs text-[var(--color-stone)]">Availability checked {formatDateTimeDubai(project.availabilityLastVerifiedAt)}</p>
+            <p className="mt-2 text-xs text-[var(--color-stone)]">{copy.checked} {formatDateTimeDubai(project.availabilityLastVerifiedAt)}</p>
           </div>
         </div>
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link href={`/contact?project=${encodeURIComponent(project.title)}`} className="button button-dark">Enquire about this project</Link>
-          {investmentEligible ? <a href="#investment" className="button border border-black/10 hover:bg-[var(--color-bone)]">Simulate investment</a> : null}
-          <a href="#units" className="button border border-black/10 hover:bg-[var(--color-bone)]">View unit selector*</a>
+          <Link href={`${localizedHref("/contact", locale)}?project=${encodeURIComponent(project.title)}`} className="button button-dark">{copy.enquire}</Link>
+          {investmentEligible ? <a href="#investment" className="button border border-black/10 hover:bg-[var(--color-bone)]">{copy.simulate}</a> : null}
+          <a href="#units" className="button border border-black/10 hover:bg-[var(--color-bone)]">{copy.viewUnits}</a>
         </div>
       </section>
 
@@ -92,38 +119,38 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         <ProjectFacts facts={project.keyFacts} />
       </section>
 
-      <ProjectSection eyebrow="Overview" title="The project at a glance.">
+      <ProjectSection eyebrow={copy.overviewEyebrow} title={copy.overviewTitle}>
         <div className="space-y-7">
           <p className="text-base leading-8 text-[var(--color-stone)]">{project.overview}</p>
           <dl className="grid gap-x-8 gap-y-5 border-t border-black/10 pt-6 sm:grid-cols-2">
-            <div><dt className="text-xs uppercase tracking-[0.14em] text-[var(--color-stone)]">Property type</dt><dd className="mt-2 text-sm font-medium">{project.propertyTypes.join(" · ")}</dd></div>
-            <div><dt className="text-xs uppercase tracking-[0.14em] text-[var(--color-stone)]">Bedrooms</dt><dd className="mt-2 text-sm font-medium">{project.bedroomsLabel}</dd></div>
-            <div><dt className="text-xs uppercase tracking-[0.14em] text-[var(--color-stone)]">Size</dt><dd className="mt-2 text-sm font-medium">{formatSqftRange(project.sizeFromSqft, project.sizeToSqft)}</dd></div>
-            <div><dt className="text-xs uppercase tracking-[0.14em] text-[var(--color-stone)]">Handover / status</dt><dd className="mt-2 text-sm font-medium">{project.handoverLabel}</dd></div>
+            <div><dt className="text-xs uppercase tracking-[0.14em] text-[var(--color-stone)]">{copy.propertyType}</dt><dd className="mt-2 text-sm font-medium">{project.propertyTypes.join(" · ")}</dd></div>
+            <div><dt className="text-xs uppercase tracking-[0.14em] text-[var(--color-stone)]">{copy.bedrooms}</dt><dd className="mt-2 text-sm font-medium">{project.bedroomsLabel}</dd></div>
+            <div><dt className="text-xs uppercase tracking-[0.14em] text-[var(--color-stone)]">{copy.size}</dt><dd className="mt-2 text-sm font-medium">{formatSqftRange(project.sizeFromSqft, project.sizeToSqft)}</dd></div>
+            <div><dt className="text-xs uppercase tracking-[0.14em] text-[var(--color-stone)]">{copy.handover}</dt><dd className="mt-2 text-sm font-medium">{project.handoverLabel}</dd></div>
           </dl>
         </div>
       </ProjectSection>
 
-      <ProjectSection eyebrow="Amenities" title="What the project includes.">
+      <ProjectSection eyebrow={copy.amenitiesEyebrow} title={copy.amenitiesTitle}>
         <div className="grid border-l border-t border-black/10 sm:grid-cols-2">
           {project.amenities.map((amenity) => <div key={amenity} className="border-b border-r border-black/10 p-4 text-sm">{amenity}</div>)}
         </div>
       </ProjectSection>
 
-      <ProjectSection eyebrow="Payment plan" title="Understand when capital is due.">
+      <ProjectSection eyebrow={copy.paymentEyebrow} title={copy.paymentTitle}>
         <PaymentPlan milestones={project.paymentPlan} />
       </ProjectSection>
 
-      <ProjectSection eyebrow="Floor plans" title="Layouts supplied for this record.">
+      <ProjectSection eyebrow={copy.floorPlansEyebrow} title={copy.floorPlansTitle}>
         <FloorPlans plans={project.floorPlans} />
       </ProjectSection>
 
-      <ProjectSection id="units" eyebrow="Unit selector" title="Explore the displayed unit inventory.">
-        <UnitSelector units={project.units} projectSlug={project.slug} />
+      <ProjectSection id="units" eyebrow={copy.unitsEyebrow} title={copy.unitsTitle}>
+        <UnitSelector units={project.units} projectSlug={project.slug} locale={locale} />
       </ProjectSection>
 
       {investmentEligible && project.investment && project.priceFromAed !== null ? (
-        <ProjectSection id="investment" eyebrow="Investment analysis" title="Model gross yield, net yield, true cost, cash flow and exit scenarios.">
+        <ProjectSection id="investment" eyebrow={copy.investmentEyebrow} title={copy.investmentTitle}>
           <Suspense fallback={<div className="text-sm text-[var(--color-stone)]">Loading investment simulator…</div>}>
             <InvestmentSimulator
               projectTitle={project.title}
@@ -140,27 +167,27 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         </ProjectSection>
       ) : null}
 
-      <ProjectSection id="intelligence" eyebrow="KeyHold Intelligence" title="Score the opportunity, surface the risks and show the evidence.">
-        <KeyHoldIntelligence project={project} />
+      <ProjectSection id="intelligence" eyebrow={copy.intelligenceEyebrow} title={copy.intelligenceTitle}>
+        <KeyHoldIntelligence project={project} locale={locale} />
       </ProjectSection>
 
-      <ProjectSection eyebrow="Documents" title="Project materials in one place.">
+      <ProjectSection eyebrow={copy.documentsEyebrow} title={copy.documentsTitle}>
         <ProjectDocuments documents={project.documents} projectTitle={project.title} />
       </ProjectSection>
 
-      <ProjectSection eyebrow="DLD / RERA" title="Regulatory information should be verifiable.">
+      <ProjectSection eyebrow={copy.regulatoryEyebrow} title={copy.regulatoryTitle}>
         <RegulatoryCard regulatory={project.regulatory} />
       </ProjectSection>
 
       {updates.length > 0 ? (
-        <ProjectSection eyebrow="Construction updates" title="Follow progress over time.">
+        <ProjectSection eyebrow={copy.updatesEyebrow} title={copy.updatesTitle}>
           <ConstructionTimeline updates={updates} />
         </ProjectSection>
       ) : null}
 
       {related.length > 0 ? (
         <section className="site-container border-t border-black/10 py-14 lg:py-20">
-          <p className="eyebrow">Related projects</p>
+          <p className="eyebrow">{copy.related}</p>
           <div className="mt-7 grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
             {related.map((item) => {
               const preview = previewBySlug.get(item.slug);
@@ -173,13 +200,18 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       <section className="site-container pb-20">
         <div className="bg-[var(--color-charcoal)] p-7 text-[var(--color-bone)] sm:p-10 lg:flex lg:items-center lg:justify-between lg:gap-10">
           <div>
-            <p className="text-[0.67rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-champagne)]">Current availability</p>
-            <h2 className="font-display mt-3 text-3xl">Confirm the latest unit and commercial terms.</h2>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-white/65">Displayed inventory can change. A KeyHold advisor should confirm current developer or seller availability before any reservation or payment.</p>
+            <p className="text-[0.67rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-champagne)]">{copy.availabilityEyebrow}</p>
+            <h2 className="font-display mt-3 text-3xl">{copy.availabilityTitle}</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-white/65">{copy.availabilityBody}</p>
           </div>
-          <Link href={`/contact?project=${encodeURIComponent(project.title)}`} className="button button-light mt-6 shrink-0 lg:mt-0">Speak to an Advisor</Link>
+          <Link href={`${localizedHref("/contact", locale)}?project=${encodeURIComponent(project.title)}`} className="button button-light mt-6 shrink-0 lg:mt-0">{copy.speakToAdvisor}</Link>
         </div>
       </section>
     </>
   );
+}
+
+export default async function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  return <ProjectDetailContent slug={slug} locale="en" />;
 }

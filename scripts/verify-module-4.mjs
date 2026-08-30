@@ -120,7 +120,7 @@ if (!comparison.includes("estimates, not guaranteed returns or live quotations")
 if (!discoveryCard.includes("Model investment")) errors.push("Discovery project cards do not expose the investment model for eligible acquisition projects.");
 
 if (!sitemap.includes('"/investment-calculator"')) errors.push("Sitemap is missing /investment-calculator.");
-if (!footer.includes('href="/investment-calculator"')) errors.push("Footer is missing the Investment Calculator link.");
+if (!footer.includes('href="/investment-calculator"') && !footer.includes('"/investment-calculator"')) errors.push("Footer is missing the Investment Calculator link.");
 
 // Preserve the exact public header contract from Modules 1–3.
 const primaryNavMatch = siteData.match(/export const primaryNav:[\s\S]*?= \[([\s\S]*?)\];/);

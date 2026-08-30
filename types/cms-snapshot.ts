@@ -1,10 +1,13 @@
 import type { ProjectIntelligenceProfile } from "@/types/intelligence";
 import type { AreaProfile, ConstructionUpdate, DeveloperProfile, Project } from "@/types/real-estate";
+import type { WebsiteCmsContent } from "@/types/website-cms";
 
 export type CmsSnapshot = {
   enabled: boolean;
   generatedAt: string | null;
   source: "demo-fallback" | "supabase-cms";
+  websiteEnabled: boolean;
+  website: WebsiteCmsContent | null;
   developers: DeveloperProfile[];
   areas: AreaProfile[];
   projects: Project[];

@@ -2,6 +2,8 @@
   "enabled": false,
   "generatedAt": null,
   "source": "demo-fallback",
+  "websiteEnabled": false,
+  "website": null,
   "developers": [],
   "areas": [],
   "projects": [],

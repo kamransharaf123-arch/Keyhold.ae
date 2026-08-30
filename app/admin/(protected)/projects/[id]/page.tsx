@@ -2,10 +2,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { deleteProjectAction, setProjectStatusAction } from "@/app/admin/actions";
 import { AdminCard, AdminNotice, AdminPageHeader, StatusPill } from "@/components/admin/admin-ui";
+import { EntityTranslationPanel } from "@/components/admin/entity-translation-panel";
 import { ProjectCoreForm } from "@/components/admin/project-core-form";
 import { DocumentManager, FloorPlanManager, PaymentPlanManager, ProjectMediaManager, UnitManager } from "@/components/admin/project-subrecords";
 import { getAdminProject, listAreas, listDevelopers, listFloorPlans, listPaymentMilestones, listProjectDocuments, listProjectImages, listProjectUnits } from "@/lib/admin/queries";
 import { requireAdmin } from "@/lib/admin/session";
+import { getFrenchTranslation } from "@/lib/i18n/admin-translations";
+import { translationFieldProfiles } from "@/lib/i18n/admin-field-profiles";
 
 export default async function EditProjectPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ notice?: string; error?: string }> }) {
   await requireAdmin();
@@ -14,6 +17,7 @@ export default async function EditProjectPage({ params, searchParams }: { params
     getAdminProject(id), listDevelopers(), listAreas(), listProjectUnits(id), listPaymentMilestones(id), listProjectImages(id), listFloorPlans(id), listProjectDocuments(id),
   ]);
   if (!project) notFound();
+  const projectTranslation = await getFrenchTranslation("project", project.slug);
   return (
     <>
       <AdminPageHeader eyebrow="Project editor" title={project.title} description="Changes are saved to the CMS first. Public pages update only after the published snapshot is rebuilt." actions={<><StatusPill status={project.status} /><Link href={`/admin/preview/projects/${project.id}`} className="button border border-black/10">Preview draft</Link>{project.status === "published" ? <Link href={`/projects/${project.slug}`} className="button border border-black/10">Public page</Link> : null}</>} />
@@ -22,7 +26,12 @@ export default async function EditProjectPage({ params, searchParams }: { params
         {["Core", "Media", "Payment plan", "Units", "Floor plans", "Documents"].map((label) => <a key={label} href={`#${label.toLowerCase().replace(/ /g, "-") === "core" ? "core" : label.toLowerCase().replace(/ /g, "-")}`} className="border border-black/10 bg-[var(--color-soft-white)] px-3 py-2 text-xs">{label}</a>)}
       </div>
       <div className="grid gap-6">
-        <AdminCard id="core" eyebrow="Core record" title="Project information"><ProjectCoreForm project={project} developers={developers} areas={areas} /></AdminCard>
+        <AdminCard id="core" eyebrow="Core record" title="Project information">
+          <ProjectCoreForm project={project} developers={developers} areas={areas} />
+          <div className="mt-6 border-t border-black/10 pt-6">
+            <EntityTranslationPanel entityType="project" entityKey={project.slug} current={projectTranslation?.data ?? {}} status={projectTranslation?.status ?? "draft"} fields={translationFieldProfiles.project ?? []} returnTo={`/admin/projects/${id}`} />
+          </div>
+        </AdminCard>
         <ProjectMediaManager project={project} images={images} />
         <PaymentPlanManager project={project} milestones={milestones} />
         <UnitManager project={project} units={units} />

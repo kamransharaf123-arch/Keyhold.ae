@@ -1,0 +1,6 @@
+import { AdminCard, AdminNotice, AdminPageHeader, StatusPill } from "@/components/admin/admin-ui";
+import { PersonForm, type PersonRow } from "@/components/admin/website-forms";
+import { requireAdmin } from "@/lib/admin/session";
+import { cmsSelect } from "@/lib/cms/rest";
+
+export default async function PeopleAdmin({ searchParams }: { searchParams: Promise<{ notice?: string; error?: string }> }) { await requireAdmin(); const [query, rows] = await Promise.all([searchParams,cmsSelect<PersonRow>("cms_people","select=*&order=sort_order.asc,name.asc")]); return <><AdminPageHeader eyebrow="Website manager" title="Team" description="Manage people shown on Who We Are or any section that consumes the published team list."/><AdminNotice notice={query.notice} error={query.error}/><div className="grid gap-4">{rows.map((item)=><AdminCard key={item.id}><details><summary className="flex cursor-pointer list-none items-center justify-between gap-3"><span className="font-semibold">{item.name} · {item.role}</span><StatusPill status={item.status}/></summary><div className="mt-5 border-t border-black/10 pt-5"><PersonForm item={item}/></div></details></AdminCard>)}<AdminCard eyebrow="Team" title="Add person"><PersonForm/></AdminCard></div></>; }

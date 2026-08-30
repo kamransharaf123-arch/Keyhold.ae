@@ -1,0 +1,6 @@
+import { AdminCard, AdminNotice, AdminPageHeader, StatusPill } from "@/components/admin/admin-ui";
+import { FaqForm, type FaqRow } from "@/components/admin/website-forms";
+import { requireAdmin } from "@/lib/admin/session";
+import { cmsSelect } from "@/lib/cms/rest";
+
+export default async function FaqAdmin({ searchParams }: { searchParams: Promise<{ notice?: string; error?: string }> }) { await requireAdmin(); const [query, rows] = await Promise.all([searchParams,cmsSelect<FaqRow>("cms_faqs","select=*&order=scope.asc,sort_order.asc")]); return <><AdminPageHeader eyebrow="Website manager" title="FAQs" description="Use scope=global or a page key. Published FAQs can be reused across public pages and future structured SEO output."/><AdminNotice notice={query.notice} error={query.error}/><div className="grid gap-4">{rows.map((item)=><AdminCard key={item.id}><details><summary className="flex cursor-pointer list-none items-center justify-between gap-3"><span className="font-semibold">{item.scope}: {item.question}</span><StatusPill status={item.status}/></summary><div className="mt-5 border-t border-black/10 pt-5"><FaqForm item={item}/></div></details></AdminCard>)}<AdminCard eyebrow="FAQ" title="Add question"><FaqForm/></AdminCard></div></>; }

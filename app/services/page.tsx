@@ -3,21 +3,28 @@ import Link from "next/link";
 import { ArrowUpRightIcon } from "@/components/icons";
 import { CtaBand } from "@/components/cta-band";
 import { PageHero } from "@/components/page-hero";
-import { services } from "@/data/site";
+import { websitePageByKey } from "@/data/website-content";
+import { websitePageMetadata } from "@/lib/cms/website-metadata";
+import { localizedHref } from "@/lib/i18n/locale";
+import { localizedServices } from "@/lib/i18n/localized-site";
+import type { KeyHoldLocale } from "@/types/localization";
 
-export const metadata: Metadata = {
-  title: "Services",
-  description: "Explore KeyHold property acquisition, sales, investment, rental and management services in Dubai.",
-};
+const COPY = {
+  en: { eyebrow: "Services", title: "Support around the full property journey.", description: "From selecting an opportunity to rental strategy and ongoing management, KeyHold is designed to stay useful beyond the transaction itself.", prompt: "Looking for something specific?", cta: "Speak with KeyHold" },
+  fr: { eyebrow: "Services", title: "Un accompagnement sur l’ensemble du parcours immobilier.", description: "De la sélection d’une opportunité à la stratégie locative et à la gestion continue, KeyHold reste utile bien au-delà de la transaction.", prompt: "Vous cherchez quelque chose de précis ?", cta: "Parler avec KeyHold" },
+} as const;
 
-export default function ServicesPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  return websitePageMetadata("services", "/services", { title: "Services", description: "Explore KeyHold property acquisition, sales, investment, rental and management services in Dubai." }, "en");
+}
+
+export function ServicesContent({ locale = "en" as KeyHoldLocale }: { locale?: KeyHoldLocale }) {
+  const page = websitePageByKey("services", locale);
+  const copy = COPY[locale];
+  const services = localizedServices(locale);
   return (
     <>
-      <PageHero
-        eyebrow="Services"
-        title="Support around the full property journey."
-        description="From selecting an opportunity to rental strategy and ongoing management, KeyHold is designed to stay useful beyond the transaction itself."
-      />
+      <PageHero eyebrow={page?.eyebrow || copy.eyebrow} title={page?.heroTitle || copy.title} description={page?.heroSubtitle || copy.description} />
       <section className="site-container py-16 lg:py-24">
         <div className="grid border-l border-t border-black/10 md:grid-cols-2 xl:grid-cols-3">
           {services.map((service, index) => (
@@ -32,10 +39,14 @@ export default function ServicesPage() {
           ))}
         </div>
         <div className="mt-12 text-sm text-[var(--color-stone)]">
-          Looking for something specific? <Link href="/contact" className="text-link ml-1">Speak with KeyHold</Link>
+          {copy.prompt} <Link href={localizedHref("/contact", locale)} className="text-link ml-1">{copy.cta}</Link>
         </div>
       </section>
-      <CtaBand />
+      <CtaBand locale={locale} />
     </>
   );
+}
+
+export default function ServicesPage() {
+  return <ServicesContent locale="en" />;
 }

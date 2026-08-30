@@ -1,7 +1,10 @@
 import { saveConstructionUpdateAction } from "@/app/admin/actions";
 import { AdminCard, AdminNotice, AdminPageHeader, Field, StatusPill, inputClass, selectClass, textareaClass } from "@/components/admin/admin-ui";
+import { EntityTranslationPanel } from "@/components/admin/entity-translation-panel";
 import { listAdminProjects, listConstructionUpdates } from "@/lib/admin/queries";
 import { requireAdmin } from "@/lib/admin/session";
+import { getFrenchTranslation } from "@/lib/i18n/admin-translations";
+import { translationFieldProfiles } from "@/lib/i18n/admin-field-profiles";
 
 function UpdateForm({ update, projects }: { update?: Awaited<ReturnType<typeof listConstructionUpdates>>[number]; projects: Awaited<ReturnType<typeof listAdminProjects>> }) {
   return (
@@ -25,12 +28,27 @@ function UpdateForm({ update, projects }: { update?: Awaited<ReturnType<typeof l
 export default async function UpdatesAdminPage({ searchParams }: { searchParams: Promise<{ notice?: string }> }) {
   await requireAdmin();
   const [updates, projects, query] = await Promise.all([listConstructionUpdates(), listAdminProjects(), searchParams]);
+  const translations = await Promise.all(updates.map((update) => getFrenchTranslation("construction-update", update.slug)));
   return (
     <>
       <AdminPageHeader eyebrow="Progress" title="Construction Updates" description="Record verified progress, milestones and site imagery. Published updates enter the next CMS snapshot." />
       <AdminNotice notice={query.notice} />
       <div className="grid gap-6">
-        {updates.map((update) => <AdminCard key={update.id} eyebrow="Update" title={update.slug}><UpdateForm update={update} projects={projects} /></AdminCard>)}
+        {updates.map((update, index) => (
+          <AdminCard key={update.id} eyebrow="Update" title={update.slug}>
+            <UpdateForm update={update} projects={projects} />
+            <div className="mt-6 border-t border-black/10 pt-6">
+              <EntityTranslationPanel
+                entityType="construction-update"
+                entityKey={update.slug}
+                current={translations[index]?.data ?? {}}
+                status={translations[index]?.status ?? "draft"}
+                fields={translationFieldProfiles["construction-update"] ?? []}
+                returnTo="/admin/updates"
+              />
+            </div>
+          </AdminCard>
+        ))}
         <AdminCard eyebrow="New" title="Add construction update"><UpdateForm projects={projects} /></AdminCard>
       </div>
     </>

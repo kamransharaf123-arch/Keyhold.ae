@@ -1,8 +1,10 @@
 import Link from "next/link";
+import { intelligenceProfilesForLocale } from "@/data/localized-catalog";
 import { PriceHistoryChart } from "@/components/intelligence/price-history-chart";
 import { RiskRadar } from "@/components/intelligence/risk-radar";
 import { StatusBadge } from "@/components/intelligence/status-badge";
 import { formatAed, formatDateTimeDubai } from "@/lib/format";
+import { localizedHref } from "@/lib/i18n/locale";
 import {
   calculateAverageRisk,
   calculateInvestmentScore,
@@ -11,6 +13,7 @@ import {
   getIntelligenceProfile,
   getRiskBand,
 } from "@/lib/intelligence";
+import type { KeyHoldLocale } from "@/types/localization";
 import type { Project } from "@/types/real-estate";
 
 function ScoreBar({ label, score, rationale, weight }: { label: string; score: number; rationale: string; weight: number }) {
@@ -32,8 +35,8 @@ function ScoreBar({ label, score, rationale, weight }: { label: string; score: n
   );
 }
 
-export function KeyHoldIntelligence({ project }: { project: Project }) {
-  const profile = getIntelligenceProfile(project.slug);
+export function KeyHoldIntelligence({ project, locale = "en" }: { project: Project; locale?: KeyHoldLocale }) {
+  const profile = locale === "en" ? getIntelligenceProfile(project.slug) : intelligenceProfilesForLocale(locale).find((item) => item.projectSlug === project.slug) ?? null;
   if (!profile) {
     return (
       <div className="border border-black/10 bg-[var(--color-bone)] p-6">
@@ -90,7 +93,7 @@ export function KeyHoldIntelligence({ project }: { project: Project }) {
               <p className="eyebrow">Score breakdown</p>
               <h3 className="font-display mt-2 text-3xl">Why the score is what it is.</h3>
             </div>
-            <Link href="/intelligence-methodology" className="text-link">Methodology</Link>
+            <Link href={localizedHref("/intelligence-methodology", locale)} className="text-link">Methodology</Link>
           </div>
           <div className="pt-5">
             {profile.scoreDimensions.map((item) => <ScoreBar key={item.key} label={item.label} score={item.score} rationale={item.rationale} weight={item.weight} />)}
@@ -168,7 +171,7 @@ export function KeyHoldIntelligence({ project }: { project: Project }) {
       </div>
 
       <div className="border border-black/10 p-5 sm:p-7">
-        <div className="flex flex-wrap items-end justify-between gap-4"><div><p className="eyebrow">Source ledger</p><h3 className="font-display mt-2 text-3xl">What supports this analysis.</h3></div><Link href="/intelligence-methodology" className="text-link">Read full methodology</Link></div>
+        <div className="flex flex-wrap items-end justify-between gap-4"><div><p className="eyebrow">Source ledger</p><h3 className="font-display mt-2 text-3xl">What supports this analysis.</h3></div><Link href={localizedHref("/intelligence-methodology", locale)} className="text-link">Read full methodology</Link></div>
         <div className="mt-6 grid gap-4 md:grid-cols-3">{profile.sources.map((source) => <div key={source.id} className="border border-black/10 p-4"><div className="flex flex-wrap items-center gap-2"><StatusBadge status={source.status} /><span className="text-[0.65rem] uppercase tracking-[0.1em] text-[var(--color-stone)]">{source.category}</span></div><p className="mt-3 text-sm font-medium">{source.label}</p><p className="mt-2 text-xs leading-5 text-[var(--color-stone)]">Checked {formatDateTimeDubai(source.lastCheckedAt)}. {source.note}</p>{source.url ? <a href={source.url} target="_blank" rel="noreferrer" className="text-link mt-4 inline-block">Open source</a> : null}</div>)}</div>
       </div>
     </div>

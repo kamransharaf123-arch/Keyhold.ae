@@ -1,7 +1,10 @@
 import { saveInsightAction, saveServiceAction } from "@/app/admin/actions";
 import { AdminCard, AdminNotice, AdminPageHeader, Field, StatusPill, inputClass, selectClass, textareaClass } from "@/components/admin/admin-ui";
+import { EntityTranslationPanel } from "@/components/admin/entity-translation-panel";
 import { cmsSelect } from "@/lib/cms/rest";
 import { requireAdmin } from "@/lib/admin/session";
+import { getFrenchTranslation } from "@/lib/i18n/admin-translations";
+import { translationFieldProfiles } from "@/lib/i18n/admin-field-profiles";
 
 type InsightRow = {
   id: string;
@@ -55,6 +58,10 @@ export default async function ContentAdminPage({ searchParams }: { searchParams:
     cmsSelect<InsightRow>("cms_insights", "select=*&order=published_at.desc"),
     cmsSelect<ServiceRow>("cms_services", "select=*&order=sort_order.asc,title.asc"),
   ]);
+  const [insightTranslations, serviceTranslations] = await Promise.all([
+    Promise.all(insights.map((item) => getFrenchTranslation("insight", item.slug))),
+    Promise.all(services.map((item) => getFrenchTranslation("service", item.title))),
+  ]);
   return (
     <>
       <AdminPageHeader eyebrow="Editorial" title="Content" description="Manage Insights and Services from the same back office as property inventory." />
@@ -62,13 +69,33 @@ export default async function ContentAdminPage({ searchParams }: { searchParams:
       <div className="grid gap-6">
         <AdminCard eyebrow="Insights" title="Articles">
           <div className="grid gap-4">
-            {insights.map((item) => <details key={item.id} className="border border-black/10 p-4"><summary className="flex cursor-pointer list-none items-center justify-between gap-3"><span className="font-semibold">{item.title}</span><StatusPill status={item.status} /></summary><div className="mt-5 border-t border-black/10 pt-5"><InsightForm item={item} /></div></details>)}
+            {insights.map((item, index) => (
+              <details key={item.id} className="border border-black/10 p-4">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-3"><span className="font-semibold">{item.title}</span><StatusPill status={item.status} /></summary>
+                <div className="mt-5 border-t border-black/10 pt-5">
+                  <InsightForm item={item} />
+                  <div className="mt-6 border-t border-black/10 pt-6">
+                    <EntityTranslationPanel entityType="insight" entityKey={item.slug} current={insightTranslations[index]?.data ?? {}} status={insightTranslations[index]?.status ?? "draft"} fields={translationFieldProfiles.insight ?? []} returnTo="/admin/content" />
+                  </div>
+                </div>
+              </details>
+            ))}
             <details className="border border-dashed border-black/15 bg-[var(--color-bone)] p-4"><summary className="cursor-pointer font-semibold">+ Add insight</summary><div className="mt-5"><InsightForm /></div></details>
           </div>
         </AdminCard>
         <AdminCard eyebrow="Services" title="Service catalogue">
           <div className="grid gap-4">
-            {services.map((item) => <details key={item.id} className="border border-black/10 p-4"><summary className="flex cursor-pointer list-none items-center justify-between gap-3"><span className="font-semibold">{item.title}</span><StatusPill status={item.status} /></summary><div className="mt-5 border-t border-black/10 pt-5"><ServiceForm item={item} /></div></details>)}
+            {services.map((item, index) => (
+              <details key={item.id} className="border border-black/10 p-4">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-3"><span className="font-semibold">{item.title}</span><StatusPill status={item.status} /></summary>
+                <div className="mt-5 border-t border-black/10 pt-5">
+                  <ServiceForm item={item} />
+                  <div className="mt-6 border-t border-black/10 pt-6">
+                    <EntityTranslationPanel entityType="service" entityKey={item.title} current={serviceTranslations[index]?.data ?? {}} status={serviceTranslations[index]?.status ?? "draft"} fields={translationFieldProfiles.service ?? []} returnTo="/admin/content" />
+                  </div>
+                </div>
+              </details>
+            ))}
             <details className="border border-dashed border-black/15 bg-[var(--color-bone)] p-4"><summary className="cursor-pointer font-semibold">+ Add service</summary><div className="mt-5"><ServiceForm /></div></details>
           </div>
         </AdminCard>
