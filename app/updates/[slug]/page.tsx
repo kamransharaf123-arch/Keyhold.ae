@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { constructionUpdates } from "@/data/real-estate";
+import { constructionUpdates } from "@/data/catalog";
 import { clampPercentage } from "@/lib/format";
 import { getConstructionUpdateBySlug } from "@/lib/real-estate";
 

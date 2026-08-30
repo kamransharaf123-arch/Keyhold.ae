@@ -1,0 +1,3 @@
+unit_number,floor,bedrooms,bathrooms,property_type,size_sqft,view,price_aed,availability,last_verified_at,sort_order
+A-1201,12,2,3,Apartment,1450,Sea View,3250000,available,2026-08-30T12:00:00+04:00,0
+A-1202,12,1,2,Apartment,920,Community View,2100000,unknown,2026-08-30T12:00:00+04:00,1

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHero } from "@/components/page-hero";
-import { areas } from "@/data/real-estate";
+import { areas } from "@/data/catalog";
 import { getProjectsByArea } from "@/lib/real-estate";
 
 export const metadata: Metadata = { title: "Dubai Areas" };

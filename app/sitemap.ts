@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { areas, constructionUpdates, developers, projects } from "@/data/real-estate";
+import { areas, constructionUpdates, developers, projects } from "@/data/catalog";
 import { siteConfig } from "@/data/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {

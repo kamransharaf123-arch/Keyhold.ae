@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { InvestmentProjectPicker } from "@/components/investment/investment-project-picker";
-import { projects } from "@/data/real-estate";
+import { projects } from "@/data/catalog";
 
 export const metadata: Metadata = {
   title: "Investment Calculator",

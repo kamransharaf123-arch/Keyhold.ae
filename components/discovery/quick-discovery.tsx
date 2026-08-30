@@ -1,4 +1,4 @@
-import { areas } from "@/data/real-estate";
+import { areas } from "@/data/catalog";
 
 export function QuickDiscovery() {
   return (

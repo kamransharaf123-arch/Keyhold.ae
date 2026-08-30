@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ProjectComparison } from "@/components/discovery/project-comparison";
-import { areas, developers, projects } from "@/data/real-estate";
+import { areas, developers, projects } from "@/data/catalog";
 
 export const metadata: Metadata = {
   title: "Compare Projects",

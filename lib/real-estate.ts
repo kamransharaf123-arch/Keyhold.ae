@@ -1,4 +1,4 @@
-import { areas, constructionUpdates, developers, projects } from "@/data/real-estate";
+import { areas, constructionUpdates, developers, projects } from "@/data/catalog";
 import type { Project, ProjectCategory } from "@/types/real-estate";
 
 export function getAllProjects(): Project[] {

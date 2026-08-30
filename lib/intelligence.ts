@@ -1,4 +1,4 @@
-import { intelligenceProfiles } from "@/data/intelligence";
+import { intelligenceProfiles } from "@/data/intelligence-catalog";
 import type { Project } from "@/types/real-estate";
 import type {
   IntelligenceRiskDimension,

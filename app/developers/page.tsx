@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHero } from "@/components/page-hero";
-import { developers } from "@/data/real-estate";
+import { developers } from "@/data/catalog";
 import { getProjectsByDeveloper } from "@/lib/real-estate";
 
 export const metadata: Metadata = { title: "Developers" };

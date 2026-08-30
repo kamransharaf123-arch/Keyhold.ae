@@ -3,7 +3,11 @@ import {
   constructionUpdates,
   developers as developerProfiles,
   projects as realEstateProjects,
-} from "@/data/real-estate";
+  cmsInsights,
+  cmsServices,
+  cmsSiteSettings,
+  cmsSnapshotEnabled,
+} from "@/data/catalog";
 import { formatProjectPrice } from "@/lib/format";
 import type { ProjectCategory } from "@/types/real-estate";
 
@@ -40,7 +44,7 @@ export type UpdatePreview = {
   image: string;
 };
 
-export const siteConfig = {
+const defaultSiteConfig = {
   name: "KeyHold",
   domain: "keyhold.ae",
   url: "https://keyhold.ae",
@@ -63,6 +67,18 @@ export const siteConfig = {
   },
   languages: ["EN"],
 };
+
+export const siteConfig = cmsSiteSettings
+  ? {
+      ...defaultSiteConfig,
+      ...cmsSiteSettings,
+      domain: defaultSiteConfig.domain,
+      url: defaultSiteConfig.url,
+      description: defaultSiteConfig.description,
+      company: { ...defaultSiteConfig.company, ...cmsSiteSettings.company },
+      googleReviews: { ...defaultSiteConfig.googleReviews, ...cmsSiteSettings.googleReviews },
+    }
+  : defaultSiteConfig;
 
 export const primaryNav: NavItem[] = [
   { label: "Home", href: "/" },
@@ -105,7 +121,7 @@ export const updates: UpdatePreview[] = constructionUpdates.map((update) => ({
   image: update.image,
 }));
 
-export const insights: InsightPreview[] = [
+const fallbackInsights: InsightPreview[] = [
   {
     slug: "how-to-read-a-dubai-payment-plan",
     category: "Off-Plan Guide",
@@ -132,7 +148,9 @@ export const insights: InsightPreview[] = [
   },
 ];
 
-export const services = [
+export const insights: InsightPreview[] = cmsSnapshotEnabled ? cmsInsights : fallbackInsights;
+
+const fallbackServices = [
   {
     title: "Property Acquisition",
     text: "Curated off-plan and ready opportunities aligned with a buyer’s objectives, time horizon and liquidity profile.",
@@ -158,6 +176,8 @@ export const services = [
     text: "Ongoing support after acquisition, including coordination, reporting and property-care workflows.",
   },
 ];
+
+export const services = cmsSnapshotEnabled ? cmsServices : fallbackServices;
 
 export const areas = areaProfiles.map((area) => area.name);
 export const developers = developerProfiles.map((developer) => developer.name);

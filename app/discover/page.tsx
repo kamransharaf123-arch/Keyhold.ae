@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { PageHero } from "@/components/page-hero";
 import { DiscoveryExplorer } from "@/components/discovery/discovery-explorer";
-import { areas, developers, projects } from "@/data/real-estate";
+import { areas, developers, projects } from "@/data/catalog";
 
 export const metadata: Metadata = {
   title: "Discover Dubai Property",

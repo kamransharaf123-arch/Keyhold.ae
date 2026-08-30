@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { StatusBadge } from "@/components/intelligence/status-badge";
-import { intelligenceProfiles } from "@/data/intelligence";
-import { projects } from "@/data/real-estate";
+import { intelligenceProfiles } from "@/data/intelligence-catalog";
+import { projects } from "@/data/catalog";
 import { formatDateTimeDubai, formatProjectPrice } from "@/lib/format";
 import { getIntelligenceSummary } from "@/lib/intelligence";
 

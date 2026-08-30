@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/page-hero";
 import { ProjectCard } from "@/components/project-card";
-import { areas } from "@/data/real-estate";
+import { areas } from "@/data/catalog";
 import { projectCatalog } from "@/data/site";
 import { getAreaBySlug, getProjectsByArea } from "@/lib/real-estate";
 
