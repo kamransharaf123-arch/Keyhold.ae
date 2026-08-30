@@ -9,9 +9,10 @@
     "typecheck": "tsc --noEmit",
     "verify:source": "node scripts/verify-source.mjs",
     "verify:module2": "node scripts/verify-module-2.mjs",
-    "verify": "npm run verify:module2 && npm run verify:module3 && npm run verify:module4 && npm run verify:source && npm run typecheck && npm run build",
     "verify:module3": "node scripts/verify-module-3.mjs",
-    "verify:module4": "node scripts/verify-module-4.mjs"
+    "verify:module4": "node scripts/verify-module-4.mjs",
+    "verify:module5": "node scripts/verify-module-5.mjs",
+    "verify": "npm run verify:module2 && npm run verify:module3 && npm run verify:module4 && npm run verify:module5 && npm run verify:source && npm run typecheck && npm run build"
   },
   "dependencies": {
     "next": "16.3.3",

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { InvestmentSimulator } from "@/components/investment/investment-simulator";
+import { KeyHoldIntelligence } from "@/components/intelligence/keyhold-intelligence";
 import { notFound } from "next/navigation";
 import { ProjectCard } from "@/components/project-card";
 import { ConstructionTimeline } from "@/components/real-estate/construction-timeline";
@@ -138,6 +139,10 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
           </Suspense>
         </ProjectSection>
       ) : null}
+
+      <ProjectSection id="intelligence" eyebrow="KeyHold Intelligence" title="Score the opportunity, surface the risks and show the evidence.">
+        <KeyHoldIntelligence project={project} />
+      </ProjectSection>
 
       <ProjectSection eyebrow="Documents" title="Project materials in one place.">
         <ProjectDocuments documents={project.documents} projectTitle={project.title} />

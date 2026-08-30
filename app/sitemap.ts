@@ -13,6 +13,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/discover",
     "/compare",
     "/investment-calculator",
+    "/intelligence",
+    "/intelligence-methodology",
     "/updates",
     "/insights",
     "/services",

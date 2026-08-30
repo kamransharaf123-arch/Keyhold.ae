@@ -7,6 +7,7 @@ import type { ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
 import { countUnitsByAvailability, getInitialCashRequirement, getPaymentPlanSignature, getProjectViews } from "@/lib/discovery";
 import { calculateInvestment, getScenarioInputs } from "@/lib/investment";
+import { getIntelligenceSummary } from "@/lib/intelligence";
 import { formatAed, formatDateTimeDubai, formatProjectPrice, formatSqftRange } from "@/lib/format";
 import type { AreaProfile, DeveloperProfile, Project } from "@/types/real-estate";
 
@@ -79,6 +80,10 @@ export function ProjectComparison({ projects, developers, areas }: ProjectCompar
     { label: "Views in current inventory", render: (project) => getProjectViews(project).join(" · ") || "Not provided" },
     { label: "Investment goals", render: (project) => project.discovery.investmentGoals.join(" · ") },
     { label: "Lifestyle", render: (project) => project.discovery.lifestyleTags.join(" · ") },
+    { label: "KeyHold Score**", render: (project) => { const summary = getIntelligenceSummary(project); return summary ? `${summary.investmentScore.toFixed(1)} / 10` : "Not modelled"; } },
+    { label: "Risk band**", render: (project) => { const summary = getIntelligenceSummary(project); return summary ? `${summary.riskBand} (${summary.averageRisk.toFixed(1)} / 10)` : "Not modelled"; } },
+    { label: "Liquidity score**", render: (project) => { const summary = getIntelligenceSummary(project); return summary ? `${summary.liquidityScore.toFixed(1)} / 10` : "Not modelled"; } },
+    { label: "Market position**", render: (project) => getIntelligenceSummary(project)?.marketPosition.band ?? "Not modelled" },
     { label: "Gross yield · expected*", render: (project) => { const result = getExpectedInvestmentResult(project); return result ? formatPercent(result.grossYieldPct) : "Not modelled"; } },
     { label: "Net yield · expected*", render: (project) => { const result = getExpectedInvestmentResult(project); return result ? formatPercent(result.netYieldPct) : "Not modelled"; } },
     { label: "All-in acquisition · cash*", render: (project) => { const result = getExpectedInvestmentResult(project); return result ? formatAed(result.allInAcquisitionCostAed, { compact: true }) : "Not modelled"; } },
@@ -123,7 +128,7 @@ export function ProjectComparison({ projects, developers, areas }: ProjectCompar
 
       <div className="mt-5 grid gap-3 text-[0.7rem] leading-5 text-[var(--color-stone)] md:grid-cols-2">
         <p>*Initial cash is a discovery estimate based on the displayed starting price and first payment milestone. Financial rows marked * use the project’s Module 4 expected demo assumptions and a cash-purchase model at the displayed starting price. They are estimates, not guaranteed returns or live quotations.</p>
-        <p>Unit availability is subject to current developer/seller availability and confirmation and may change without prior notice.</p>
+        <p>Unit availability is subject to current developer/seller availability and confirmation and may change without prior notice. **KeyHold Intelligence rows use Module 5 demo-placeholder evidence until verified production sources are connected; scores are analytical indicators, not guarantees or valuations.</p>
       </div>
     </div>
   );
