@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRightIcon, ArrowUpRightIcon } from "@/components/icons";
 import { CtaBand } from "@/components/cta-band";
+import { Reveal, StaggerReveal } from "@/components/motion";
 import { ProjectCard } from "@/components/project-card";
 import { SectionHeading } from "@/components/section-heading";
 import { UpdateCard } from "@/components/update-card";
@@ -34,7 +35,7 @@ export function HomeSection({ section, locale }: { section: WebsiteSection; loca
       const items = itemsFromPayload(section);
       if (items.length === 0) return null;
       return (
-        <section className="border-b border-black/[0.07] bg-[var(--color-teal-soft)]">
+        <Reveal as="section" className="border-b border-black/[0.07] bg-[var(--color-teal-soft)]">
           <div className="site-container grid divide-y divide-black/10 py-2 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
             {items.map((item) => (
               <div key={item.title} className="py-6 sm:px-7 sm:first:pl-0 sm:last:pr-0">
@@ -43,7 +44,7 @@ export function HomeSection({ section, locale }: { section: WebsiteSection; loca
               </div>
             ))}
           </div>
-        </section>
+        </Reveal>
       );
     }
     case "project-grid": {
@@ -55,12 +56,12 @@ export function HomeSection({ section, locale }: { section: WebsiteSection; loca
       const projects = chosen.slice(0, limit);
       if (projects.length === 0) return null;
       return (
-        <section className="site-container py-20 lg:py-28">
+        <Reveal as="section" className="site-container py-20 lg:py-28">
           <SectionHeading eyebrow={section.eyebrow} title={section.title || ""} description={section.body} href={linkLabel ? localizedHref("/projects", locale) : undefined} linkLabel={linkLabel} />
-          <div className="grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
+          <StaggerReveal className="grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
             {projects.map((project) => <ProjectCard key={project.slug} project={project} locale={locale} />)}
-          </div>
-        </section>
+          </StaggerReveal>
+        </Reveal>
       );
     }
     case "link-grid": {
@@ -69,23 +70,23 @@ export function HomeSection({ section, locale }: { section: WebsiteSection; loca
       if (cards.length === 0) return null;
       const wrapClass = section.styleVariant === "soft-teal" ? "bg-[var(--color-sand)]" : section.styleVariant === "dark" ? "bg-[var(--color-charcoal)] text-[var(--color-bone)]" : "";
       return (
-        <section className={wrapClass}>
+        <Reveal as="section" className={wrapClass}>
           <div className="site-container py-20 lg:py-28">
             <SectionHeading eyebrow={section.eyebrow} title={section.title || ""} description={section.body} />
-            <div className="grid border-l border-t border-black/10 sm:grid-cols-2 xl:grid-cols-4">
+            <StaggerReveal as="div" className="grid border-l border-t border-black/10 sm:grid-cols-2 xl:grid-cols-4">
               {cards.map((item, index) => (
-                <Link key={item.title} href={localizedHref(item.href, locale)} className="group min-h-64 border-b border-r border-black/10 p-7 transition-colors hover:bg-[var(--color-teal-soft)]">
+                <Link key={item.title} href={localizedHref(item.href, locale)} className="kh-motion-card group min-h-64 border-b border-r border-black/10 p-7 transition-colors hover:bg-[var(--color-teal-soft)]">
                   <div className="flex items-start justify-between gap-4">
                     <span className="text-xs text-[var(--color-stone)]">0{index + 1}</span>
-                    <ArrowUpRightIcon className="size-5 text-[var(--color-teal)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
+                    <ArrowUpRightIcon className="kh-motion-arrow size-5 text-[var(--color-teal)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
                   </div>
                   <h3 className="font-display mt-16 text-3xl tracking-[-0.03em]">{item.title}</h3>
                   <p className="mt-3 max-w-xs text-sm leading-6 text-[var(--color-stone)]">{item.text}</p>
                 </Link>
               ))}
-            </div>
+            </StaggerReveal>
           </div>
-        </section>
+        </Reveal>
       );
     }
     case "updates-grid": {
@@ -94,16 +95,16 @@ export function HomeSection({ section, locale }: { section: WebsiteSection; loca
       const updates = localizedUpdates(locale).slice(0, limit);
       if (updates.length === 0) return null;
       return (
-        <section className="site-container py-20 lg:py-28">
+        <Reveal as="section" className="site-container py-20 lg:py-28">
           <SectionHeading eyebrow={section.eyebrow} title={section.title || ""} description={section.body} href={linkLabel ? localizedHref("/updates", locale) : undefined} linkLabel={linkLabel} />
-          <div>{updates.map((update) => <UpdateCard key={update.slug} update={update} locale={locale} />)}</div>
-        </section>
+          <StaggerReveal>{updates.map((update) => <UpdateCard key={update.slug} update={update} locale={locale} />)}</StaggerReveal>
+        </Reveal>
       );
     }
     case "feature": {
       const items = itemsFromPayload(section);
       return (
-        <section className="bg-[var(--color-charcoal)] text-[var(--color-bone)]">
+        <Reveal as="section" className="bg-[var(--color-charcoal)] text-[var(--color-bone)]">
           <div className="site-container py-20 lg:py-28">
             <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
               <div>
@@ -111,18 +112,18 @@ export function HomeSection({ section, locale }: { section: WebsiteSection; loca
                 <h2 className="font-display mt-4 text-4xl leading-[1.04] tracking-[-0.04em] sm:text-5xl">{section.title}</h2>
               </div>
               {items.length > 0 ? (
-                <div className="grid gap-8 sm:grid-cols-2">
+                <StaggerReveal className="grid gap-8 sm:grid-cols-2">
                   {items.map((item) => (
                     <div key={item.title} className="border-t border-white/[0.16] pt-5">
                       <h3 className="text-lg font-medium">{item.title}</h3>
                       <p className="mt-3 text-sm leading-7 text-white/[0.58]">{item.text}</p>
                     </div>
                   ))}
-                </div>
+                </StaggerReveal>
               ) : null}
             </div>
           </div>
-        </section>
+        </Reveal>
       );
     }
     case "insights-grid": {
@@ -131,11 +132,11 @@ export function HomeSection({ section, locale }: { section: WebsiteSection; loca
       const insights = localizedInsights(locale).slice(0, limit);
       if (insights.length === 0) return null;
       return (
-        <section className="site-container py-20 lg:py-28">
+        <Reveal as="section" className="site-container py-20 lg:py-28">
           <SectionHeading eyebrow={section.eyebrow} title={section.title || ""} description={section.body} href={linkLabel ? localizedHref("/insights", locale) : undefined} linkLabel={linkLabel} />
-          <div className="grid gap-6 lg:grid-cols-3">
+          <StaggerReveal className="grid gap-6 lg:grid-cols-3">
             {insights.map((item) => (
-              <article key={item.slug} className="group border-t border-black/[0.12] pt-6">
+              <article key={item.slug} className="kh-motion-card group border-t border-black/[0.12] pt-6">
                 <p className="text-[0.68rem] font-semibold uppercase tracking-[0.17em] text-[var(--color-champagne-ink)]">{item.category}</p>
                 <h3 className="font-display mt-5 text-3xl leading-tight tracking-[-0.03em]">{item.title}</h3>
                 <p className="mt-4 text-sm leading-7 text-[var(--color-stone)]">{item.excerpt}</p>
@@ -144,8 +145,8 @@ export function HomeSection({ section, locale }: { section: WebsiteSection; loca
                 </Link>
               </article>
             ))}
-          </div>
-        </section>
+          </StaggerReveal>
+        </Reveal>
       );
     }
     case "services-grid": {
@@ -154,10 +155,10 @@ export function HomeSection({ section, locale }: { section: WebsiteSection; loca
       const services = localizedServices(locale).slice(0, limit);
       if (services.length === 0) return null;
       return (
-        <section className="border-y border-black/[0.08] bg-[var(--color-champagne-soft)]">
+        <Reveal as="section" className="border-y border-black/[0.08] bg-[var(--color-champagne-soft)]">
           <div className="site-container py-20 lg:py-28">
             <SectionHeading eyebrow={section.eyebrow} title={section.title || ""} description={section.body} href={linkLabel ? localizedHref("/services", locale) : undefined} linkLabel={linkLabel} />
-            <div className="grid gap-x-8 gap-y-0 md:grid-cols-2 xl:grid-cols-3">
+            <StaggerReveal className="grid gap-x-8 gap-y-0 md:grid-cols-2 xl:grid-cols-3">
               {services.map((service, index) => (
                 <div key={service.title} className="border-t border-black/10 py-7">
                   <div className="flex gap-5">
@@ -169,13 +170,13 @@ export function HomeSection({ section, locale }: { section: WebsiteSection; loca
                   </div>
                 </div>
               ))}
-            </div>
+            </StaggerReveal>
           </div>
-        </section>
+        </Reveal>
       );
     }
     case "global-cta":
-      return <CtaBand locale={locale} />;
+      return <Reveal><CtaBand locale={locale} /></Reveal>;
     default:
       return null;
   }

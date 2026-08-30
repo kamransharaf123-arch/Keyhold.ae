@@ -49,9 +49,9 @@ export function DiscoveryProjectCard({
   const projectHref = localizedHref(`/projects/${project.slug}`, locale);
 
   return (
-    <article className="grid overflow-hidden border border-black/10 bg-[var(--color-soft-white)] sm:grid-cols-[15rem_1fr] lg:grid-cols-[17rem_1fr]">
-      <Link href={projectHref} className="relative min-h-64 overflow-hidden bg-[var(--color-warm-grey)] sm:min-h-full" aria-label={`Open ${project.title}`}>
-        <Image src={project.heroImage} alt="" fill sizes="(max-width: 640px) 100vw, 280px" className="object-cover transition-transform duration-700 hover:scale-[1.025]" />
+    <article className="kh-motion-card grid overflow-hidden border border-black/10 bg-[var(--color-soft-white)] sm:grid-cols-[15rem_1fr] lg:grid-cols-[17rem_1fr]">
+      <Link href={projectHref} className="kh-motion-image relative min-h-64 overflow-hidden bg-[var(--color-warm-grey)] sm:min-h-full" aria-label={`Open ${project.title}`}>
+        <Image src={project.heroImage} alt="" fill sizes="(max-width: 640px) 100vw, 280px" className="object-cover" />
         <span className="absolute left-4 top-4 bg-[color:rgba(228,239,237,0.94)] px-3 py-2 text-[0.63rem] font-semibold uppercase tracking-[0.15em] text-[var(--color-teal-deep)] backdrop-blur">
           {project.category}
         </span>

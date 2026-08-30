@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { intelligenceProfilesForLocale } from "@/data/localized-catalog";
+import { ChartReveal, CountUp } from "@/components/motion";
 import { PriceHistoryChart } from "@/components/intelligence/price-history-chart";
 import { RiskRadar } from "@/components/intelligence/risk-radar";
 import { StatusBadge } from "@/components/intelligence/status-badge";
@@ -115,7 +116,7 @@ export function KeyHoldIntelligence({ project, locale = "en" }: { project: Proje
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
         <div className="border border-[var(--color-teal)]/20 bg-[var(--color-teal-soft)] p-5">
           <p className="text-[0.66rem] uppercase tracking-[0.14em] text-[var(--color-stone)]">{copy.investmentScore}</p>
-          <p className="font-display mt-4 text-5xl">{investmentScore.toFixed(1)}<span className="text-xl text-[var(--color-stone)]">/10</span></p>
+          <p className="font-display mt-4 text-5xl"><CountUp value={investmentScore} decimals={1} /><span className="text-xl text-[var(--color-stone)]">/10</span></p>
           <p className="mt-3 text-xs leading-5 text-[var(--color-stone)]">{copy.investmentScoreNote}</p>
         </div>
         <div className="border border-[var(--color-terracotta)]/25 bg-[var(--color-terracotta-soft)] p-5">
@@ -153,7 +154,7 @@ export function KeyHoldIntelligence({ project, locale = "en" }: { project: Proje
         <div className="border border-black/10 p-5 sm:p-7">
           <p className="eyebrow">{copy.riskRadarLabel}</p>
           <h3 className="font-display mt-2 text-3xl">{copy.whereExposure}</h3>
-          <div className="mt-5"><RiskRadar dimensions={profile.riskDimensions} locale={locale} /></div>
+          <ChartReveal className="mt-5"><RiskRadar dimensions={profile.riskDimensions} locale={locale} /></ChartReveal>
         </div>
       </div>
 
@@ -175,7 +176,7 @@ export function KeyHoldIntelligence({ project, locale = "en" }: { project: Proje
         <div className="border border-black/10 p-5 sm:p-7">
           <p className="eyebrow">{copy.priceHistory}</p>
           <h3 className="font-display mt-2 text-3xl">{copy.howPriceMoved}</h3>
-          <div className="mt-5"><PriceHistoryChart points={profile.priceHistory} locale={locale} /></div>
+          <ChartReveal className="mt-5"><PriceHistoryChart points={profile.priceHistory} locale={locale} /></ChartReveal>
         </div>
       </div>
 

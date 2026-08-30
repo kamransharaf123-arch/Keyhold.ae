@@ -5,6 +5,7 @@ import { cmsSelect } from "@/lib/cms/rest";
 
 const tools = [
   ["Global & Brand", "/admin/website/global", "Logo, global CTAs, footer copy, announcement and optional theme tokens."],
+  ["Motion & Experience", "/admin/website/motion", "Cinematic motion intensity, hero parallax, reveals and data animation, without code."],
   ["Pages & Sections", "/admin/website/pages", "Every page hero, SEO field, section, image, CTA, order and visibility."],
   ["Navigation", "/admin/website/navigation", "Header, Projects dropdown, footer groups, legal links and mobile extras."],
   ["Media Library", "/admin/website/media", "Upload reusable website images, logos, icons, videos and public documents."],

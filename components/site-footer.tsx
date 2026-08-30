@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/logo";
+import { Reveal } from "@/components/motion";
 import { siteConfig } from "@/data/site";
 import { localizedFeaturedProjects, localizedInsights, localizedServices } from "@/lib/i18n/localized-site";
 import { localeFromPathname, localizedHref } from "@/lib/i18n/locale";
@@ -60,7 +61,7 @@ export function SiteFooter() {
 
   return (
     <footer className="border-t border-black/[0.08] bg-[var(--color-soft-white)]">
-      <div className="site-container py-16 lg:py-20">
+      <Reveal className="site-container py-16 lg:py-20">
         <div className="grid gap-12 md:grid-cols-2 xl:grid-cols-4">
           <div>
             <FooterHeading>{isFr ? FR_HEADINGS.projects : "Projects & Properties"}</FooterHeading>
@@ -177,7 +178,7 @@ export function SiteFooter() {
         <div className="mt-8 max-w-5xl text-[0.7rem] leading-6 text-[var(--color-stone)]">
           {disclaimer}
         </div>
-      </div>
+      </Reveal>
     </footer>
   );
 }

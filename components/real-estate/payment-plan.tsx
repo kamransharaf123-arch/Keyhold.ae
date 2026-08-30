@@ -1,3 +1,4 @@
+import { Reveal } from "@/components/motion";
 import type { PaymentMilestone } from "@/types/real-estate";
 import type { KeyHoldLocale } from "@/types/localization";
 
@@ -23,7 +24,7 @@ export function PaymentPlan({ milestones, locale = "en" }: { milestones: Payment
   }
 
   return (
-    <div>
+    <Reveal>
       <div className="flex h-2 overflow-hidden bg-[var(--color-warm-grey)]" aria-hidden="true">
         {milestones.map((milestone, index) => (
           <div
@@ -50,6 +51,6 @@ export function PaymentPlan({ milestones, locale = "en" }: { milestones: Payment
       <p className="mt-5 text-xs leading-5 text-[var(--color-stone)]">
         {copy.disclaimer}
       </p>
-    </div>
+    </Reveal>
   );
 }

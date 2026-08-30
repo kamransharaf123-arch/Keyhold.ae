@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/logo";
 import { ChevronDownIcon, MenuIcon } from "@/components/icons";
+import { MotionHeader } from "@/components/motion";
 import { LanguageSwitcher } from "@/components/website/language-switcher";
 import { primaryNav, projectNav } from "@/data/site";
 import { websiteCmsEnabled, websiteNavigation, websiteSettings } from "@/data/website-content";
@@ -137,7 +138,7 @@ function MobileNav() {
 export function SiteHeader() {
   const { locale, headerCtaLabel, headerCtaHref, brandName } = useHeaderContent();
   return (
-    <header className="sticky top-0 z-40 border-b border-black/[0.08] bg-[color:rgba(247,244,238,0.94)] backdrop-blur-xl">
+    <MotionHeader className="sticky top-0 z-40 border-b border-black/[0.08] bg-[color:rgba(247,244,238,0.94)] backdrop-blur-xl">
       <div className="site-container grid min-h-20 grid-cols-[1fr_auto] items-center gap-5 lg:grid-cols-[1fr_auto_1fr]">
         <div className="justify-self-start">
           <Logo locale={locale} logoText={brandName} />
@@ -153,6 +154,6 @@ export function SiteHeader() {
           <MobileNav />
         </div>
       </div>
-    </header>
+    </MotionHeader>
   );
 }

@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { AreaExplorerMap } from "@/components/discovery/area-explorer-map";
 import { DiscoveryProjectCard } from "@/components/discovery/discovery-project-card";
 import { SmartFinder } from "@/components/discovery/smart-finder";
+import { StaggerReveal } from "@/components/motion";
 import { localizedHref } from "@/lib/i18n/locale";
 import {
   EMPTY_DISCOVERY_FILTERS,
@@ -388,7 +389,7 @@ export function DiscoveryExplorer({ projects, developers, areas, locale = "en" }
           ) : <div className="h-5" />}
 
           {results.length > 0 ? (
-            <div className="grid gap-5">
+            <StaggerReveal className="grid gap-5">
               {results.map((project) => (
                 <DiscoveryProjectCard
                   key={project.slug}
@@ -400,7 +401,7 @@ export function DiscoveryExplorer({ projects, developers, areas, locale = "en" }
                   locale={locale}
                 />
               ))}
-            </div>
+            </StaggerReveal>
           ) : (
             <div className="border border-black/10 bg-[var(--color-bone)] p-8 sm:p-12">
               <p className="eyebrow">{copy.noExactMatch}</p>

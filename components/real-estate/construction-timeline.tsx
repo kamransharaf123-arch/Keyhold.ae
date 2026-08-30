@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AnimatedProgress } from "@/components/motion";
 import type { ConstructionUpdate } from "@/types/real-estate";
 import { clampPercentage } from "@/lib/format";
 import { localizedHref } from "@/lib/i18n/locale";
@@ -30,6 +31,9 @@ export function ConstructionTimeline({ updates, locale = "en" }: { updates: Cons
           <div className="md:text-right">
             <span className="font-display text-3xl">{clampPercentage(update.progress)}%</span>
             <span className="mt-1 block text-[0.65rem] uppercase tracking-[0.14em] text-[var(--color-stone)]">{copy.construction}</span>
+            <div className="mt-3 md:w-40">
+              <AnimatedProgress value={clampPercentage(update.progress)} label={`${update.project} ${copy.construction}`} />
+            </div>
           </div>
         </article>
       ))}

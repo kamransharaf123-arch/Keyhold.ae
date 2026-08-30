@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRightIcon, ArrowUpRightIcon } from "@/components/icons";
 import { CtaBand } from "@/components/cta-band";
 import { HomeSection } from "@/components/home/home-sections";
+import { AnimatedHeadline, HeroParallax, Reveal, ScrollCue, StaggerReveal } from "@/components/motion";
 import { ProjectCard } from "@/components/project-card";
 import { QuickDiscovery } from "@/components/discovery/quick-discovery";
 import { SectionHeading } from "@/components/section-heading";
@@ -13,6 +14,12 @@ import { websitePageMetadata } from "@/lib/cms/website-metadata";
 import { localizedHref } from "@/lib/i18n/locale";
 import { localizedFeaturedProjects, localizedInsights, localizedServices, localizedUpdates } from "@/lib/i18n/localized-site";
 import type { KeyHoldLocale } from "@/types/localization";
+
+const SCROLL_CUE_LABEL = { en: "Scroll to discover", fr: "Faites défiler pour découvrir" } as const;
+const SECTION_INDEX = {
+  en: { trust: "01 · Trust", discover: "02 · Discover", route: "03 · Choose your route", follow: "04 · Follow", understand: "05 · Understand", insights: "06 · Insights", services: "07 · Services" },
+  fr: { trust: "01 · Confiance", discover: "02 · Découvrir", route: "03 · Choisissez votre voie", follow: "04 · Suivre", understand: "05 · Comprendre", insights: "06 · Analyses", services: "07 · Services" },
+} as const;
 
 export async function generateMetadata(): Promise<Metadata> {
   return websitePageMetadata("home", "/", {}, "en");
@@ -107,11 +114,13 @@ function FallbackHomeSections({ locale }: { locale: KeyHoldLocale }) {
   const updates = localizedUpdates(locale);
   const insights = localizedInsights(locale);
   const services = localizedServices(locale);
+  const sectionIndex = SECTION_INDEX[locale];
 
   return (
     <>
-      <section className="border-b border-black/[0.07] bg-[var(--color-teal-soft)]">
+      <Reveal as="section" className="border-b border-black/[0.07] bg-[var(--color-teal-soft)]">
         <div className="site-container grid divide-y divide-black/10 py-2 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+          <span className="kh-section-index sr-only">{sectionIndex.trust}</span>
           {trustStrip.map(([title, text]) => (
             <div key={title} className="py-6 sm:px-7 sm:first:pl-0 sm:last:pr-0">
               <p className="text-[0.68rem] font-semibold uppercase tracking-[0.17em] text-[var(--color-teal-deep)]">{title}</p>
@@ -119,62 +128,67 @@ function FallbackHomeSections({ locale }: { locale: KeyHoldLocale }) {
             </div>
           ))}
         </div>
-      </section>
+      </Reveal>
 
-      <section className="site-container py-20 lg:py-28">
+      <Reveal as="section" className="site-container py-20 lg:py-28">
+        <span className="kh-section-index">{sectionIndex.discover}</span>
         <SectionHeading eyebrow={SECTION_HEADINGS.featured[locale].eyebrow} title={SECTION_HEADINGS.featured[locale].title} description={SECTION_HEADINGS.featured[locale].description} href={localizedHref("/projects", locale)} linkLabel={SECTION_HEADINGS.featured[locale].link} />
-        <div className="grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
+        <StaggerReveal className="grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
           {featuredProjects.map((project) => <ProjectCard key={project.slug} project={project} locale={locale} />)}
-        </div>
-      </section>
+        </StaggerReveal>
+      </Reveal>
 
-      <section className="bg-[var(--color-sand)]">
+      <Reveal as="section" className="bg-[var(--color-sand)]">
         <div className="site-container py-20 lg:py-28">
+          <span className="kh-section-index">{sectionIndex.route}</span>
           <SectionHeading eyebrow={explore.eyebrow} title={explore.title} description={explore.description} />
-          <div className="grid border-l border-t border-black/10 sm:grid-cols-2 xl:grid-cols-4">
+          <StaggerReveal as="div" className="grid border-l border-t border-black/10 sm:grid-cols-2 xl:grid-cols-4">
             {propertyTypes.map((item, index) => (
-              <Link key={item.title} href={localizedHref(item.href, locale)} className="group min-h-64 border-b border-r border-black/10 p-7 transition-colors hover:bg-[var(--color-teal-soft)]">
+              <Link key={item.title} href={localizedHref(item.href, locale)} className="kh-motion-card group min-h-64 border-b border-r border-black/10 p-7 transition-colors hover:bg-[var(--color-teal-soft)]">
                 <div className="flex items-start justify-between gap-4">
                   <span className="text-xs text-[var(--color-stone)]">0{index + 1}</span>
-                  <ArrowUpRightIcon className="size-5 text-[var(--color-teal)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
+                  <ArrowUpRightIcon className="kh-motion-arrow size-5 text-[var(--color-teal)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
                 </div>
                 <h3 className="font-display mt-16 text-3xl tracking-[-0.03em]">{item.title}</h3>
                 <p className="mt-3 max-w-xs text-sm leading-6 text-[var(--color-stone)]">{item.text}</p>
               </Link>
             ))}
-          </div>
+          </StaggerReveal>
         </div>
-      </section>
+      </Reveal>
 
-      <section className="site-container py-20 lg:py-28">
+      <Reveal as="section" className="site-container py-20 lg:py-28">
+        <span className="kh-section-index">{sectionIndex.follow}</span>
         <SectionHeading eyebrow={SECTION_HEADINGS.updates[locale].eyebrow} title={SECTION_HEADINGS.updates[locale].title} description={SECTION_HEADINGS.updates[locale].description} href={localizedHref("/updates", locale)} linkLabel={SECTION_HEADINGS.updates[locale].link} />
-        <div>{updates.slice(0, 3).map((update) => <UpdateCard key={update.slug} update={update} locale={locale} />)}</div>
-      </section>
+        <StaggerReveal>{updates.slice(0, 3).map((update) => <UpdateCard key={update.slug} update={update} locale={locale} />)}</StaggerReveal>
+      </Reveal>
 
-      <section className="bg-[var(--color-charcoal)] text-[var(--color-bone)]">
+      <Reveal as="section" className="bg-[var(--color-charcoal)] text-[var(--color-bone)]">
         <div className="site-container py-20 lg:py-28">
           <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
             <div>
-              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#dbc79f]">{approach.eyebrow}</p>
+              <span className="kh-section-index text-[#dbc79f]">{sectionIndex.understand}</span>
+              <p className="mt-4 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#dbc79f]">{approach.eyebrow}</p>
               <h2 className="font-display mt-4 text-4xl leading-[1.04] tracking-[-0.04em] sm:text-5xl">{approach.title}</h2>
             </div>
-            <div className="grid gap-8 sm:grid-cols-2">
+            <StaggerReveal className="grid gap-8 sm:grid-cols-2">
               {approach.items.map(([title, text]) => (
                 <div key={title} className="border-t border-white/[0.16] pt-5">
                   <h3 className="text-lg font-medium">{title}</h3>
                   <p className="mt-3 text-sm leading-7 text-white/[0.58]">{text}</p>
                 </div>
               ))}
-            </div>
+            </StaggerReveal>
           </div>
         </div>
-      </section>
+      </Reveal>
 
-      <section className="site-container py-20 lg:py-28">
+      <Reveal as="section" className="site-container py-20 lg:py-28">
+        <span className="kh-section-index">{sectionIndex.insights}</span>
         <SectionHeading eyebrow={SECTION_HEADINGS.insights[locale].eyebrow} title={SECTION_HEADINGS.insights[locale].title} description={SECTION_HEADINGS.insights[locale].description} href={localizedHref("/insights", locale)} linkLabel={SECTION_HEADINGS.insights[locale].link} />
-        <div className="grid gap-6 lg:grid-cols-3">
+        <StaggerReveal className="grid gap-6 lg:grid-cols-3">
           {insights.map((item) => (
-            <article key={item.slug} className="group border-t border-black/[0.12] pt-6">
+            <article key={item.slug} className="kh-motion-card group border-t border-black/[0.12] pt-6">
               <p className="text-[0.68rem] font-semibold uppercase tracking-[0.17em] text-[var(--color-champagne-ink)]">{item.category}</p>
               <h3 className="font-display mt-5 text-3xl leading-tight tracking-[-0.03em]">{item.title}</h3>
               <p className="mt-4 text-sm leading-7 text-[var(--color-stone)]">{item.excerpt}</p>
@@ -183,13 +197,14 @@ function FallbackHomeSections({ locale }: { locale: KeyHoldLocale }) {
               </Link>
             </article>
           ))}
-        </div>
-      </section>
+        </StaggerReveal>
+      </Reveal>
 
-      <section className="border-y border-black/[0.08] bg-[var(--color-champagne-soft)]">
+      <Reveal as="section" className="border-y border-black/[0.08] bg-[var(--color-champagne-soft)]">
         <div className="site-container py-20 lg:py-28">
+          <span className="kh-section-index">{sectionIndex.services}</span>
           <SectionHeading eyebrow={SECTION_HEADINGS.services[locale].eyebrow} title={SECTION_HEADINGS.services[locale].title} href={localizedHref("/services", locale)} linkLabel={SECTION_HEADINGS.services[locale].link} />
-          <div className="grid gap-x-8 gap-y-0 md:grid-cols-2 xl:grid-cols-3">
+          <StaggerReveal className="grid gap-x-8 gap-y-0 md:grid-cols-2 xl:grid-cols-3">
             {services.map((service, index) => (
               <div key={service.title} className="border-t border-black/10 py-7">
                 <div className="flex gap-5">
@@ -201,11 +216,11 @@ function FallbackHomeSections({ locale }: { locale: KeyHoldLocale }) {
                 </div>
               </div>
             ))}
-          </div>
+          </StaggerReveal>
         </div>
-      </section>
+      </Reveal>
 
-      <CtaBand locale={locale} />
+      <Reveal><CtaBand locale={locale} /></Reveal>
     </>
   );
 }
@@ -227,39 +242,53 @@ export function HomeContent({ locale = "en" as KeyHoldLocale }: { locale?: KeyHo
 
   return (
     <>
-      <section className="relative min-h-[78svh] overflow-hidden bg-[var(--color-charcoal)] text-[var(--color-bone)]">
-        <Image
-          src={heroImage}
-          alt={heroImageAlt}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover opacity-80"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(25,52,49,0.82),rgba(35,67,63,0.34)_64%,rgba(35,67,63,0.08))]" />
-        <div className="site-container relative flex min-h-[78svh] items-end py-14 sm:py-[4.5rem] lg:py-20">
+      <HeroParallax
+        className="relative min-h-[78svh] overflow-hidden bg-[var(--color-charcoal)] text-[var(--color-bone)]"
+        media={
+          <>
+            <Image
+              src={heroImage}
+              alt={heroImageAlt}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover opacity-80"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(25,52,49,0.82),rgba(35,67,63,0.34)_64%,rgba(35,67,63,0.08))]" />
+          </>
+        }
+      >
+        <div className="site-container relative flex min-h-[78svh] flex-col justify-end py-14 sm:py-[4.5rem] lg:py-20">
           <div className="max-w-5xl">
-            <p className="animate-rise text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#eadfc9]">
-              {heroEyebrow}
-            </p>
-            <h1 className="font-display mt-5 max-w-4xl animate-rise text-5xl leading-[0.98] tracking-[-0.045em] sm:text-6xl md:text-7xl lg:text-[6.4rem]">
-              {heroTitle}
-            </h1>
-            <p className="mt-7 max-w-xl animate-rise text-base leading-8 text-white/[0.74] sm:text-lg">
-              {heroSubtitle}
-            </p>
-            <div className="mt-8 flex animate-rise flex-wrap gap-3">
-              <Link href={localizedHref(primaryCtaHref, locale)} className="button button-light">
-                {primaryCtaLabel}
-              </Link>
-              <Link href={localizedHref(secondaryCtaHref, locale)} className="button button-outline-light inline-flex items-center gap-2">
-                {secondaryCtaLabel}
-                <ArrowUpRightIcon className="size-4" />
-              </Link>
-            </div>
+            <Reveal delayMs={40}>
+              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#eadfc9]">
+                {heroEyebrow}
+              </p>
+            </Reveal>
+            <AnimatedHeadline
+              text={heroTitle}
+              className="font-display mt-5 max-w-4xl text-5xl leading-[0.98] tracking-[-0.045em] sm:text-6xl md:text-7xl lg:text-[6.4rem]"
+            />
+            <Reveal delayMs={140}>
+              <p className="mt-7 max-w-xl text-base leading-8 text-white/[0.74] sm:text-lg">
+                {heroSubtitle}
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link href={localizedHref(primaryCtaHref, locale)} className="button button-light">
+                  {primaryCtaLabel}
+                </Link>
+                <Link href={localizedHref(secondaryCtaHref, locale)} className="button button-outline-light inline-flex items-center gap-2">
+                  {secondaryCtaLabel}
+                  <ArrowUpRightIcon className="size-4" />
+                </Link>
+              </div>
+            </Reveal>
+          </div>
+          <div className="mt-10">
+            <ScrollCue label={SCROLL_CUE_LABEL[locale]} />
           </div>
         </div>
-      </section>
+      </HeroParallax>
 
       <QuickDiscovery locale={locale} />
 
