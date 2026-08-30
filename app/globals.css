@@ -1,13 +1,32 @@
 @import "tailwindcss";
 
 :root {
+  /* KeyHold Warm Luxury + Positive Intelligence palette */
   --color-bone: #f7f4ee;
-  --color-graphite: #171717;
-  --color-charcoal: #222222;
-  --color-champagne: #b79a6b;
-  --color-stone: #8b8984;
-  --color-warm-grey: #ece8e1;
   --color-soft-white: #fcfbf8;
+  --color-sand: #eee8de;
+  --color-warm-grey: #ece8e1;
+
+  --color-graphite: #1b1b1b;
+  --color-charcoal: #24312f;
+  --color-stone: #71726f;
+
+  --color-teal: #497c78;
+  --color-teal-deep: #35645f;
+  --color-teal-soft: #e4efed;
+
+  --color-sage: #7f9275;
+  --color-sage-deep: #65795e;
+  --color-sage-soft: #eaf0e6;
+
+  --color-champagne: #b99a68;
+  --color-champagne-ink: #896c46;
+  --color-champagne-soft: #f2ebdd;
+
+  --color-terracotta: #c78368;
+  --color-terracotta-deep: #9b5f49;
+  --color-terracotta-soft: #f5e8e2;
+
   --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
   --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -32,7 +51,7 @@ body {
 }
 
 ::selection {
-  background: #d9c7a9;
+  background: var(--color-teal-soft);
   color: var(--color-graphite);
 }
 
@@ -44,8 +63,11 @@ summary {
 
 a:focus-visible,
 button:focus-visible,
-summary:focus-visible {
-  outline: 2px solid var(--color-champagne);
+summary:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-teal);
   outline-offset: 3px;
 }
 
@@ -70,7 +92,7 @@ summary:focus-visible {
   font-weight: 650;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--color-champagne);
+  color: var(--color-champagne-ink);
 }
 
 .nav-link {
@@ -91,7 +113,7 @@ summary:focus-visible {
   left: 0;
   height: 1px;
   content: "";
-  background: var(--color-champagne);
+  background: var(--color-teal);
   transform: scaleX(0);
   transform-origin: right center;
   transition: transform 220ms ease;
@@ -108,11 +130,12 @@ summary:focus-visible {
   padding: 0.8rem 0.75rem;
   font-size: 0.93rem;
   color: var(--color-graphite);
-  transition: background-color 180ms ease;
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
 .mobile-nav-link:hover {
-  background: var(--color-warm-grey);
+  background: var(--color-teal-soft);
+  color: var(--color-teal-deep);
 }
 
 .button {
@@ -125,38 +148,43 @@ summary:focus-visible {
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.035em;
-  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, transform 200ms ease;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
 }
 
 .button:hover {
   transform: translateY(-1px);
 }
 
+/* Kept as button-dark for backward compatibility, but visually this is now KeyHold's positive primary action. */
 .button-dark {
-  background: var(--color-graphite);
+  background: var(--color-teal);
   color: var(--color-soft-white);
+  box-shadow: 0 10px 28px rgba(73, 124, 120, 0.12);
 }
 
 .button-dark:hover {
-  background: #2a2a2a;
+  background: var(--color-teal-deep);
+  box-shadow: 0 14px 34px rgba(53, 100, 95, 0.16);
 }
 
 .button-light {
-  background: var(--color-bone);
+  background: var(--color-soft-white);
   color: var(--color-graphite);
 }
 
 .button-light:hover {
-  background: var(--color-soft-white);
+  background: var(--color-teal-soft);
+  color: var(--color-teal-deep);
 }
 
 .button-outline-light {
-  border-color: rgba(247, 244, 238, 0.32);
+  border-color: rgba(247, 244, 238, 0.42);
   color: var(--color-bone);
 }
 
 .button-outline-light:hover {
-  border-color: rgba(247, 244, 238, 0.7);
+  border-color: rgba(247, 244, 238, 0.84);
+  background: rgba(247, 244, 238, 0.08);
 }
 
 .text-link {
@@ -164,7 +192,7 @@ summary:focus-visible {
   width: fit-content;
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--color-graphite);
+  color: var(--color-teal-deep);
 }
 
 .text-link::after {
@@ -181,6 +209,14 @@ summary:focus-visible {
 
 .text-link:hover::after {
   transform: scaleX(0.55);
+}
+
+.positive-surface {
+  background: linear-gradient(135deg, var(--color-teal-soft), var(--color-soft-white) 72%);
+}
+
+.warm-surface {
+  background: linear-gradient(135deg, var(--color-champagne-soft), var(--color-soft-white) 72%);
 }
 
 .animate-rise {

@@ -25,7 +25,7 @@ function ScoreBar({ label, score, rationale, weight }: { label: string; score: n
         <p className="font-display text-2xl">{score.toFixed(1)} / 10</p>
       </div>
       <div className="mt-3 h-1.5 overflow-hidden bg-[var(--color-warm-grey)]" aria-hidden="true">
-        <div className="h-full bg-[var(--color-graphite)]" style={{ width }} />
+        <div className="h-full bg-[var(--color-teal)]" style={{ width }} />
       </div>
       <p className="mt-2 text-xs leading-5 text-[var(--color-stone)]">{rationale}</p>
     </div>
@@ -51,7 +51,7 @@ export function KeyHoldIntelligence({ project }: { project: Project }) {
 
   return (
     <div className="space-y-10">
-      <div className="border border-[var(--color-champagne)]/40 bg-[var(--color-bone)] p-5 sm:p-6">
+      <div className="border border-[var(--color-champagne)]/40 bg-[var(--color-champagne-soft)] p-5 sm:p-6">
         <div className="flex flex-wrap items-center gap-3">
           <StatusBadge status={profile.dataStatus} />
           <span className="text-[0.68rem] uppercase tracking-[0.12em] text-[var(--color-stone)]">Last reviewed {formatDateTimeDubai(profile.lastReviewedAt)}</span>
@@ -60,24 +60,24 @@ export function KeyHoldIntelligence({ project }: { project: Project }) {
       </div>
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-        <div className="border border-black/10 p-5">
+        <div className="border border-[var(--color-teal)]/20 bg-[var(--color-teal-soft)] p-5">
           <p className="text-[0.66rem] uppercase tracking-[0.14em] text-[var(--color-stone)]">KeyHold Investment Score</p>
           <p className="font-display mt-4 text-5xl">{investmentScore.toFixed(1)}<span className="text-xl text-[var(--color-stone)]">/10</span></p>
           <p className="mt-3 text-xs leading-5 text-[var(--color-stone)]">Weighted analytical score. Methodology and inputs are visible below.</p>
         </div>
-        <div className="border border-black/10 p-5">
-          <p className="text-[0.66rem] uppercase tracking-[0.14em] text-[var(--color-stone)]">Risk Radar</p>
+        <div className="border border-[var(--color-terracotta)]/25 bg-[var(--color-terracotta-soft)] p-5">
+          <p className="text-[0.66rem] uppercase tracking-[0.14em] text-[var(--color-terracotta-deep)]">Risk Radar</p>
           <p className="font-display mt-4 text-4xl">{riskBand}</p>
           <p className="mt-2 text-sm">{averageRisk.toFixed(1)} / 10 average risk</p>
           <p className="mt-3 text-xs leading-5 text-[var(--color-stone)]">Higher values mean higher modelled risk.</p>
         </div>
-        <div className="border border-black/10 p-5">
-          <p className="text-[0.66rem] uppercase tracking-[0.14em] text-[var(--color-stone)]">Developer Delivery</p>
+        <div className="border border-[var(--color-champagne)]/25 bg-[var(--color-champagne-soft)] p-5">
+          <p className="text-[0.66rem] uppercase tracking-[0.14em] text-[var(--color-champagne-ink)]">Developer Delivery</p>
           <p className="font-display mt-4 text-4xl">{profile.developerDeliveryScore.toFixed(1)}<span className="text-lg text-[var(--color-stone)]">/10</span></p>
           <p className="mt-3 text-xs leading-5 text-[var(--color-stone)]">{profile.developerDeliveryRationale}</p>
         </div>
-        <div className="border border-black/10 p-5">
-          <p className="text-[0.66rem] uppercase tracking-[0.14em] text-[var(--color-stone)]">Liquidity Score</p>
+        <div className="border border-[var(--color-sage)]/25 bg-[var(--color-sage-soft)] p-5">
+          <p className="text-[0.66rem] uppercase tracking-[0.14em] text-[var(--color-sage-deep)]">Liquidity Score</p>
           <p className="font-display mt-4 text-4xl">{profile.liquidityScore.toFixed(1)}<span className="text-lg text-[var(--color-stone)]">/10</span></p>
           <p className="mt-3 text-xs leading-5 text-[var(--color-stone)]">{profile.liquidityRationale}</p>
         </div>
@@ -144,7 +144,7 @@ export function KeyHoldIntelligence({ project }: { project: Project }) {
           <p className="eyebrow">Area supply pipeline</p>
           <h3 className="font-display mt-2 text-3xl">Illustrative future delivery exposure.</h3>
           <div className="mt-6 space-y-5">
-            {profile.supplyPipeline.map((item) => <div key={item.period}><div className="flex items-center justify-between gap-4 text-sm"><span>{item.period}</span><span>{item.estimatedUnits.toLocaleString("en-US")} units* · {item.sourceStatus.replace("-", " ")}</span></div><div className="mt-2 h-2 bg-[var(--color-warm-grey)]"><div className="h-full bg-[var(--color-graphite)]" style={{ width: `${(item.estimatedUnits / maxSupply) * 100}%` }} /></div>{item.note ? <p className="mt-1 text-xs text-[var(--color-stone)]">{item.note}</p> : null}</div>)}
+            {profile.supplyPipeline.map((item) => <div key={item.period}><div className="flex items-center justify-between gap-4 text-sm"><span>{item.period}</span><span>{item.estimatedUnits.toLocaleString("en-US")} units* · {item.sourceStatus.replace("-", " ")}</span></div><div className="mt-2 h-2 bg-[var(--color-warm-grey)]"><div className="h-full bg-[var(--color-teal)]" style={{ width: `${(item.estimatedUnits / maxSupply) * 100}%` }} /></div>{item.note ? <p className="mt-1 text-xs text-[var(--color-stone)]">{item.note}</p> : null}</div>)}
           </div>
           <p className="mt-5 text-[0.7rem] leading-5 text-[var(--color-stone)]">*Demo pipeline values. Production figures need a defined geography, source, snapshot date and delivery-status methodology.</p>
         </div>
@@ -157,7 +157,7 @@ export function KeyHoldIntelligence({ project }: { project: Project }) {
       </div>
 
       <div className="border border-black/10 bg-[var(--color-charcoal)] p-6 text-[var(--color-bone)] sm:p-8">
-        <p className="text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-[var(--color-champagne)]">KeyHold Verdict</p>
+        <p className="text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-[#dbc79f]">KeyHold Verdict</p>
         <h3 className="font-display mt-3 max-w-3xl text-3xl sm:text-4xl">{profile.verdict.headline}</h3>
         <p className="mt-4 max-w-3xl text-sm leading-7 text-white/65">{profile.verdict.summary}</p>
         <div className="mt-8 grid gap-7 md:grid-cols-3">

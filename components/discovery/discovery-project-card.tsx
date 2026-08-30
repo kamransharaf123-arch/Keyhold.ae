@@ -29,7 +29,7 @@ export function DiscoveryProjectCard({
     <article className="grid overflow-hidden border border-black/10 bg-[var(--color-soft-white)] sm:grid-cols-[15rem_1fr] lg:grid-cols-[17rem_1fr]">
       <Link href={`/projects/${project.slug}`} className="relative min-h-64 overflow-hidden bg-[var(--color-warm-grey)] sm:min-h-full" aria-label={`Open ${project.title}`}>
         <Image src={project.heroImage} alt="" fill sizes="(max-width: 640px) 100vw, 280px" className="object-cover transition-transform duration-700 hover:scale-[1.025]" />
-        <span className="absolute left-4 top-4 bg-[color:rgba(252,251,248,0.92)] px-3 py-2 text-[0.63rem] font-semibold uppercase tracking-[0.15em] text-[var(--color-graphite)] backdrop-blur">
+        <span className="absolute left-4 top-4 bg-[color:rgba(228,239,237,0.94)] px-3 py-2 text-[0.63rem] font-semibold uppercase tracking-[0.15em] text-[var(--color-teal-deep)] backdrop-blur">
           {project.category}
         </span>
       </Link>
@@ -69,7 +69,7 @@ export function DiscoveryProjectCard({
 
         <div className="mt-5 flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-2 text-xs">
-            <span className={`rounded-full px-3 py-1.5 ${available ? "bg-[#edf3eb] text-[#335239]" : "bg-[var(--color-warm-grey)] text-[var(--color-stone)]"}`}>
+            <span className={`rounded-full px-3 py-1.5 ${available ? "bg-[var(--color-sage-soft)] text-[var(--color-sage-deep)]" : "bg-[var(--color-warm-grey)] text-[var(--color-stone)]"}`}>
               {available ? "Available units shown" : "Availability to confirm"}
             </span>
             <span className="text-[var(--color-stone)]">Verified {formatDateTimeDubai(project.availabilityLastVerifiedAt)}</span>
@@ -83,8 +83,8 @@ export function DiscoveryProjectCard({
               aria-pressed={compareSelected}
               className={`min-h-11 border px-4 text-xs font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
                 compareSelected
-                  ? "border-[var(--color-graphite)] bg-[var(--color-graphite)] text-white"
-                  : "border-black/10 hover:border-[var(--color-champagne)]"
+                  ? "border-[var(--color-teal)] bg-[var(--color-teal)] text-white"
+                  : "border-black/10 hover:border-[var(--color-teal)] hover:bg-[var(--color-teal-soft)]"
               }`}
             >
               {compareSelected ? "Added to compare" : "Compare"}

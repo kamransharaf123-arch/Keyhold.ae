@@ -230,7 +230,7 @@ export function DiscoveryExplorer({ projects, developers, areas }: DiscoveryExpl
         <main id="discovery-results" className="min-w-0 scroll-mt-28">
           <div className="flex flex-wrap items-end justify-between gap-5 border-b border-black/10 pb-5">
             <div>
-              <p className="text-[0.67rem] font-semibold uppercase tracking-[0.16em] text-[var(--color-champagne)]">Discovery results</p>
+              <p className="text-[0.67rem] font-semibold uppercase tracking-[0.16em] text-[var(--color-teal-deep)]">Discovery results</p>
               <h2 className="font-display mt-2 text-3xl tracking-[-0.035em]">{results.length} {results.length === 1 ? "match" : "matches"}</h2>
               <p className="mt-2 text-xs leading-5 text-[var(--color-stone)]">Availability remains subject to current developer/seller confirmation.</p>
             </div>
@@ -325,7 +325,7 @@ export function DiscoveryExplorer({ projects, developers, areas }: DiscoveryExpl
         </FilterSection>
 
         <FilterSection title="Bedrooms">
-          <div className="flex flex-wrap gap-2">{bedroomOptions.map((bedroom) => <button key={bedroom} type="button" aria-pressed={filters.bedrooms.includes(bedroom)} onClick={() => patchFilters({ bedrooms: toggleItem(filters.bedrooms, bedroom) })} className={`min-h-10 min-w-10 border px-3 text-xs ${filters.bedrooms.includes(bedroom) ? "border-[var(--color-graphite)] bg-[var(--color-graphite)] text-white" : "border-black/10"}`}>{bedroom}</button>)}</div>
+          <div className="flex flex-wrap gap-2">{bedroomOptions.map((bedroom) => <button key={bedroom} type="button" aria-pressed={filters.bedrooms.includes(bedroom)} onClick={() => patchFilters({ bedrooms: toggleItem(filters.bedrooms, bedroom) })} className={`min-h-10 min-w-10 border px-3 text-xs ${filters.bedrooms.includes(bedroom) ? "border-[var(--color-teal)] bg-[var(--color-teal)] text-white" : "border-black/10"}`}>{bedroom}</button>)}</div>
         </FilterSection>
 
         <FilterSection title="Area">
@@ -368,7 +368,7 @@ export function DiscoveryExplorer({ projects, developers, areas }: DiscoveryExpl
         <FilterSection title="Save this search">
           <div className="flex gap-2">
             <input value={saveName} onChange={(event: ChangeEvent<HTMLInputElement>) => setSaveName(event.target.value)} placeholder="Search name" className="min-h-11 min-w-0 flex-1 border border-black/10 px-3 text-base md:text-sm" />
-            <button type="button" onClick={saveCurrentSearch} className="min-h-11 border border-black/10 px-3 text-xs font-semibold hover:border-[var(--color-champagne)]">Save</button>
+            <button type="button" onClick={saveCurrentSearch} className="min-h-11 border border-black/10 px-3 text-xs font-semibold hover:border-[var(--color-teal)]">Save</button>
           </div>
           <p className="mt-2 text-[0.68rem] leading-5 text-[var(--color-stone)]">Saved locally on this device until account sync arrives with the Client Portal.</p>
           {savedSearches.length > 0 ? <div className="mt-4 grid gap-2">{savedSearches.map((search) => <div key={search.id} className="flex items-center justify-between gap-2 border-t border-black/[0.08] pt-2"><button type="button" onClick={() => loadSavedSearch(search)} className="min-w-0 truncate text-left text-xs font-medium hover:underline">{search.name}</button><button type="button" onClick={() => deleteSavedSearch(search.id)} aria-label={`Delete saved search ${search.name}`} className="px-2 text-xs text-[var(--color-stone)] hover:text-[var(--color-graphite)]">×</button></div>)}</div> : null}

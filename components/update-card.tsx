@@ -17,11 +17,11 @@ export function UpdateCard({ update }: { update: UpdatePreview }) {
           <h3 className="mt-2 text-xl font-medium text-[var(--color-graphite)]">{update.project}</h3>
           <p className="mt-2 text-sm text-[var(--color-stone)]">{update.status} · {update.updatedAt}</p>
           <div className="mt-4 h-px overflow-hidden bg-black/10">
-            <div className="h-full bg-[var(--color-champagne)]" style={{ width: `${progress}%` }} />
+            <div className="h-full bg-[var(--color-teal)]" style={{ width: `${progress}%` }} />
           </div>
         </div>
         <div className="sm:text-right">
-          <div className="font-display text-3xl text-[var(--color-graphite)]">{progress}%</div>
+          <div className="font-display text-3xl text-[var(--color-teal-deep)]">{progress}%</div>
           <div className="mt-1 text-[0.67rem] uppercase tracking-[0.16em] text-[var(--color-stone)]">Construction</div>
         </div>
       </Link>

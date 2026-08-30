@@ -43,7 +43,7 @@ export default async function ConstructionUpdateDetailPage({ params }: { params:
             <p className="mt-2 text-sm text-[var(--color-stone)]">{update.status}</p>
           </div>
           <div>
-            <div className="h-2 overflow-hidden bg-[var(--color-warm-grey)]"><div className="h-full bg-[var(--color-charcoal)]" style={{ width: `${progress}%` }} /></div>
+            <div className="h-2 overflow-hidden bg-[var(--color-warm-grey)]"><div className="h-full bg-[var(--color-teal)]" style={{ width: `${progress}%` }} /></div>
             <h2 className="font-display mt-8 text-3xl">Update milestones</h2>
             <ul className="mt-5 border-t border-black/10">
               {update.milestones.map((milestone) => <li key={milestone} className="border-b border-black/10 py-4 text-sm text-[var(--color-stone)]">{milestone}</li>)}

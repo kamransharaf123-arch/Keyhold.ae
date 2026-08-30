@@ -18,12 +18,12 @@ function DesktopNav() {
               Projects
               <ChevronDownIcon className="size-4 transition-transform duration-300 group-open:rotate-180" />
             </summary>
-            <div className="absolute left-1/2 top-[calc(100%+1.25rem)] z-50 w-72 -translate-x-1/2 border border-black/10 bg-[var(--color-soft-white)] p-2 shadow-[0_20px_60px_rgba(17,17,17,0.08)]">
+            <div className="absolute left-1/2 top-[calc(100%+1.25rem)] z-50 w-72 -translate-x-1/2 border border-black/10 bg-[var(--color-soft-white)] p-2 shadow-[0_20px_60px_rgba(36,49,47,0.10)]">
               {projectNav.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="flex items-center justify-between px-4 py-3.5 text-sm text-[var(--color-graphite)] transition-colors hover:bg-[var(--color-warm-grey)]"
+                  className="flex items-center justify-between px-4 py-3.5 text-sm text-[var(--color-graphite)] transition-colors hover:bg-[var(--color-teal-soft)] hover:text-[var(--color-teal-deep)]"
                 >
                   {item.label}
                   <span aria-hidden="true">↗</span>
@@ -53,7 +53,7 @@ function MobileNav() {
       >
         <MenuIcon className="size-5" />
       </summary>
-      <div className="absolute right-0 top-[calc(100%+0.8rem)] z-50 w-[min(88vw,22rem)] border border-black/10 bg-[var(--color-soft-white)] p-3 shadow-[0_24px_70px_rgba(17,17,17,0.12)]">
+      <div className="absolute right-0 top-[calc(100%+0.8rem)] z-50 w-[min(88vw,22rem)] border border-black/10 bg-[var(--color-soft-white)] p-3 shadow-[0_24px_70px_rgba(36,49,47,0.12)]">
         <Link className="mobile-nav-link" href="/">
           Home
         </Link>
@@ -79,7 +79,7 @@ function MobileNav() {
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-black/[0.08] bg-[color:rgba(252,251,248,0.92)] backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-black/[0.08] bg-[color:rgba(247,244,238,0.94)] backdrop-blur-xl">
       <div className="site-container grid min-h-20 grid-cols-[1fr_auto] items-center gap-5 lg:grid-cols-[1fr_auto_1fr]">
         <div className="justify-self-start">
           <Logo />

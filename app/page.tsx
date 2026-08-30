@@ -18,7 +18,7 @@ const propertyTypes = [
 export default function HomePage() {
   return (
     <>
-      <section className="relative min-h-[78svh] overflow-hidden bg-[var(--color-graphite)] text-[var(--color-bone)]">
+      <section className="relative min-h-[78svh] overflow-hidden bg-[var(--color-charcoal)] text-[var(--color-bone)]">
         <Image
           src="/images/hero-dubai.svg"
           alt="Abstract architectural view inspired by Dubai"
@@ -27,10 +27,10 @@ export default function HomePage() {
           sizes="100vw"
           className="object-cover opacity-80"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,17,17,0.72),rgba(17,17,17,0.18)_68%,rgba(17,17,17,0.06))]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(25,52,49,0.82),rgba(35,67,63,0.34)_64%,rgba(35,67,63,0.08))]" />
         <div className="site-container relative flex min-h-[78svh] items-end py-14 sm:py-[4.5rem] lg:py-20">
           <div className="max-w-5xl">
-            <p className="animate-rise text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#d6bd93]">
+            <p className="animate-rise text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#eadfc9]">
               Dubai real estate · Curated advisory
             </p>
             <h1 className="font-display mt-5 max-w-4xl animate-rise text-5xl leading-[0.98] tracking-[-0.045em] sm:text-6xl md:text-7xl lg:text-[6.4rem]">
@@ -54,7 +54,7 @@ export default function HomePage() {
 
       <QuickDiscovery />
 
-      <section className="border-b border-black/[0.08] bg-[var(--color-bone)]">
+      <section className="border-b border-black/[0.07] bg-[var(--color-teal-soft)]">
         <div className="site-container grid divide-y divide-black/10 py-2 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           {[
             ["Dubai focused", "A focused platform for property across the UAE’s most active real estate market."],
@@ -62,7 +62,7 @@ export default function HomePage() {
             ["End-to-end", "From discovery and acquisition to rentals, management and future client tools."],
           ].map(([title, text]) => (
             <div key={title} className="py-6 sm:px-7 sm:first:pl-0 sm:last:pr-0">
-              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.17em] text-[var(--color-graphite)]">{title}</p>
+              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.17em] text-[var(--color-teal-deep)]">{title}</p>
               <p className="mt-2 max-w-sm text-sm leading-6 text-[var(--color-stone)]">{text}</p>
             </div>
           ))}
@@ -82,7 +82,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-[var(--color-bone)]">
+      <section className="bg-[var(--color-sand)]">
         <div className="site-container py-20 lg:py-28">
           <SectionHeading
             eyebrow="Explore"
@@ -94,11 +94,11 @@ export default function HomePage() {
               <Link
                 key={item.title}
                 href={item.href}
-                className="group min-h-64 border-b border-r border-black/10 p-7 transition-colors hover:bg-[var(--color-soft-white)]"
+                className="group min-h-64 border-b border-r border-black/10 p-7 transition-colors hover:bg-[var(--color-teal-soft)]"
               >
                 <div className="flex items-start justify-between gap-4">
                   <span className="text-xs text-[var(--color-stone)]">0{index + 1}</span>
-                  <ArrowUpRightIcon className="size-5 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
+                  <ArrowUpRightIcon className="size-5 text-[var(--color-teal)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
                 </div>
                 <h3 className="font-display mt-16 text-3xl tracking-[-0.03em]">{item.title}</h3>
                 <p className="mt-3 max-w-xs text-sm leading-6 text-[var(--color-stone)]">{item.text}</p>
@@ -119,11 +119,11 @@ export default function HomePage() {
         <div>{updates.slice(0, 3).map((update) => <UpdateCard key={update.slug} update={update} />)}</div>
       </section>
 
-      <section className="bg-[var(--color-graphite)] text-[var(--color-bone)]">
+      <section className="bg-[var(--color-charcoal)] text-[var(--color-bone)]">
         <div className="site-container py-20 lg:py-28">
           <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
             <div>
-              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[var(--color-champagne)]">KeyHold approach</p>
+              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#dbc79f]">KeyHold approach</p>
               <h2 className="font-display mt-4 text-4xl leading-[1.04] tracking-[-0.04em] sm:text-5xl">
                 More context. Less noise.
               </h2>
@@ -156,7 +156,7 @@ export default function HomePage() {
         <div className="grid gap-6 lg:grid-cols-3">
           {insights.map((item) => (
             <article key={item.slug} className="group border-t border-black/[0.12] pt-6">
-              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.17em] text-[var(--color-champagne)]">{item.category}</p>
+              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.17em] text-[var(--color-champagne-ink)]">{item.category}</p>
               <h3 className="font-display mt-5 text-3xl leading-tight tracking-[-0.03em]">{item.title}</h3>
               <p className="mt-4 text-sm leading-7 text-[var(--color-stone)]">{item.excerpt}</p>
               <Link href="/insights" className="text-link mt-7 inline-flex items-center gap-2">
@@ -167,7 +167,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="border-y border-black/[0.08] bg-[var(--color-bone)]">
+      <section className="border-y border-black/[0.08] bg-[var(--color-champagne-soft)]">
         <div className="site-container py-20 lg:py-28">
           <SectionHeading eyebrow="Services" title="Property support before, during and after the transaction." href="/services" linkLabel="All services" />
           <div className="grid gap-x-8 gap-y-0 md:grid-cols-2 xl:grid-cols-3">

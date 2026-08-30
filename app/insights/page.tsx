@@ -22,7 +22,7 @@ export default function InsightsPage() {
           {insights.map((item, index) => (
             <article key={item.slug} className="group border-t border-black/[0.12] pt-6">
               <div className="flex items-start justify-between gap-4">
-                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.17em] text-[var(--color-champagne)]">{item.category}</p>
+                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.17em] text-[var(--color-champagne-ink)]">{item.category}</p>
                 <span className="text-xs text-[var(--color-stone)]">0{index + 1}</span>
               </div>
               <h2 className="font-display mt-8 text-3xl leading-tight tracking-[-0.03em]">{item.title}</h2>

@@ -30,10 +30,10 @@ export function RiskRadar({ dimensions }: { dimensions: IntelligenceRiskDimensio
           const outer = pointFor(index, count, 10, radius, center).split(",");
           return <line key={index} x1={center} y1={center} x2={outer[0]} y2={outer[1]} stroke="rgba(23,23,23,0.10)" strokeWidth="1" />;
         })}
-        <polygon points={dataPoints} fill="rgba(183,154,107,0.20)" stroke="var(--color-champagne)" strokeWidth="2" />
+        <polygon points={dataPoints} fill="rgba(199,131,104,0.18)" stroke="var(--color-terracotta-deep)" strokeWidth="2" />
         {dimensions.map((item, index) => {
           const [x, y] = pointFor(index, count, item.risk, radius, center).split(",");
-          return <circle key={item.key} cx={x} cy={y} r="4" fill="var(--color-graphite)" />;
+          return <circle key={item.key} cx={x} cy={y} r="4" fill="var(--color-terracotta-deep)" />;
         })}
       </svg>
 

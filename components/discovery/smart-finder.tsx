@@ -51,9 +51,9 @@ export function SmartFinder({ areas, onApply }: SmartFinderProps) {
   }
 
   return (
-    <div className="border border-black/10 bg-[var(--color-bone)] p-5 sm:p-7">
+    <div className="border border-[var(--color-teal)]/20 bg-[var(--color-teal-soft)] p-5 sm:p-7">
       <div className="max-w-2xl">
-        <p className="text-[0.67rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-champagne)]">30-second property finder</p>
+        <p className="text-[0.67rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-teal-deep)]">30-second property finder</p>
         <h3 className="font-display mt-3 text-3xl tracking-[-0.035em]">Tell KeyHold what matters first.</h3>
         <p className="mt-3 text-sm leading-7 text-[var(--color-stone)]">This guided finder translates your priorities into the same transparent filters used by the main discovery engine.</p>
       </div>

@@ -15,7 +15,7 @@ export function PaymentPlan({ milestones }: { milestones: PaymentMilestone[] }) 
         {milestones.map((milestone, index) => (
           <div
             key={`${milestone.label}-${index}`}
-            className="h-full border-r border-[var(--color-soft-white)] bg-[var(--color-charcoal)] last:border-r-0"
+            className="h-full border-r border-[var(--color-soft-white)] bg-[var(--color-teal)] last:border-r-0"
             style={{ width: `${milestone.percentage}%`, opacity: Math.max(0.36, 1 - index * 0.16) }}
           />
         ))}

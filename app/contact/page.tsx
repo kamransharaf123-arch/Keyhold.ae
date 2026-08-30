@@ -17,7 +17,7 @@ export default function ContactPage() {
         <div className="space-y-8 border-t border-black/10 pt-7">
           <div>
             <p className="text-xs uppercase tracking-[0.16em] text-[var(--color-stone)]">Email</p>
-            <a className="mt-2 block text-xl hover:text-[var(--color-champagne)]" href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
+            <a className="mt-2 block text-xl hover:text-[var(--color-teal)]" href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
           </div>
           <div>
             <p className="text-xs uppercase tracking-[0.16em] text-[var(--color-stone)]">Location</p>

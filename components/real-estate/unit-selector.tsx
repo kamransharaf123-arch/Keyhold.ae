@@ -29,9 +29,9 @@ export function UnitSelector({ units, projectSlug }: { units: ProjectUnit[]; pro
   return (
     <div>
       <div className="mb-5 flex flex-wrap gap-2" aria-label="Filter units by bedroom count">
-        <button type="button" onClick={() => setBedroomFilter("all")} aria-pressed={bedroomFilter === "all"} className={`min-h-11 border px-4 text-sm transition-colors ${bedroomFilter === "all" ? "border-[var(--color-graphite)] bg-[var(--color-graphite)] text-white" : "border-black/10 hover:bg-[var(--color-bone)]"}`}>All units</button>
+        <button type="button" onClick={() => setBedroomFilter("all")} aria-pressed={bedroomFilter === "all"} className={`min-h-11 border px-4 text-sm transition-colors ${bedroomFilter === "all" ? "border-[var(--color-teal)] bg-[var(--color-teal)] text-white" : "border-black/10 hover:bg-[var(--color-bone)]"}`}>All units</button>
         {bedrooms.map((count) => (
-          <button key={count} type="button" onClick={() => setBedroomFilter(count)} aria-pressed={bedroomFilter === count} className={`min-h-11 border px-4 text-sm transition-colors ${bedroomFilter === count ? "border-[var(--color-graphite)] bg-[var(--color-graphite)] text-white" : "border-black/10 hover:bg-[var(--color-bone)]"}`}>{count} BR</button>
+          <button key={count} type="button" onClick={() => setBedroomFilter(count)} aria-pressed={bedroomFilter === count} className={`min-h-11 border px-4 text-sm transition-colors ${bedroomFilter === count ? "border-[var(--color-teal)] bg-[var(--color-teal)] text-white" : "border-black/10 hover:bg-[var(--color-bone)]"}`}>{count} BR</button>
         ))}
       </div>
 

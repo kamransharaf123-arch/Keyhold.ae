@@ -163,7 +163,7 @@ export function InvestmentSimulator({
         </div>
       ) : null}
 
-      <div className="border border-[var(--color-champagne)]/45 bg-[var(--color-bone)] p-4 text-xs leading-6 text-[var(--color-stone)]">
+      <div className="border border-[var(--color-champagne)]/45 bg-[var(--color-champagne-soft)] p-4 text-xs leading-6 text-[var(--color-stone)]">
         <strong className="text-[var(--color-graphite)]">Demo assumptions:</strong> this Module 4 dataset is intentionally marked {profile.status}. Verify official transaction fees, project service charges, rental evidence, financing terms and legal/tax implications before public launch or client reliance.
       </div>
 
@@ -180,7 +180,7 @@ export function InvestmentSimulator({
                     type="button"
                     onClick={() => applyScenario(key)}
                     aria-pressed={active}
-                    className={`min-h-11 border px-2 text-xs font-medium transition-colors sm:px-4 ${active ? "border-[var(--color-graphite)] bg-[var(--color-graphite)] text-white" : "border-black/10 hover:bg-[var(--color-bone)]"}`}
+                    className={`min-h-11 border px-2 text-xs font-medium transition-colors sm:px-4 ${active ? "border-[var(--color-teal)] bg-[var(--color-teal)] text-white" : "border-black/10 hover:bg-[var(--color-bone)]"}`}
                   >
                     {profile.scenarios[key].label}
                   </button>
@@ -191,7 +191,7 @@ export function InvestmentSimulator({
             <button
               type="button"
               onClick={runStressTest}
-              className="mt-3 min-h-11 w-full border border-black/10 px-4 text-xs font-semibold transition-colors hover:border-[var(--color-champagne)] hover:bg-[var(--color-bone)]"
+              className="mt-3 min-h-11 w-full border border-black/10 px-4 text-xs font-semibold transition-colors hover:border-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-soft)]"
             >
               Run mechanical stress test
             </button>
@@ -240,8 +240,8 @@ export function InvestmentSimulator({
                 <p className="mt-1 text-xs text-[var(--color-stone)]">Compare cash purchase with an illustrative mortgage.</p>
               </div>
               <div className="inline-flex border border-black/10 p-1">
-                <button type="button" onClick={() => update("useMortgage", false)} aria-pressed={!inputs.useMortgage} className={`min-h-10 px-4 text-xs font-medium ${!inputs.useMortgage ? "bg-[var(--color-graphite)] text-white" : "hover:bg-[var(--color-bone)]"}`}>Cash</button>
-                <button type="button" onClick={() => update("useMortgage", true)} aria-pressed={inputs.useMortgage} className={`min-h-10 px-4 text-xs font-medium ${inputs.useMortgage ? "bg-[var(--color-graphite)] text-white" : "hover:bg-[var(--color-bone)]"}`}>Mortgage</button>
+                <button type="button" onClick={() => update("useMortgage", false)} aria-pressed={!inputs.useMortgage} className={`min-h-10 px-4 text-xs font-medium ${!inputs.useMortgage ? "bg-[var(--color-teal)] text-white" : "hover:bg-[var(--color-bone)]"}`}>Cash</button>
+                <button type="button" onClick={() => update("useMortgage", true)} aria-pressed={inputs.useMortgage} className={`min-h-10 px-4 text-xs font-medium ${inputs.useMortgage ? "bg-[var(--color-teal)] text-white" : "hover:bg-[var(--color-bone)]"}`}>Mortgage</button>
               </div>
             </div>
           </div>
@@ -249,7 +249,7 @@ export function InvestmentSimulator({
           <details className="group border-t border-black/10 pt-5">
             <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between text-sm font-medium">
               Advanced assumptions
-              <span aria-hidden="true" className="text-[var(--color-champagne)] transition-transform group-open:rotate-45">+</span>
+              <span aria-hidden="true" className="text-[var(--color-champagne-ink)] transition-transform group-open:rotate-45">+</span>
             </summary>
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
               <NumberField id={fieldId(projectSlug, "size")} label="Unit size" value={inputs.unitSizeSqft} suffix="sqft" step={10} onChange={(value) => updateNumber("unitSizeSqft", value)} />
@@ -387,7 +387,7 @@ export function InvestmentSimulator({
                   <span className="font-display text-2xl">{item.percentage}%</span>
                 </div>
                 <div className="mt-3 h-1.5 bg-[var(--color-warm-grey)]" aria-hidden="true">
-                  <div className="h-full bg-[var(--color-champagne)] transition-[width] duration-500" style={{ width: `${Math.min(100, Math.max(0, item.percentage))}%` }} />
+                  <div className="h-full bg-[var(--color-teal)] transition-[width] duration-500" style={{ width: `${Math.min(100, Math.max(0, item.percentage))}%` }} />
                 </div>
                 <p className="mt-3 font-medium">{formatAed(item.amountAed, { compact: true })}</p>
                 <p className="mt-1 text-xs text-[var(--color-stone)]">{item.timing}</p>
@@ -450,11 +450,11 @@ export function InvestmentSimulator({
               <div key={year.year} className="grid gap-2 sm:grid-cols-[5rem_1fr_auto] sm:items-center">
                 <span className="text-xs font-medium">Year {year.year}</span>
                 <div className="h-2 bg-[var(--color-warm-grey)]" aria-hidden="true">
-                  <div className="h-full bg-[var(--color-graphite)] transition-[width] duration-500" style={{ width: `${width}%` }} />
+                  <div className="h-full bg-[var(--color-sage)] transition-[width] duration-500" style={{ width: `${width}%` }} />
                 </div>
                 <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs sm:justify-end">
                   <span>{formatAed(year.propertyValueAed, { compact: true })} value</span>
-                  <span className={year.netCashFlowAed < 0 ? "text-red-700" : "text-[var(--color-stone)]"}>{formatAed(year.netCashFlowAed, { compact: true })} cash flow</span>
+                  <span className={year.netCashFlowAed < 0 ? "text-[var(--color-terracotta-deep)]" : "text-[var(--color-sage-deep)]"}>{formatAed(year.netCashFlowAed, { compact: true })} cash flow</span>
                 </div>
               </div>
             );
@@ -462,7 +462,7 @@ export function InvestmentSimulator({
         </div>
       </div>
 
-      <div className="border-l-2 border-[var(--color-champagne)] pl-4 text-xs leading-6 text-[var(--color-stone)]">
+      <div className="border-l-2 border-[var(--color-teal)] pl-4 text-xs leading-6 text-[var(--color-stone)]">
         <strong className="text-[var(--color-graphite)]">Important:</strong> this simulator is an analytical estimate only. It does not guarantee rental income, occupancy, capital appreciation, financing approval, Golden Visa eligibility or resale value. Fees and regulations can change. Confirm project-specific charges, official registrations, lender terms, tax treatment and professional advice before committing funds.{projectCategory === "Off-Plan" ? " Off-plan mortgage availability and timing can differ materially from this simplified financing model." : ""}
       </div>
 
@@ -483,7 +483,7 @@ function FinancingComparisonCard({
   showMonthlyPayment?: boolean;
 }) {
   return (
-    <div className="border border-black/10 bg-[var(--color-bone)] p-5">
+    <div className="border border-black/10 bg-[var(--color-teal-soft)] p-5">
       <div className="flex items-baseline justify-between gap-4">
         <strong className="font-display text-2xl">{label}</strong>
         <span className="text-xs text-[var(--color-stone)]">{formatPercent(result.totalRoiPct)} total ROI</span>
@@ -519,7 +519,7 @@ function NumberField({
   return (
     <label htmlFor={id} className="block min-w-0">
       <span className="mb-2 block text-xs font-medium text-[var(--color-stone)]">{label}</span>
-      <span className="flex min-h-12 items-center border border-black/10 bg-[var(--color-soft-white)] focus-within:border-[var(--color-champagne)]">
+      <span className="flex min-h-12 items-center border border-black/10 bg-[var(--color-soft-white)] focus-within:border-[var(--color-teal)]">
         {prefix ? <span className="pl-3 text-xs text-[var(--color-stone)]">{prefix}</span> : null}
         <input
           id={id}
@@ -567,7 +567,7 @@ function CostRow({
   return (
     <div className={`flex items-baseline justify-between gap-4 border-b border-black/[0.06] pb-2 text-sm ${strong ? "font-semibold" : ""}`}>
       <span className="text-[var(--color-stone)]">{label}</span>
-      <span className={value < 0 ? "text-red-700" : ""}>{prefix}{formatted}</span>
+      <span className={value < 0 ? "text-[var(--color-terracotta-deep)]" : signed && value > 0 ? "text-[var(--color-sage-deep)]" : ""}>{prefix}{formatted}</span>
     </div>
   );
 }

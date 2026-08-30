@@ -24,16 +24,16 @@ export function PriceHistoryChart({ points }: { points: PriceHistoryPoint[] }) {
     <div>
       <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Illustrative price per square foot history" className="w-full">
         <line x1={padX} y1={height - padY} x2={width - padX} y2={height - padY} stroke="rgba(23,23,23,0.14)" />
-        <polyline points={polyline} fill="none" stroke="var(--color-graphite)" strokeWidth="2.5" />
+        <polyline points={polyline} fill="none" stroke="var(--color-teal)" strokeWidth="2.5" />
         {coords.map(({ x, y, item }) => (
           <g key={item.date}>
-            <circle cx={x} cy={y} r="4.5" fill="var(--color-champagne)" />
+            <circle cx={x} cy={y} r="4.5" fill="var(--color-sage)" />
             <text x={x} y={Math.max(14, y - 12)} textAnchor="middle" fontSize="11" fill="var(--color-graphite)">{Math.round(item.pricePerSqftAed).toLocaleString("en-US")}</text>
             <text x={x} y={height - 8} textAnchor="middle" fontSize="10" fill="var(--color-stone)">{new Intl.DateTimeFormat("en-GB", { month: "short", year: "2-digit", timeZone: "UTC" }).format(new Date(`${item.date}T00:00:00Z`))}</text>
           </g>
         ))}
       </svg>
-      <div className="mt-3 flex flex-wrap gap-2">{points.map((item) => <span key={`${item.date}-status`} className="border border-black/10 bg-[var(--color-bone)] px-2 py-1 text-[0.62rem] uppercase tracking-[0.08em] text-[var(--color-stone)]">{item.date} · {item.sourceStatus.replace("-", " ")}</span>)}</div>
+      <div className="mt-3 flex flex-wrap gap-2">{points.map((item) => <span key={`${item.date}-status`} className="border border-black/10 bg-[var(--color-teal-soft)] px-2 py-1 text-[0.62rem] uppercase tracking-[0.08em] text-[var(--color-stone)]">{item.date} · {item.sourceStatus.replace("-", " ")}</span>)}</div>
       <p className="mt-2 text-[0.7rem] leading-5 text-[var(--color-stone)]">AED per sqft. Demo points remain visibly labelled until a permitted production data source is connected.</p>
     </div>
   );

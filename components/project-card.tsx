@@ -19,10 +19,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
             sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]"
           />
-          <div className="absolute left-4 top-4 bg-[color:rgba(252,251,248,0.9)] px-3 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.15em] text-[var(--color-graphite)] backdrop-blur">
+          <div className="absolute left-4 top-4 bg-[color:rgba(234,240,230,0.94)] px-3 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.15em] text-[var(--color-sage-deep)] backdrop-blur">
             {project.category}
           </div>
-          <div className="absolute bottom-4 right-4 grid size-11 place-items-center rounded-full bg-[var(--color-soft-white)] text-[var(--color-graphite)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1">
+          <div className="absolute bottom-4 right-4 grid size-11 place-items-center rounded-full bg-[var(--color-teal)] text-[var(--color-soft-white)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1">
             <ArrowUpRightIcon className="size-5" />
           </div>
         </div>
