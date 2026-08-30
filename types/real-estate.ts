@@ -1,3 +1,5 @@
+import type { InvestmentProfile } from "@/types/investment";
+
 export type ProjectCategory = "Off-Plan" | "Ready" | "Short-Term" | "Long-Term";
 
 export type UnitAvailability = "available" | "reserved" | "sold" | "unknown";
@@ -152,5 +154,6 @@ export type Project = {
   featured: boolean;
   constructionProgress?: number;
   discovery: ProjectDiscoveryProfile;
+  investment?: InvestmentProfile;
   keyFacts: Array<{ label: string; value: string }>;
 };

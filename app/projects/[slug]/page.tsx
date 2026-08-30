@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
+import { InvestmentSimulator } from "@/components/investment/investment-simulator";
 import { notFound } from "next/navigation";
 import { ProjectCard } from "@/components/project-card";
 import { ConstructionTimeline } from "@/components/real-estate/construction-timeline";
@@ -48,6 +50,8 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
   const project = getProjectBySlug(slug);
   if (!project) notFound();
 
+  const investmentEligible = Boolean(project.investment) && project.priceFromAed !== null;
+
   const developer = getDeveloperBySlug(project.developerSlug);
   const area = getAreaBySlug(project.areaSlug);
   const updates = getConstructionUpdatesForProject(project.slug);
@@ -76,6 +80,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         </div>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link href={`/contact?project=${encodeURIComponent(project.title)}`} className="button button-dark">Enquire about this project</Link>
+          {investmentEligible ? <a href="#investment" className="button border border-black/10 hover:bg-[var(--color-bone)]">Simulate investment</a> : null}
           <a href="#units" className="button border border-black/10 hover:bg-[var(--color-bone)]">View unit selector*</a>
         </div>
       </section>
@@ -113,8 +118,26 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       </ProjectSection>
 
       <ProjectSection id="units" eyebrow="Unit selector" title="Explore the displayed unit inventory.">
-        <UnitSelector units={project.units} />
+        <UnitSelector units={project.units} projectSlug={project.slug} />
       </ProjectSection>
+
+      {investmentEligible && project.investment && project.priceFromAed !== null ? (
+        <ProjectSection id="investment" eyebrow="Investment analysis" title="Model gross yield, net yield, true cost, cash flow and exit scenarios.">
+          <Suspense fallback={<div className="text-sm text-[var(--color-stone)]">Loading investment simulator…</div>}>
+            <InvestmentSimulator
+              projectTitle={project.title}
+              projectSlug={project.slug}
+              profile={project.investment}
+              defaultPurchasePriceAed={project.priceFromAed}
+              defaultUnitSizeSqft={project.investment.defaultUnitSizeSqft ?? project.sizeFromSqft}
+              units={project.units}
+              paymentPlan={project.paymentPlan}
+              projectCategory={project.category}
+              compactHeading
+            />
+          </Suspense>
+        </ProjectSection>
+      ) : null}
 
       <ProjectSection eyebrow="Documents" title="Project materials in one place.">
         <ProjectDocuments documents={project.documents} projectTitle={project.title} />

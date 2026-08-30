@@ -38,6 +38,7 @@ export function SiteFooter() {
                 <FooterLink key={item.slug} href="/insights">{item.category}</FooterLink>
               ))}
               <FooterLink href="/updates">Construction Updates</FooterLink>
+              <FooterLink href="/investment-calculator">Investment Calculator</FooterLink>
               <FooterLink href="/areas">Dubai Areas</FooterLink>
             </FooterList>
           </div>

@@ -4,6 +4,7 @@ import type {
   DeveloperProfile,
   Project,
 } from "@/types/real-estate";
+import type { InvestmentProfile } from "@/types/investment";
 
 // MODULE 2 DEMO DATA ONLY. MODULE 3 adds discovery tags to the same placeholder inventory.
 // All project names, prices, payment plans, units, discovery tags and commercial terms below are placeholders.
@@ -82,6 +83,83 @@ const commonDocuments = [
   { id: "payment-plan", label: "Payment plan", kind: "Payment Plan" as const, availability: "request-only" as const },
 ];
 
+// MODULE 4 DEMO INVESTMENT ASSUMPTIONS ONLY.
+// These values prove the financial engine and MUST be replaced/reviewed against official fees,
+// developer data, comparable rental evidence and client financing terms before public use.
+function createDemoInvestmentProfile(input: {
+  sizeSqft: number;
+  expectedAnnualRentAed: number;
+  expectedOccupancyPct: number;
+  serviceChargePerSqftAed: number;
+  furnishingEstimateAed: number;
+  expectedAppreciationPct: number;
+  expectedRentGrowthPct?: number;
+}): InvestmentProfile {
+  const expectedRentGrowthPct = input.expectedRentGrowthPct ?? 2.5;
+
+  return {
+    status: "demo-placeholder",
+    reviewedAt: "2026-08-30T00:00:00+04:00",
+    defaultUnitSizeSqft: input.sizeSqft,
+    acquisition: {
+      transferRegistrationFeePct: 4,
+      trusteeAdminFeeAed: 4_000,
+      agencyFeePct: 2,
+      furnishingEstimateAed: input.furnishingEstimateAed,
+      otherOneTimeCostsAed: 2_000,
+      handoverAdditionalCostsAed: 0,
+    },
+    operations: {
+      serviceChargePerSqftAed: input.serviceChargePerSqftAed,
+      managementFeePct: 5,
+      maintenanceReservePct: 3,
+      otherAnnualCostsAed: 2_500,
+    },
+    financing: {
+      downPaymentPct: 30,
+      annualInterestRatePct: 4.75,
+      termYears: 25,
+      mortgageRegistrationFeePct: 0.25,
+      mortgageRegistrationAdminFeeAed: 290,
+    },
+    exit: {
+      sellingCostPct: 2,
+      defaultHoldYears: 5,
+    },
+    scenarios: {
+      conservative: {
+        label: "Conservative",
+        annualRentAed: Math.round(input.expectedAnnualRentAed * 0.9),
+        occupancyPct: Math.max(70, input.expectedOccupancyPct - 7),
+        annualAppreciationPct: Math.max(0, input.expectedAppreciationPct - 2),
+        annualRentGrowthPct: Math.max(0, expectedRentGrowthPct - 1.5),
+        annualExpenseGrowthPct: 3,
+      },
+      expected: {
+        label: "Expected",
+        annualRentAed: input.expectedAnnualRentAed,
+        occupancyPct: input.expectedOccupancyPct,
+        annualAppreciationPct: input.expectedAppreciationPct,
+        annualRentGrowthPct: expectedRentGrowthPct,
+        annualExpenseGrowthPct: 2,
+      },
+      optimistic: {
+        label: "Optimistic",
+        annualRentAed: Math.round(input.expectedAnnualRentAed * 1.08),
+        occupancyPct: Math.min(98, input.expectedOccupancyPct + 3),
+        annualAppreciationPct: input.expectedAppreciationPct + 2,
+        annualRentGrowthPct: expectedRentGrowthPct + 1,
+        annualExpenseGrowthPct: 2,
+      },
+    },
+    notes: [
+      "All Module 4 figures are illustrative demo assumptions, not live market quotations or guaranteed returns.",
+      "Transfer, registration, agency, trustee, mortgage and other charges must be verified for the specific transaction before publication or client reliance.",
+      "Rental income, occupancy, capital appreciation, service charges and exit values are assumptions and can move materially in either direction.",
+    ],
+  };
+}
+
 export const projects: Project[] = [
   {
     slug: "coastal-residences",
@@ -138,6 +216,15 @@ export const projects: Project[] = [
       lifestyleTags: ["Waterfront", "Walkable"],
       keywords: ["creek", "new launch", "waterfront", "off-plan", "apartment"],
     },
+    investment: createDemoInvestmentProfile({
+      sizeSqft: 782,
+      expectedAnnualRentAed: 150_000,
+      expectedOccupancyPct: 92,
+      serviceChargePerSqftAed: 18,
+      furnishingEstimateAed: 80_000,
+      expectedAppreciationPct: 4,
+      expectedRentGrowthPct: 2.5,
+    }),
     keyFacts: [
       { label: "Starting price", value: "AED 2.10M" },
       { label: "Payment plan", value: "20 / 50 / 30" },
@@ -190,6 +277,15 @@ export const projects: Project[] = [
       lifestyleTags: ["City centre", "Walkable"],
       keywords: ["downtown", "ready", "city", "apartment", "penthouse"],
     },
+    investment: createDemoInvestmentProfile({
+      sizeSqft: 1_220,
+      expectedAnnualRentAed: 225_000,
+      expectedOccupancyPct: 93,
+      serviceChargePerSqftAed: 25,
+      furnishingEstimateAed: 120_000,
+      expectedAppreciationPct: 4.5,
+      expectedRentGrowthPct: 2.5,
+    }),
     keyFacts: [
       { label: "Starting price", value: "AED 3.40M" },
       { label: "Status", value: "Ready" },
@@ -298,6 +394,15 @@ export const projects: Project[] = [
       lifestyleTags: ["Family", "Golf", "Quiet"],
       keywords: ["villa", "golf", "family", "off-plan", "dubai hills"],
     },
+    investment: createDemoInvestmentProfile({
+      sizeSqft: 3_780,
+      expectedAnnualRentAed: 360_000,
+      expectedOccupancyPct: 91,
+      serviceChargePerSqftAed: 6,
+      furnishingEstimateAed: 250_000,
+      expectedAppreciationPct: 4,
+      expectedRentGrowthPct: 2.5,
+    }),
     keyFacts: [
       { label: "Starting price", value: "AED 5.80M" },
       { label: "Payment plan", value: "10 / 50 / 40" },
@@ -396,6 +501,15 @@ export const projects: Project[] = [
       lifestyleTags: ["Waterfront", "Walkable"],
       keywords: ["creek", "ready", "secondary", "apartment", "waterfront"],
     },
+    investment: createDemoInvestmentProfile({
+      sizeSqft: 1_280,
+      expectedAnnualRentAed: 205_000,
+      expectedOccupancyPct: 93,
+      serviceChargePerSqftAed: 20,
+      furnishingEstimateAed: 100_000,
+      expectedAppreciationPct: 4,
+      expectedRentGrowthPct: 2.5,
+    }),
     keyFacts: [
       { label: "Asking price", value: "AED 2.95M" },
       { label: "Bedrooms", value: "2" },

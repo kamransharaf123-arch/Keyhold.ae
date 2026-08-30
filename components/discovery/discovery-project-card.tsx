@@ -75,6 +75,7 @@ export function DiscoveryProjectCard({
             <span className="text-[var(--color-stone)]">Verified {formatDateTimeDubai(project.availabilityLastVerifiedAt)}</span>
           </div>
           <div className="flex flex-wrap gap-2">
+            {project.investment && project.priceFromAed !== null ? <Link href={`/projects/${project.slug}#investment`} className="button min-h-11 border border-black/10 px-4 text-xs">Model investment</Link> : null}
             <button
               type="button"
               onClick={() => onToggleCompare(project.slug)}

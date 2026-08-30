@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/projects/long-term-rentals",
     "/discover",
     "/compare",
+    "/investment-calculator",
     "/updates",
     "/insights",
     "/services",

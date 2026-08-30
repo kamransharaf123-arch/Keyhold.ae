@@ -6,8 +6,25 @@ import { useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
 import { countUnitsByAvailability, getInitialCashRequirement, getPaymentPlanSignature, getProjectViews } from "@/lib/discovery";
+import { calculateInvestment, getScenarioInputs } from "@/lib/investment";
 import { formatAed, formatDateTimeDubai, formatProjectPrice, formatSqftRange } from "@/lib/format";
 import type { AreaProfile, DeveloperProfile, Project } from "@/types/real-estate";
+
+
+function formatPercent(value: number) {
+  return Number.isFinite(value) ? `${value.toFixed(1)}%` : "Not available";
+}
+
+function getExpectedInvestmentResult(project: Project) {
+  if (!project.investment || project.priceFromAed === null) return null;
+  const inputs = getScenarioInputs(
+    project.investment,
+    "expected",
+    project.priceFromAed,
+    project.investment.defaultUnitSizeSqft,
+  );
+  return calculateInvestment({ ...inputs, useMortgage: false });
+}
 
 type ProjectComparisonProps = {
   projects: Project[];
@@ -40,7 +57,7 @@ export function ProjectComparison({ projects, developers, areas }: ProjectCompar
         <div className="border border-black/10 bg-[var(--color-bone)] p-8 sm:p-12">
           <p className="eyebrow">Project comparison</p>
           <h1 className="font-display mt-4 text-5xl tracking-[-0.04em]">Nothing selected yet.</h1>
-          <p className="mt-5 max-w-2xl text-sm leading-7 text-[var(--color-stone)]">Choose up to four properties from the discovery engine. Module 3 compares verified catalogue facts; Module 4 will add the full financial comparison layer.</p>
+          <p className="mt-5 max-w-2xl text-sm leading-7 text-[var(--color-stone)]">Choose up to four properties from the discovery engine. Acquisition projects with investment assumptions also show the Module 4 financial snapshot.</p>
           <Link href="/discover" className="button button-dark mt-7">Open discovery</Link>
         </div>
       </div>
@@ -62,6 +79,12 @@ export function ProjectComparison({ projects, developers, areas }: ProjectCompar
     { label: "Views in current inventory", render: (project) => getProjectViews(project).join(" · ") || "Not provided" },
     { label: "Investment goals", render: (project) => project.discovery.investmentGoals.join(" · ") },
     { label: "Lifestyle", render: (project) => project.discovery.lifestyleTags.join(" · ") },
+    { label: "Gross yield · expected*", render: (project) => { const result = getExpectedInvestmentResult(project); return result ? formatPercent(result.grossYieldPct) : "Not modelled"; } },
+    { label: "Net yield · expected*", render: (project) => { const result = getExpectedInvestmentResult(project); return result ? formatPercent(result.netYieldPct) : "Not modelled"; } },
+    { label: "All-in acquisition · cash*", render: (project) => { const result = getExpectedInvestmentResult(project); return result ? formatAed(result.allInAcquisitionCostAed, { compact: true }) : "Not modelled"; } },
+    { label: "Model horizon*", render: (project) => project.investment ? `${project.investment.exit.defaultHoldYears} years` : "Not modelled" },
+    { label: "Total ROI · expected*", render: (project) => { const result = getExpectedInvestmentResult(project); return result ? formatPercent(result.totalRoiPct) : "Not modelled"; } },
+    { label: "Future value · expected*", render: (project) => { const result = getExpectedInvestmentResult(project); return result ? formatAed(result.futurePropertyValueAed, { compact: true }) : "Not modelled"; } },
     { label: "Availability verified", render: (project) => formatDateTimeDubai(project.availabilityLastVerifiedAt) },
   ];
 
@@ -71,7 +94,7 @@ export function ProjectComparison({ projects, developers, areas }: ProjectCompar
         <div>
           <p className="eyebrow">Project comparison</p>
           <h1 className="font-display mt-3 text-5xl tracking-[-0.04em]">Compare the facts side by side.</h1>
-          <p className="mt-4 max-w-2xl text-sm leading-7 text-[var(--color-stone)]">This Module 3 comparison deliberately avoids ROI claims. Financial scenarios, net yield, true costs and exit analysis arrive in the Investment Engine.</p>
+          <p className="mt-4 max-w-2xl text-sm leading-7 text-[var(--color-stone)]">Compare catalogue facts plus a clearly labelled Module 4 expected-scenario snapshot for acquisition projects. Open any project to edit assumptions and run the full model.</p>
         </div>
         <Link href="/discover" className="button border border-black/10">Add or change projects</Link>
       </div>
@@ -99,7 +122,7 @@ export function ProjectComparison({ projects, developers, areas }: ProjectCompar
       </div>
 
       <div className="mt-5 grid gap-3 text-[0.7rem] leading-5 text-[var(--color-stone)] md:grid-cols-2">
-        <p>*Initial cash is a discovery estimate based on the displayed starting price and first payment milestone. It is not a full acquisition-cost calculation.</p>
+        <p>*Initial cash is a discovery estimate based on the displayed starting price and first payment milestone. Financial rows marked * use the project’s Module 4 expected demo assumptions and a cash-purchase model at the displayed starting price. They are estimates, not guaranteed returns or live quotations.</p>
         <p>Unit availability is subject to current developer/seller availability and confirmation and may change without prior notice.</p>
       </div>
     </div>

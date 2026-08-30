@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { ProjectUnit, UnitAvailability } from "@/types/real-estate";
 import { formatAed, formatDateTimeDubai } from "@/lib/format";
@@ -11,7 +12,7 @@ const availabilityCopy: Record<UnitAvailability, string> = {
   unknown: "Confirm availability*",
 };
 
-export function UnitSelector({ units }: { units: ProjectUnit[] }) {
+export function UnitSelector({ units, projectSlug }: { units: ProjectUnit[]; projectSlug?: string }) {
   const bedrooms = useMemo(() => [...new Set(units.map((unit) => unit.bedrooms))].sort((a, b) => a - b), [units]);
   const [bedroomFilter, setBedroomFilter] = useState<number | "all">("all");
 
@@ -45,6 +46,7 @@ export function UnitSelector({ units }: { units: ProjectUnit[] }) {
               <th className="px-4 py-4">View</th>
               <th className="px-4 py-4">Price / rate</th>
               <th className="px-4 py-4">Status</th>
+              {projectSlug ? <th className="px-4 py-4">Analysis</th> : null}
             </tr>
           </thead>
           <tbody>
@@ -60,6 +62,20 @@ export function UnitSelector({ units }: { units: ProjectUnit[] }) {
                   <span className="block font-medium">{availabilityCopy[unit.availability]}</span>
                   <span className="mt-1 block text-[0.68rem] text-[var(--color-stone)]">Checked {formatDateTimeDubai(unit.lastVerifiedAt)}</span>
                 </td>
+                {projectSlug ? (
+                  <td className="px-4 py-4">
+                    {unit.priceAed !== null ? (
+                      <Link
+                        href={`/projects/${projectSlug}?investmentUnit=${encodeURIComponent(unit.id)}#investment`}
+                        className="text-link whitespace-nowrap"
+                      >
+                        Simulate unit
+                      </Link>
+                    ) : (
+                      <span className="text-xs text-[var(--color-stone)]">Price required</span>
+                    )}
+                  </td>
+                ) : null}
               </tr>
             ))}
           </tbody>
