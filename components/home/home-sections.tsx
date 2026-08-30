@@ -58,7 +58,7 @@ export function HomeSection({ section, locale }: { section: WebsiteSection; loca
         <section className="site-container py-20 lg:py-28">
           <SectionHeading eyebrow={section.eyebrow} title={section.title || ""} description={section.body} href={linkLabel ? localizedHref("/projects", locale) : undefined} linkLabel={linkLabel} />
           <div className="grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
-            {projects.map((project) => <ProjectCard key={project.slug} project={project} />)}
+            {projects.map((project) => <ProjectCard key={project.slug} project={project} locale={locale} />)}
           </div>
         </section>
       );
@@ -96,7 +96,7 @@ export function HomeSection({ section, locale }: { section: WebsiteSection; loca
       return (
         <section className="site-container py-20 lg:py-28">
           <SectionHeading eyebrow={section.eyebrow} title={section.title || ""} description={section.body} href={linkLabel ? localizedHref("/updates", locale) : undefined} linkLabel={linkLabel} />
-          <div>{updates.map((update) => <UpdateCard key={update.slug} update={update} />)}</div>
+          <div>{updates.map((update) => <UpdateCard key={update.slug} update={update} locale={locale} />)}</div>
         </section>
       );
     }

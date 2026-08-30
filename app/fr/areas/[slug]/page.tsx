@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { areas } from "@/data/catalog";
 import { areasForLocale } from "@/data/localized-catalog";
-import { AreaDetailContent } from "@/app/areas/[slug]/page";
+import { AreaDetailContent } from "@/app/(en)/areas/[slug]/page";
 import { websitePageMetadata } from "@/lib/cms/website-metadata";
 
 export function generateStaticParams() {

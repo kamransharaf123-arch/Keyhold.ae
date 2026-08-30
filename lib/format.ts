@@ -16,28 +16,32 @@ export function formatAed(value: number, options?: { compact?: boolean }) {
   }).format(value);
 }
 
-export function formatProjectPrice(input: {
-  priceFromAed: number | null;
-  rentalPriceFromAed?: number | null;
-  rentalPeriod?: "night" | "year";
-}) {
+export function formatProjectPrice(
+  input: {
+    priceFromAed: number | null;
+    rentalPriceFromAed?: number | null;
+    rentalPeriod?: "night" | "year";
+  },
+  locale: "en" | "fr" = "en",
+) {
+  const from = locale === "fr" ? "À partir de" : "From";
   if (input.priceFromAed !== null) {
-    return `From ${formatAed(input.priceFromAed, { compact: true })}`;
+    return `${from} ${formatAed(input.priceFromAed, { compact: true })}`;
   }
 
   if (input.rentalPriceFromAed) {
-    const suffix = input.rentalPeriod === "night" ? " / night" : " / year";
-    return `From ${formatAed(input.rentalPriceFromAed, { compact: true })}${suffix}`;
+    const suffix = locale === "fr" ? (input.rentalPeriod === "night" ? " / nuit" : " / an") : input.rentalPeriod === "night" ? " / night" : " / year";
+    return `${from} ${formatAed(input.rentalPriceFromAed, { compact: true })}${suffix}`;
   }
 
-  return "Price on request";
+  return locale === "fr" ? "Prix sur demande" : "Price on request";
 }
 
-export function formatDateTimeDubai(iso: string) {
+export function formatDateTimeDubai(iso: string, locale: "en" | "fr" = "en") {
   const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return "Verification date unavailable";
+  if (Number.isNaN(date.getTime())) return locale === "fr" ? "Date de vérification indisponible" : "Verification date unavailable";
 
-  return new Intl.DateTimeFormat("en-GB", {
+  return new Intl.DateTimeFormat(locale === "fr" ? "fr-FR" : "en-GB", {
     day: "2-digit",
     month: "short",
     year: "numeric",
@@ -45,11 +49,13 @@ export function formatDateTimeDubai(iso: string) {
   }).format(date);
 }
 
-export function formatSqftRange(from: number | null, to: number | null) {
-  if (from === null) return "Size on request";
+export function formatSqftRange(from: number | null, to: number | null, locale: "en" | "fr" = "en") {
+  const sizeOnRequest = locale === "fr" ? "Surface sur demande" : "Size on request";
+  const sqft = locale === "fr" ? "pi²" : "sqft";
+  if (from === null) return sizeOnRequest;
   const formatter = new Intl.NumberFormat("en-US");
-  if (to && to !== from) return `${formatter.format(from)}–${formatter.format(to)} sqft`;
-  return `${formatter.format(from)} sqft`;
+  if (to && to !== from) return `${formatter.format(from)}–${formatter.format(to)} ${sqft}`;
+  return `${formatter.format(from)} ${sqft}`;
 }
 
 export function clampPercentage(value: number) {

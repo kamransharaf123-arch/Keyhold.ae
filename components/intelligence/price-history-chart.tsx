@@ -1,8 +1,26 @@
+import { translateStatusLabel } from "@/lib/i18n/intelligence-labels";
 import type { PriceHistoryPoint } from "@/types/intelligence";
+import type { KeyHoldLocale } from "@/types/localization";
 
-export function PriceHistoryChart({ points }: { points: PriceHistoryPoint[] }) {
+const COPY = {
+  en: {
+    notEnough: "Not enough price-history evidence to draw a trend.",
+    ariaLabel: "Illustrative price per square foot history",
+    footnote: "AED per sqft. Demo points remain visibly labelled until a permitted production data source is connected.",
+  },
+  fr: {
+    notEnough: "Pas assez d'historique de prix pour tracer une tendance.",
+    ariaLabel: "Historique illustratif du prix au pied carré",
+    footnote: "AED par pi². Les points de démonstration restent visiblement identifiés tant qu'une source de données de production autorisée n'est pas connectée.",
+  },
+} as const;
+
+const DATE_LOCALES: Record<KeyHoldLocale, string> = { en: "en-GB", fr: "fr-FR" };
+
+export function PriceHistoryChart({ points, locale = "en" }: { points: PriceHistoryPoint[]; locale?: KeyHoldLocale }) {
+  const copy = COPY[locale];
   if (points.length < 2) {
-    return <p className="text-sm text-[var(--color-stone)]">Not enough price-history evidence to draw a trend.</p>;
+    return <p className="text-sm text-[var(--color-stone)]">{copy.notEnough}</p>;
   }
 
   const width = 620;
@@ -22,19 +40,19 @@ export function PriceHistoryChart({ points }: { points: PriceHistoryPoint[] }) {
 
   return (
     <div>
-      <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Illustrative price per square foot history" className="w-full">
+      <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label={copy.ariaLabel} className="w-full">
         <line x1={padX} y1={height - padY} x2={width - padX} y2={height - padY} stroke="rgba(23,23,23,0.14)" />
         <polyline points={polyline} fill="none" stroke="var(--color-teal)" strokeWidth="2.5" />
         {coords.map(({ x, y, item }) => (
           <g key={item.date}>
             <circle cx={x} cy={y} r="4.5" fill="var(--color-sage)" />
             <text x={x} y={Math.max(14, y - 12)} textAnchor="middle" fontSize="11" fill="var(--color-graphite)">{Math.round(item.pricePerSqftAed).toLocaleString("en-US")}</text>
-            <text x={x} y={height - 8} textAnchor="middle" fontSize="10" fill="var(--color-stone)">{new Intl.DateTimeFormat("en-GB", { month: "short", year: "2-digit", timeZone: "UTC" }).format(new Date(`${item.date}T00:00:00Z`))}</text>
+            <text x={x} y={height - 8} textAnchor="middle" fontSize="10" fill="var(--color-stone)">{new Intl.DateTimeFormat(DATE_LOCALES[locale], { month: "short", year: "2-digit", timeZone: "UTC" }).format(new Date(`${item.date}T00:00:00Z`))}</text>
           </g>
         ))}
       </svg>
-      <div className="mt-3 flex flex-wrap gap-2">{points.map((item) => <span key={`${item.date}-status`} className="border border-black/10 bg-[var(--color-teal-soft)] px-2 py-1 text-[0.62rem] uppercase tracking-[0.08em] text-[var(--color-stone)]">{item.date} · {item.sourceStatus.replace("-", " ")}</span>)}</div>
-      <p className="mt-2 text-[0.7rem] leading-5 text-[var(--color-stone)]">AED per sqft. Demo points remain visibly labelled until a permitted production data source is connected.</p>
+      <div className="mt-3 flex flex-wrap gap-2">{points.map((item) => <span key={`${item.date}-status`} className="border border-black/10 bg-[var(--color-teal-soft)] px-2 py-1 text-[0.62rem] uppercase tracking-[0.08em] text-[var(--color-stone)]">{item.date} · {translateStatusLabel(item.sourceStatus, locale)}</span>)}</div>
+      <p className="mt-2 text-[0.7rem] leading-5 text-[var(--color-stone)]">{copy.footnote}</p>
     </div>
   );
 }

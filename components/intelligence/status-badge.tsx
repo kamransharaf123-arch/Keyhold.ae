@@ -1,11 +1,12 @@
-import { getStatusLabel } from "@/lib/intelligence";
+import { translateStatusLabel } from "@/lib/i18n/intelligence-labels";
 import type { IntelligenceDataStatus, SourceStatus } from "@/types/intelligence";
+import type { KeyHoldLocale } from "@/types/localization";
 
-export function StatusBadge({ status }: { status: IntelligenceDataStatus | SourceStatus }) {
+export function StatusBadge({ status, locale = "en" }: { status: IntelligenceDataStatus | SourceStatus; locale?: KeyHoldLocale }) {
   const tone = getTone(status);
   return (
     <span className={`inline-flex min-h-7 items-center border px-2.5 text-[0.62rem] font-semibold uppercase tracking-[0.12em] ${tone}`}>
-      {getStatusLabel(status)}
+      {translateStatusLabel(status, locale)}
     </span>
   );
 }

@@ -37,7 +37,7 @@ export function ProjectCategoryPage({
         </div>
         {items.length > 0 ? (
           <div className="grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
-            {items.map((project) => <ProjectCard key={project.slug} project={project} />)}
+            {items.map((project) => <ProjectCard key={project.slug} project={project} locale={locale} />)}
           </div>
         ) : (
           <div className="border border-black/10 bg-[var(--color-bone)] p-8 text-sm leading-7 text-[var(--color-stone)]">

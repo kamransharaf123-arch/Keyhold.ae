@@ -48,7 +48,7 @@ export function ProjectsContent({ locale = "en" as KeyHoldLocale }: { locale?: K
           ))}
         </div>
         <div className="grid gap-x-6 gap-y-12 py-12 md:grid-cols-2 xl:grid-cols-3">
-          {projectCatalog.map((project) => <ProjectCard key={project.slug} project={project} />)}
+          {projectCatalog.map((project) => <ProjectCard key={project.slug} project={project} locale={locale} />)}
         </div>
       </section>
     </>

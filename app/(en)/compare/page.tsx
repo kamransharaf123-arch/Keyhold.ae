@@ -14,7 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export function CompareContent({ locale = "en" as KeyHoldLocale }: { locale?: KeyHoldLocale }) {
   return (
     <Suspense fallback={<div className="site-container py-16 text-sm text-[var(--color-stone)]">{COPY[locale]}</div>}>
-      <ProjectComparison projects={projectsForLocale(locale)} developers={developersForLocale(locale)} areas={areasForLocale(locale)} />
+      <ProjectComparison projects={projectsForLocale(locale)} developers={developersForLocale(locale)} areas={areasForLocale(locale)} locale={locale} />
     </Suspense>
   );
 }

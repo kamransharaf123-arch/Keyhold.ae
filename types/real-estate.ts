@@ -34,6 +34,7 @@ export type ProjectImage = {
 };
 
 export type PaymentMilestone = {
+  id?: string;
   label: string;
   percentage: number;
   timing: string;

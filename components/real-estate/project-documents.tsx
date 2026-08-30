@@ -1,15 +1,23 @@
 import Link from "next/link";
 import type { ProjectDocument } from "@/types/real-estate";
+import { localizedHref } from "@/lib/i18n/locale";
+import type { KeyHoldLocale } from "@/types/localization";
 
-function statusLabel(status: ProjectDocument["availability"]) {
-  if (status === "available") return "Open document";
-  if (status === "request-only") return "Request document";
-  return "Coming soon";
-}
+const STATUS_LABEL: Record<KeyHoldLocale, Record<ProjectDocument["availability"], string>> = {
+  en: { available: "Open document", "request-only": "Request document", "coming-soon": "Coming soon" },
+  fr: { available: "Ouvrir le document", "request-only": "Demander le document", "coming-soon": "Bientôt disponible" },
+};
 
-export function ProjectDocuments({ documents, projectTitle }: { documents: ProjectDocument[]; projectTitle: string }) {
+const COPY = {
+  en: { empty: "No verified project documents are currently displayed." },
+  fr: { empty: "Aucun document de projet vérifié n’est actuellement affiché." },
+} as const;
+
+export function ProjectDocuments({ documents, projectTitle, locale = "en" }: { documents: ProjectDocument[]; projectTitle: string; locale?: KeyHoldLocale }) {
+  const copy = COPY[locale];
+  const statusLabel = STATUS_LABEL[locale];
   if (documents.length === 0) {
-    return <p className="text-sm text-[var(--color-stone)]">No verified project documents are currently displayed.</p>;
+    return <p className="text-sm text-[var(--color-stone)]">{copy.empty}</p>;
   }
 
   return (
@@ -23,11 +31,11 @@ export function ProjectDocuments({ documents, projectTitle }: { documents: Proje
               <h3 className="mt-3 text-lg font-medium">{document.label}</h3>
             </div>
             {canOpen ? (
-              <a className="text-link mt-5" href={document.href} target="_blank" rel="noreferrer">{statusLabel(document.availability)}</a>
+              <a className="text-link mt-5" href={document.href} target="_blank" rel="noreferrer">{statusLabel[document.availability]}</a>
             ) : document.availability === "request-only" ? (
-              <Link className="text-link mt-5" href={`/contact?project=${encodeURIComponent(projectTitle)}&document=${encodeURIComponent(document.label)}`}>{statusLabel(document.availability)}</Link>
+              <Link className="text-link mt-5" href={`${localizedHref("/contact", locale)}?project=${encodeURIComponent(projectTitle)}&document=${encodeURIComponent(document.label)}`}>{statusLabel[document.availability]}</Link>
             ) : (
-              <span className="mt-5 text-xs text-[var(--color-stone)]">{statusLabel(document.availability)}</span>
+              <span className="mt-5 text-xs text-[var(--color-stone)]">{statusLabel[document.availability]}</span>
             )}
           </div>
         );

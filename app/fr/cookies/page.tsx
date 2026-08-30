@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { CookiesContent } from "@/app/cookies/page";
+import { CookiesContent } from "@/app/(en)/cookies/page";
 import { websitePageMetadata } from "@/lib/cms/website-metadata";
 
 export async function generateMetadata(): Promise<Metadata> {

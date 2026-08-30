@@ -21,13 +21,13 @@ function tr<T extends Record<string, unknown>>(item: T, entityType: TranslationE
   return mergeTranslation(item, websiteContent.translations, entityType, entityKey, locale);
 }
 
-function toProjectPreview(project: ReturnType<typeof projectsForLocale>[number]): ProjectPreview {
+function toProjectPreview(project: ReturnType<typeof projectsForLocale>[number], locale: KeyHoldLocale): ProjectPreview {
   return {
     slug: project.slug,
     title: project.title,
     location: project.location,
     category: project.category,
-    price: formatProjectPrice(project),
+    price: formatProjectPrice(project, locale),
     meta: `${project.bedroomsLabel} · ${project.propertyTypes.join(" / ")}`,
     image: project.heroImage,
   };
@@ -35,12 +35,12 @@ function toProjectPreview(project: ReturnType<typeof projectsForLocale>[number])
 
 export function localizedProjectCatalog(locale: KeyHoldLocale): ProjectPreview[] {
   if (locale === "en") return enProjectCatalog;
-  return projectsForLocale(locale).map(toProjectPreview);
+  return projectsForLocale(locale).map((project) => toProjectPreview(project, locale));
 }
 
 export function localizedFeaturedProjects(locale: KeyHoldLocale): ProjectPreview[] {
   if (locale === "en") return enFeaturedProjects;
-  return projectsForLocale(locale).filter((project) => project.featured).map(toProjectPreview);
+  return projectsForLocale(locale).filter((project) => project.featured).map((project) => toProjectPreview(project, locale));
 }
 
 export function localizedUpdates(locale: KeyHoldLocale): UpdatePreview[] {
@@ -63,7 +63,10 @@ export function localizedInsights(locale: KeyHoldLocale): InsightPreview[] {
 
 export function localizedServices(locale: KeyHoldLocale) {
   if (locale === "en") return enServices;
-  return enServices.map((item) => tr(item as unknown as Record<string, unknown>, "service", item.title, locale) as unknown as (typeof enServices)[number]);
+  return enServices.map((item) => {
+    const entityKey = String((item as { slug?: string; title?: string }).slug || item.title || "");
+    return tr(item as unknown as Record<string, unknown>, "service", entityKey, locale) as unknown as (typeof enServices)[number];
+  });
 }
 
 export function localizedAreaNames(locale: KeyHoldLocale): string[] {

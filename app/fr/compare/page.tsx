@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { CompareContent } from "@/app/compare/page";
+import { CompareContent } from "@/app/(en)/compare/page";
 import { websitePageMetadata } from "@/lib/cms/website-metadata";
 
 export async function generateMetadata(): Promise<Metadata> {

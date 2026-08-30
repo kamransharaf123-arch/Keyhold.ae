@@ -10,8 +10,8 @@ const required = [
   "components/intelligence/risk-radar.tsx",
   "components/intelligence/price-history-chart.tsx",
   "components/intelligence/status-badge.tsx",
-  "app/intelligence/page.tsx",
-  "app/intelligence-methodology/page.tsx",
+  "app/(en)/intelligence/page.tsx",
+  "app/(en)/intelligence-methodology/page.tsx",
 ];
 
 for (const file of required) {
@@ -21,7 +21,7 @@ for (const file of required) {
 const data = fs.readFileSync(path.join(root, "data/intelligence.ts"), "utf8");
 const lib = fs.readFileSync(path.join(root, "lib/intelligence.ts"), "utf8");
 const component = fs.readFileSync(path.join(root, "components/intelligence/keyhold-intelligence.tsx"), "utf8");
-const methodology = fs.readFileSync(path.join(root, "app/intelligence-methodology/page.tsx"), "utf8");
+const methodology = fs.readFileSync(path.join(root, "app/(en)/intelligence-methodology/page.tsx"), "utf8");
 
 const expectedSlugs = ["coastal-residences", "downtown-collection", "desert-golf-villas", "creekside-ready-home"];
 for (const slug of expectedSlugs) {

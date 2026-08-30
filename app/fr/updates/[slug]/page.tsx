@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { constructionUpdates } from "@/data/catalog";
 import { constructionUpdatesForLocale } from "@/data/localized-catalog";
-import { ConstructionUpdateDetailContent } from "@/app/updates/[slug]/page";
+import { ConstructionUpdateDetailContent } from "@/app/(en)/updates/[slug]/page";
 import { websitePageMetadata } from "@/lib/cms/website-metadata";
 
 export function generateStaticParams() {

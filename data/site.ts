@@ -152,26 +152,32 @@ export const insights: InsightPreview[] = cmsSnapshotEnabled ? cmsInsights : fal
 
 const fallbackServices = [
   {
+    slug: "property-acquisition",
     title: "Property Acquisition",
     text: "Curated off-plan and ready opportunities aligned with a buyer’s objectives, time horizon and liquidity profile.",
   },
   {
+    slug: "property-sales",
     title: "Property Sales",
     text: "Positioning, pricing and buyer outreach for owners looking to sell in Dubai’s primary and secondary markets.",
   },
   {
+    slug: "investment-advisory",
     title: "Investment Advisory",
     text: "Decision support around payment plans, yield assumptions, holding costs, liquidity and exit strategy.",
   },
   {
+    slug: "long-term-rental",
     title: "Long-Term Rental",
     text: "Tenant-focused leasing support for owners and residents seeking stable long-term occupancy.",
   },
   {
+    slug: "short-term-rental",
     title: "Short-Term Rental",
     text: "Holiday-home strategy support with an emphasis on positioning, operating assumptions and guest demand.",
   },
   {
+    slug: "property-management",
     title: "Property Management",
     text: "Ongoing support after acquisition, including coordination, reporting and property-care workflows.",
   },

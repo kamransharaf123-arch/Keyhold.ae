@@ -1,14 +1,17 @@
 import Image from "next/image";
 import type { ProjectImage } from "@/types/real-estate";
+import type { KeyHoldLocale } from "@/types/localization";
 
-export function ProjectGallery({ images }: { images: ProjectImage[] }) {
+const COPY = { en: "Project gallery", fr: "Galerie du projet" } as const;
+
+export function ProjectGallery({ images, locale = "en" }: { images: ProjectImage[]; locale?: KeyHoldLocale }) {
   if (images.length === 0) return null;
 
   const [lead, ...rest] = images;
   const secondary = rest.slice(0, 3);
 
   return (
-    <section aria-label="Project gallery" className="site-container pb-14 lg:pb-20">
+    <section aria-label={COPY[locale]} className="site-container pb-14 lg:pb-20">
       <div className="grid gap-2 lg:grid-cols-[1.45fr_0.55fr]">
         <div className="relative aspect-[16/10] overflow-hidden bg-[var(--color-warm-grey)]">
           <Image src={lead.src} alt={lead.alt} fill priority sizes="(max-width: 1024px) 100vw, 70vw" className="object-cover" />

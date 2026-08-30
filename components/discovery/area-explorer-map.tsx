@@ -1,22 +1,30 @@
 "use client";
 
 import type { AreaProfile } from "@/types/real-estate";
+import type { KeyHoldLocale } from "@/types/localization";
+
+const COPY = {
+  en: { eyebrow: "Area explorer", title: "Explore Dubai visually.", note: "Schematic / not to scale. Use for discovery only, not navigation." },
+  fr: { eyebrow: "Explorateur de quartiers", title: "Explorez Dubaï visuellement.", note: "Schématique / non à l’échelle. À utiliser pour la découverte uniquement, pas pour la navigation." },
+} as const;
 
 type AreaExplorerMapProps = {
   areas: AreaProfile[];
   selectedAreaSlugs: string[];
   onToggleArea: (slug: string) => void;
+  locale?: KeyHoldLocale;
 };
 
-export function AreaExplorerMap({ areas, selectedAreaSlugs, onToggleArea }: AreaExplorerMapProps) {
+export function AreaExplorerMap({ areas, selectedAreaSlugs, onToggleArea, locale = "en" }: AreaExplorerMapProps) {
+  const copy = COPY[locale];
   return (
     <div className="border border-[var(--color-teal)]/20 bg-[var(--color-teal-soft)] p-5 sm:p-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="text-[0.67rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-teal-deep)]">Area explorer</p>
-          <h3 className="font-display mt-2 text-2xl tracking-[-0.03em]">Explore Dubai visually.</h3>
+          <p className="text-[0.67rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-teal-deep)]">{copy.eyebrow}</p>
+          <h3 className="font-display mt-2 text-2xl tracking-[-0.03em]">{copy.title}</h3>
         </div>
-        <p className="max-w-xs text-right text-[0.7rem] leading-5 text-[var(--color-stone)]">Schematic / not to scale. Use for discovery only, not navigation.</p>
+        <p className="max-w-xs text-right text-[0.7rem] leading-5 text-[var(--color-stone)]">{copy.note}</p>
       </div>
       <div className="relative mt-6 aspect-[16/9] sm:min-h-64 overflow-hidden border border-black/[0.08] bg-[var(--color-soft-white)]">
         <svg aria-hidden="true" viewBox="0 0 100 100" className="absolute inset-0 h-full w-full">

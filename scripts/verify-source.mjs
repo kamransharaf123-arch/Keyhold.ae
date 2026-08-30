@@ -31,19 +31,19 @@ for (const file of files) {
 }
 
 const requiredRoutes = [
-  "app/page.tsx",
-  "app/projects/page.tsx",
-  "app/projects/off-plan/page.tsx",
-  "app/projects/ready/page.tsx",
-  "app/projects/short-term-rentals/page.tsx",
-  "app/projects/long-term-rentals/page.tsx",
-  "app/discover/page.tsx",
-  "app/compare/page.tsx",
-  "app/investment-calculator/page.tsx",
-  "app/updates/page.tsx",
-  "app/insights/page.tsx",
-  "app/services/page.tsx",
-  "app/who-we-are/page.tsx",
+  "app/(en)/page.tsx",
+  "app/(en)/projects/page.tsx",
+  "app/(en)/projects/off-plan/page.tsx",
+  "app/(en)/projects/ready/page.tsx",
+  "app/(en)/projects/short-term-rentals/page.tsx",
+  "app/(en)/projects/long-term-rentals/page.tsx",
+  "app/(en)/discover/page.tsx",
+  "app/(en)/compare/page.tsx",
+  "app/(en)/investment-calculator/page.tsx",
+  "app/(en)/updates/page.tsx",
+  "app/(en)/insights/page.tsx",
+  "app/(en)/services/page.tsx",
+  "app/(en)/who-we-are/page.tsx",
 ];
 
 for (const route of requiredRoutes) {

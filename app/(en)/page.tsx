@@ -124,7 +124,7 @@ function FallbackHomeSections({ locale }: { locale: KeyHoldLocale }) {
       <section className="site-container py-20 lg:py-28">
         <SectionHeading eyebrow={SECTION_HEADINGS.featured[locale].eyebrow} title={SECTION_HEADINGS.featured[locale].title} description={SECTION_HEADINGS.featured[locale].description} href={localizedHref("/projects", locale)} linkLabel={SECTION_HEADINGS.featured[locale].link} />
         <div className="grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
-          {featuredProjects.map((project) => <ProjectCard key={project.slug} project={project} />)}
+          {featuredProjects.map((project) => <ProjectCard key={project.slug} project={project} locale={locale} />)}
         </div>
       </section>
 
@@ -148,7 +148,7 @@ function FallbackHomeSections({ locale }: { locale: KeyHoldLocale }) {
 
       <section className="site-container py-20 lg:py-28">
         <SectionHeading eyebrow={SECTION_HEADINGS.updates[locale].eyebrow} title={SECTION_HEADINGS.updates[locale].title} description={SECTION_HEADINGS.updates[locale].description} href={localizedHref("/updates", locale)} linkLabel={SECTION_HEADINGS.updates[locale].link} />
-        <div>{updates.slice(0, 3).map((update) => <UpdateCard key={update.slug} update={update} />)}</div>
+        <div>{updates.slice(0, 3).map((update) => <UpdateCard key={update.slug} update={update} locale={locale} />)}</div>
       </section>
 
       <section className="bg-[var(--color-charcoal)] text-[var(--color-bone)]">

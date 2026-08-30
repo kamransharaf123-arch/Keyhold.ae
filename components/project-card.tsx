@@ -2,15 +2,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRightIcon } from "@/components/icons";
 import type { ProjectPreview } from "@/data/site";
+import { localizedHref } from "@/lib/i18n/locale";
+import type { KeyHoldLocale } from "@/types/localization";
 
 type ProjectCardProps = {
   project: ProjectPreview;
+  locale?: KeyHoldLocale;
 };
 
-export function ProjectCard({ project }: ProjectCardProps) {
+const COPY = { en: "Explore", fr: "Découvrir" } as const;
+
+export function ProjectCard({ project, locale = "en" }: ProjectCardProps) {
   return (
     <article className="group">
-      <Link href={`/projects/${project.slug}`} className="block" aria-label={`Explore ${project.title}`}>
+      <Link href={localizedHref(`/projects/${project.slug}`, locale)} className="block" aria-label={`${COPY[locale]} ${project.title}`}>
         <div className="relative aspect-[4/5] overflow-hidden bg-[var(--color-warm-grey)]">
           <Image
             src={project.image}

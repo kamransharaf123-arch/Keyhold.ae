@@ -52,7 +52,7 @@ export function DeveloperDetailContent({ slug, locale = "en" }: { slug: string; 
         <div className="grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
           {projects.map((project) => {
             const preview = previews.get(project.slug);
-            return preview ? <ProjectCard key={project.slug} project={preview} /> : null;
+            return preview ? <ProjectCard key={project.slug} project={preview} locale={locale} /> : null;
           })}
         </div>
       </section>

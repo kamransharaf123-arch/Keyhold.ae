@@ -21,7 +21,7 @@ export function DiscoverContent({ locale = "en" as KeyHoldLocale }: { locale?: K
     <>
       <PageHero eyebrow={copy.eyebrow} title={copy.title} description={copy.description} />
       <Suspense fallback={<div className="site-container py-16 text-sm text-[var(--color-stone)]">{copy.loading}</div>}>
-        <DiscoveryExplorer projects={projectsForLocale(locale)} developers={developersForLocale(locale)} areas={areasForLocale(locale)} />
+        <DiscoveryExplorer projects={projectsForLocale(locale)} developers={developersForLocale(locale)} areas={areasForLocale(locale)} locale={locale} />
       </Suspense>
     </>
   );

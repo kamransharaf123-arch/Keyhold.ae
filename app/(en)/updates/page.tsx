@@ -24,7 +24,7 @@ export function UpdatesContent({ locale = "en" as KeyHoldLocale }: { locale?: Ke
       <PageHero eyebrow={page?.eyebrow || copy.eyebrow} title={page?.heroTitle || copy.title} description={page?.heroSubtitle || copy.description} />
       <section className="site-container py-16 lg:py-24">
         <div className="mb-10 max-w-2xl text-sm leading-7 text-[var(--color-stone)]">{copy.note}</div>
-        {updates.length > 0 ? <div>{updates.map((update) => <UpdateCard key={update.slug} update={update} />)}</div> : <p className="text-sm text-[var(--color-stone)]">{copy.empty}</p>}
+        {updates.length > 0 ? <div>{updates.map((update) => <UpdateCard key={update.slug} update={update} locale={locale} />)}</div> : <p className="text-sm text-[var(--color-stone)]">{copy.empty}</p>}
       </section>
     </>
   );

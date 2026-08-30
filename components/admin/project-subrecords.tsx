@@ -12,6 +12,8 @@ import {
   uploadProjectImageAction,
 } from "@/app/admin/actions";
 import { AdminCard, Field, StatusPill, inputClass, selectClass } from "@/components/admin/admin-ui";
+import { EntityTranslationPanel } from "@/components/admin/entity-translation-panel";
+import { translationFieldProfiles } from "@/lib/i18n/admin-field-profiles";
 import type {
   CmsDocumentRow,
   CmsFloorPlanRow,
@@ -20,6 +22,8 @@ import type {
   CmsProjectRow,
   CmsUnitRow,
 } from "@/types/admin";
+
+type FrenchTranslation = { data: Record<string, unknown>; status: "draft" | "published" } | null;
 
 export function ProjectMediaManager({ project, images }: { project: CmsProjectRow; images: CmsProjectImageRow[] }) {
   return (
@@ -57,7 +61,17 @@ export function ProjectMediaManager({ project, images }: { project: CmsProjectRo
   );
 }
 
-export function PaymentPlanManager({ project, milestones }: { project: CmsProjectRow; milestones: CmsPaymentMilestoneRow[] }) {
+export function PaymentPlanManager({
+  project,
+  milestones,
+  translations = [],
+  returnTo = "/admin/content",
+}: {
+  project: CmsProjectRow;
+  milestones: CmsPaymentMilestoneRow[];
+  translations?: FrenchTranslation[];
+  returnTo?: string;
+}) {
   const total = milestones.reduce((sum, item) => sum + Number(item.percentage), 0);
   return (
     <AdminCard id="payment-plan" eyebrow="Commercial" title="Payment plan">
@@ -66,15 +80,20 @@ export function PaymentPlanManager({ project, milestones }: { project: CmsProjec
         <span className={`text-sm font-semibold ${Math.abs(total - 100) < 0.001 || milestones.length === 0 ? "text-[var(--color-sage-deep)]" : "text-[var(--color-terracotta-deep)]"}`}>Total: {total}%</span>
       </div>
       <div className="grid gap-3">
-        {milestones.map((item) => (
-          <form action={savePaymentMilestoneAction} key={item.id} className="grid gap-3 border border-black/10 p-4 md:grid-cols-[1fr_110px_1fr_90px_auto] md:items-end">
-            <input type="hidden" name="id" value={item.id} /><input type="hidden" name="project_id" value={project.id} />
-            <Field label="Label"><input className={inputClass} name="label" defaultValue={item.label} required /></Field>
-            <Field label="%"><input className={inputClass} type="number" min="0" max="100" step="0.01" name="percentage" defaultValue={item.percentage} required /></Field>
-            <Field label="Timing"><input className={inputClass} name="timing" defaultValue={item.timing} required /></Field>
-            <Field label="Order"><input className={inputClass} type="number" min="0" name="sort_order" defaultValue={item.sort_order} /></Field>
-            <div className="flex gap-2"><button type="submit" className="button border border-black/10">Save</button></div>
-          </form>
+        {milestones.map((item, index) => (
+          <div key={item.id} className="border border-black/10 p-4">
+            <form action={savePaymentMilestoneAction} className="grid gap-3 md:grid-cols-[1fr_110px_1fr_90px_auto] md:items-end">
+              <input type="hidden" name="id" value={item.id} /><input type="hidden" name="project_id" value={project.id} />
+              <Field label="Label"><input className={inputClass} name="label" defaultValue={item.label} required /></Field>
+              <Field label="%"><input className={inputClass} type="number" min="0" max="100" step="0.01" name="percentage" defaultValue={item.percentage} required /></Field>
+              <Field label="Timing"><input className={inputClass} name="timing" defaultValue={item.timing} required /></Field>
+              <Field label="Order"><input className={inputClass} type="number" min="0" name="sort_order" defaultValue={item.sort_order} /></Field>
+              <div className="flex gap-2"><button type="submit" className="button border border-black/10">Save</button></div>
+            </form>
+            <div className="mt-4 border-t border-black/10 pt-4">
+              <EntityTranslationPanel entityType="payment-milestone" entityKey={item.id} current={translations[index]?.data ?? {}} status={translations[index]?.status ?? "draft"} fields={translationFieldProfiles["payment-milestone"] ?? []} returnTo={returnTo} />
+            </div>
+          </div>
         ))}
         {milestones.map((item) => (
           <form action={deletePaymentMilestoneAction} key={`delete-${item.id}`} className="-mt-2 ml-auto">
@@ -95,12 +114,22 @@ export function PaymentPlanManager({ project, milestones }: { project: CmsProjec
   );
 }
 
-export function UnitManager({ project, units }: { project: CmsProjectRow; units: CmsUnitRow[] }) {
+export function UnitManager({
+  project,
+  units,
+  translations = [],
+  returnTo = "/admin/content",
+}: {
+  project: CmsProjectRow;
+  units: CmsUnitRow[];
+  translations?: FrenchTranslation[];
+  returnTo?: string;
+}) {
   return (
     <AdminCard id="units" eyebrow="Inventory" title="Units">
       <p className="mb-5 text-sm leading-7 text-[var(--color-stone)]">Availability remains subject to current developer/seller confirmation and may change without prior notice.</p>
       <div className="grid gap-3">
-        {units.map((unit) => (
+        {units.map((unit, index) => (
           <details key={unit.id} className="border border-black/10 bg-white p-4">
             <summary className="flex cursor-pointer list-none flex-wrap items-center justify-between gap-3">
               <span><strong>{unit.unit_number}</strong><span className="ml-2 text-xs text-[var(--color-stone)]">Floor {unit.floor} · {unit.bedrooms} BR · {unit.size_sqft.toLocaleString("en-US")} sqft · {unit.view_label}</span></span>
@@ -122,6 +151,9 @@ export function UnitManager({ project, units }: { project: CmsProjectRow; units:
               <div className="flex items-end gap-3"><button className="button button-dark" type="submit">Save unit</button></div>
             </form>
             <form action={deleteUnitAction} className="mt-3 text-right"><input type="hidden" name="id" value={unit.id} /><input type="hidden" name="project_id" value={project.id} /><button type="submit" className="text-xs font-semibold text-[var(--color-terracotta-deep)]">Delete unit</button></form>
+            <div className="mt-4 border-t border-black/10 pt-4">
+              <EntityTranslationPanel entityType="unit" entityKey={unit.id} current={translations[index]?.data ?? {}} status={translations[index]?.status ?? "draft"} fields={translationFieldProfiles.unit ?? []} returnTo={returnTo} />
+            </div>
           </details>
         ))}
       </div>
@@ -149,10 +181,20 @@ export function UnitManager({ project, units }: { project: CmsProjectRow; units:
   );
 }
 
-export function FloorPlanManager({ project, plans }: { project: CmsProjectRow; plans: CmsFloorPlanRow[] }) {
+export function FloorPlanManager({
+  project,
+  plans,
+  translations = [],
+  returnTo = "/admin/content",
+}: {
+  project: CmsProjectRow;
+  plans: CmsFloorPlanRow[];
+  translations?: FrenchTranslation[];
+  returnTo?: string;
+}) {
   return (
     <AdminCard id="floor-plans" eyebrow="Layouts" title="Floor plans">
-      <div className="grid gap-3 md:grid-cols-2">{plans.map((plan) => <div key={plan.id} className="flex gap-4 border border-black/10 p-3">{/* eslint-disable-next-line @next/next/no-img-element */}<img src={plan.image_url} alt={plan.label} className="h-24 w-32 shrink-0 object-contain bg-[var(--color-bone)]" /><div className="min-w-0"><p className="font-semibold">{plan.label}</p><p className="mt-1 text-xs text-[var(--color-stone)]">{plan.bedrooms} BR · {plan.size_from_sqft.toLocaleString("en-US")}{plan.size_to_sqft ? `–${plan.size_to_sqft.toLocaleString("en-US")}` : ""} sqft</p><form action={deleteFloorPlanAction} className="mt-3"><input type="hidden" name="id" value={plan.id} /><input type="hidden" name="project_id" value={project.id} /><input type="hidden" name="storage_path" value={plan.storage_path} /><button className="text-xs font-semibold text-[var(--color-terracotta-deep)]">Delete</button></form></div></div>)}</div>
+      <div className="grid gap-3 md:grid-cols-2">{plans.map((plan, index) => <div key={plan.id} className="border border-black/10 p-3"><div className="flex gap-4">{/* eslint-disable-next-line @next/next/no-img-element */}<img src={plan.image_url} alt={plan.label} className="h-24 w-32 shrink-0 object-contain bg-[var(--color-bone)]" /><div className="min-w-0"><p className="font-semibold">{plan.label}</p><p className="mt-1 text-xs text-[var(--color-stone)]">{plan.bedrooms} BR · {plan.size_from_sqft.toLocaleString("en-US")}{plan.size_to_sqft ? `–${plan.size_to_sqft.toLocaleString("en-US")}` : ""} sqft</p><form action={deleteFloorPlanAction} className="mt-3"><input type="hidden" name="id" value={plan.id} /><input type="hidden" name="project_id" value={project.id} /><input type="hidden" name="storage_path" value={plan.storage_path} /><button className="text-xs font-semibold text-[var(--color-terracotta-deep)]">Delete</button></form></div></div><div className="mt-4 border-t border-black/10 pt-4"><EntityTranslationPanel entityType="floor-plan" entityKey={plan.id} current={translations[index]?.data ?? {}} status={translations[index]?.status ?? "draft"} fields={translationFieldProfiles["floor-plan"] ?? []} returnTo={returnTo} /></div></div>)}</div>
       <form action={saveFloorPlanAction} className="mt-6 grid gap-3 border border-dashed border-black/15 bg-[var(--color-bone)] p-4 sm:grid-cols-2 xl:grid-cols-4">
         <input type="hidden" name="project_id" value={project.id} /><input type="hidden" name="project_slug" value={project.slug} />
         <Field label="Image"><input className={inputClass} type="file" accept="image/*" name="file" required /></Field>
@@ -168,10 +210,20 @@ export function FloorPlanManager({ project, plans }: { project: CmsProjectRow; p
   );
 }
 
-export function DocumentManager({ project, documents }: { project: CmsProjectRow; documents: CmsDocumentRow[] }) {
+export function DocumentManager({
+  project,
+  documents,
+  translations = [],
+  returnTo = "/admin/content",
+}: {
+  project: CmsProjectRow;
+  documents: CmsDocumentRow[];
+  translations?: FrenchTranslation[];
+  returnTo?: string;
+}) {
   return (
     <AdminCard id="documents" eyebrow="Documents" title="Project files">
-      <div className="grid gap-2">{documents.map((doc) => <div key={doc.id} className="flex flex-wrap items-center justify-between gap-3 border border-black/10 p-3"><div><p className="text-sm font-semibold">{doc.label}</p><p className="mt-1 text-xs text-[var(--color-stone)]">{doc.kind} · {doc.availability}</p></div><form action={deleteDocumentAction}><input type="hidden" name="id" value={doc.id} /><input type="hidden" name="project_id" value={project.id} /><input type="hidden" name="storage_path" value={doc.storage_path ?? ""} /><input type="hidden" name="bucket" value={doc.bucket} /><button className="text-xs font-semibold text-[var(--color-terracotta-deep)]">Delete</button></form></div>)}</div>
+      <div className="grid gap-2">{documents.map((doc, index) => <div key={doc.id} className="border border-black/10 p-3"><div className="flex flex-wrap items-center justify-between gap-3"><div><p className="text-sm font-semibold">{doc.label}</p><p className="mt-1 text-xs text-[var(--color-stone)]">{doc.kind} · {doc.availability}</p></div><form action={deleteDocumentAction}><input type="hidden" name="id" value={doc.id} /><input type="hidden" name="project_id" value={project.id} /><input type="hidden" name="storage_path" value={doc.storage_path ?? ""} /><input type="hidden" name="bucket" value={doc.bucket} /><button className="text-xs font-semibold text-[var(--color-terracotta-deep)]">Delete</button></form></div><div className="mt-4 border-t border-black/10 pt-4"><EntityTranslationPanel entityType="document" entityKey={doc.id} current={translations[index]?.data ?? {}} status={translations[index]?.status ?? "draft"} fields={translationFieldProfiles.document ?? []} returnTo={returnTo} /></div></div>)}</div>
       <form action={uploadDocumentAction} className="mt-6 grid gap-3 border border-dashed border-black/15 bg-[var(--color-bone)] p-4 md:grid-cols-2 xl:grid-cols-4">
         <input type="hidden" name="project_id" value={project.id} /><input type="hidden" name="project_slug" value={project.slug} />
         <Field label="File"><input className={inputClass} type="file" name="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,image/*" required /></Field>

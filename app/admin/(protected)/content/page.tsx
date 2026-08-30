@@ -60,7 +60,7 @@ export default async function ContentAdminPage({ searchParams }: { searchParams:
   ]);
   const [insightTranslations, serviceTranslations] = await Promise.all([
     Promise.all(insights.map((item) => getFrenchTranslation("insight", item.slug))),
-    Promise.all(services.map((item) => getFrenchTranslation("service", item.title))),
+    Promise.all(services.map((item) => getFrenchTranslation("service", item.slug))),
   ]);
   return (
     <>
@@ -91,7 +91,7 @@ export default async function ContentAdminPage({ searchParams }: { searchParams:
                 <div className="mt-5 border-t border-black/10 pt-5">
                   <ServiceForm item={item} />
                   <div className="mt-6 border-t border-black/10 pt-6">
-                    <EntityTranslationPanel entityType="service" entityKey={item.title} current={serviceTranslations[index]?.data ?? {}} status={serviceTranslations[index]?.status ?? "draft"} fields={translationFieldProfiles.service ?? []} returnTo="/admin/content" />
+                    <EntityTranslationPanel entityType="service" entityKey={item.slug} current={serviceTranslations[index]?.data ?? {}} status={serviceTranslations[index]?.status ?? "draft"} fields={translationFieldProfiles.service ?? []} returnTo="/admin/content" />
                   </div>
                 </div>
               </details>

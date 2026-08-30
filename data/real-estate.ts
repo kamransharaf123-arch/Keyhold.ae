@@ -190,9 +190,9 @@ export const projects: Project[] = [
     completionStatus: "under-construction",
     amenities: ["Swimming pool", "Residents' lounge", "Fitness studio", "Landscaped deck", "Children's play area", "Concierge lobby"],
     paymentPlan: [
-      { label: "Booking", percentage: 20, timing: "On reservation" },
-      { label: "Construction", percentage: 50, timing: "During construction", note: "Milestones to be confirmed against the developer schedule." },
-      { label: "Handover", percentage: 30, timing: "At handover" },
+      { id: "coastal-booking", label: "Booking", percentage: 20, timing: "On reservation" },
+      { id: "coastal-construction", label: "Construction", percentage: 50, timing: "During construction", note: "Milestones to be confirmed against the developer schedule." },
+      { id: "coastal-handover", label: "Handover", percentage: 30, timing: "At handover" },
     ],
     floorPlans: [
       { id: "coastal-1br", label: "1 Bedroom", bedrooms: 1, propertyType: "Apartment", sizeFromSqft: 720, sizeToSqft: 890, image: "/images/floor-plan-demo.svg" },
@@ -258,7 +258,7 @@ export const projects: Project[] = [
     handoverLabel: "Ready",
     completionStatus: "ready",
     amenities: ["Residents' pool", "Gym", "Lobby concierge", "Valet area", "Residents' lounge"],
-    paymentPlan: [{ label: "Purchase", percentage: 100, timing: "As agreed in the sale transaction" }],
+    paymentPlan: [{ id: "downtown-purchase", label: "Purchase", percentage: 100, timing: "As agreed in the sale transaction" }],
     floorPlans: [
       { id: "downtown-2br", label: "2 Bedroom", bedrooms: 2, propertyType: "Apartment", sizeFromSqft: 1_220, sizeToSqft: 1_540, image: "/images/floor-plan-demo.svg" },
       { id: "downtown-3br", label: "3 Bedroom", bedrooms: 3, propertyType: "Apartment", sizeFromSqft: 1_760, sizeToSqft: 2_420, image: "/images/floor-plan-demo.svg" },
@@ -371,9 +371,9 @@ export const projects: Project[] = [
     completionStatus: "under-construction",
     amenities: ["Golf access", "Community pool", "Clubhouse", "Landscaped parks", "Children's play areas"],
     paymentPlan: [
-      { label: "Booking", percentage: 10, timing: "On reservation" },
-      { label: "Construction", percentage: 50, timing: "During construction", note: "Exact milestone dates require developer confirmation." },
-      { label: "Handover", percentage: 40, timing: "At handover" },
+      { id: "dgv-booking", label: "Booking", percentage: 10, timing: "On reservation" },
+      { id: "dgv-construction", label: "Construction", percentage: 50, timing: "During construction", note: "Exact milestone dates require developer confirmation." },
+      { id: "dgv-handover", label: "Handover", percentage: 40, timing: "At handover" },
     ],
     floorPlans: [
       { id: "dgv-4br", label: "4 Bedroom Villa", bedrooms: 4, propertyType: "Villa", sizeFromSqft: 3_780, sizeToSqft: 4_620, image: "/images/floor-plan-demo.svg" },
@@ -484,7 +484,7 @@ export const projects: Project[] = [
     handoverLabel: "Ready",
     completionStatus: "ready",
     amenities: ["Pool", "Gym", "Residents' lounge"],
-    paymentPlan: [{ label: "Purchase", percentage: 100, timing: "As agreed in the sale transaction" }],
+    paymentPlan: [{ id: "creekside-purchase", label: "Purchase", percentage: 100, timing: "As agreed in the sale transaction" }],
     floorPlans: [
       { id: "creekside-2br", label: "2 Bedroom", bedrooms: 2, propertyType: "Apartment", sizeFromSqft: 1_280, image: "/images/floor-plan-demo.svg" },
     ],

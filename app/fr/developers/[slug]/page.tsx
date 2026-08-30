@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { developers } from "@/data/catalog";
 import { developersForLocale } from "@/data/localized-catalog";
-import { DeveloperDetailContent } from "@/app/developers/[slug]/page";
+import { DeveloperDetailContent } from "@/app/(en)/developers/[slug]/page";
 import { websitePageMetadata } from "@/lib/cms/website-metadata";
 
 export function generateStaticParams() {

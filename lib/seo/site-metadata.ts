@@ -1,12 +1,7 @@
-import type { ReactNode } from "react";
 import type { Metadata, Viewport } from "next";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
 import { siteConfig } from "@/data/site";
-import { websiteThemeStyle } from "@/lib/cms/website-theme";
-import "./globals.css";
 
-export const metadata: Metadata = {
+export const baseMetadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
     default: "KeyHold | Dubai Real Estate",
@@ -32,21 +27,9 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = {
+export const baseViewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: "#F7F4EE",
   colorScheme: "light",
 };
-
-export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
-  return (
-    <html lang="en" style={websiteThemeStyle()}>
-      <body>
-        <SiteHeader />
-        <main>{children}</main>
-        <SiteFooter />
-      </body>
-    </html>
-  );
-}

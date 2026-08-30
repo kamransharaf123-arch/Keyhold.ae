@@ -17,7 +17,13 @@ export default async function EditProjectPage({ params, searchParams }: { params
     getAdminProject(id), listDevelopers(), listAreas(), listProjectUnits(id), listPaymentMilestones(id), listProjectImages(id), listFloorPlans(id), listProjectDocuments(id),
   ]);
   if (!project) notFound();
-  const projectTranslation = await getFrenchTranslation("project", project.slug);
+  const [projectTranslation, unitTranslations, milestoneTranslations, planTranslations, documentTranslations] = await Promise.all([
+    getFrenchTranslation("project", project.slug),
+    Promise.all(units.map((item) => getFrenchTranslation("unit", item.id))),
+    Promise.all(milestones.map((item) => getFrenchTranslation("payment-milestone", item.id))),
+    Promise.all(plans.map((item) => getFrenchTranslation("floor-plan", item.id))),
+    Promise.all(documents.map((item) => getFrenchTranslation("document", item.id))),
+  ]);
   return (
     <>
       <AdminPageHeader eyebrow="Project editor" title={project.title} description="Changes are saved to the CMS first. Public pages update only after the published snapshot is rebuilt." actions={<><StatusPill status={project.status} /><Link href={`/admin/preview/projects/${project.id}`} className="button border border-black/10">Preview draft</Link>{project.status === "published" ? <Link href={`/projects/${project.slug}`} className="button border border-black/10">Public page</Link> : null}</>} />
@@ -33,10 +39,10 @@ export default async function EditProjectPage({ params, searchParams }: { params
           </div>
         </AdminCard>
         <ProjectMediaManager project={project} images={images} />
-        <PaymentPlanManager project={project} milestones={milestones} />
-        <UnitManager project={project} units={units} />
-        <FloorPlanManager project={project} plans={plans} />
-        <DocumentManager project={project} documents={documents} />
+        <PaymentPlanManager project={project} milestones={milestones} translations={milestoneTranslations} returnTo={`/admin/projects/${id}`} />
+        <UnitManager project={project} units={units} translations={unitTranslations} returnTo={`/admin/projects/${id}`} />
+        <FloorPlanManager project={project} plans={plans} translations={planTranslations} returnTo={`/admin/projects/${id}`} />
+        <DocumentManager project={project} documents={documents} translations={documentTranslations} returnTo={`/admin/projects/${id}`} />
         <AdminCard eyebrow="Publication" title="Status & lifecycle">
           <div className="flex flex-wrap gap-3">
             {project.status !== "published" ? <form action={setProjectStatusAction}><input type="hidden" name="id" value={project.id} /><input type="hidden" name="status" value="published" /><button className="button button-dark">Publish record</button></form> : <form action={setProjectStatusAction}><input type="hidden" name="id" value={project.id} /><input type="hidden" name="status" value="draft" /><button className="button border border-black/10">Return to draft</button></form>}

@@ -11,8 +11,8 @@ const requiredFiles = [
   "components/discovery/smart-finder.tsx",
   "components/discovery/project-comparison.tsx",
   "components/discovery/quick-discovery.tsx",
-  "app/discover/page.tsx",
-  "app/compare/page.tsx",
+  "app/(en)/discover/page.tsx",
+  "app/(en)/compare/page.tsx",
 ];
 
 for (const file of requiredFiles) {

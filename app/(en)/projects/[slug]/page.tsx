@@ -102,8 +102,8 @@ export function ProjectDetailContent({ slug, locale = "en" }: { slug: string; lo
           </div>
           <div className="lg:text-right">
             <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-stone)]">{copy.guidePrice}</p>
-            <p className="font-display mt-2 text-3xl">{formatProjectPrice(project)}</p>
-            <p className="mt-2 text-xs text-[var(--color-stone)]">{copy.checked} {formatDateTimeDubai(project.availabilityLastVerifiedAt)}</p>
+            <p className="font-display mt-2 text-3xl">{formatProjectPrice(project, locale)}</p>
+            <p className="mt-2 text-xs text-[var(--color-stone)]">{copy.checked} {formatDateTimeDubai(project.availabilityLastVerifiedAt, locale)}</p>
           </div>
         </div>
         <div className="mt-8 flex flex-wrap gap-3">
@@ -113,7 +113,7 @@ export function ProjectDetailContent({ slug, locale = "en" }: { slug: string; lo
         </div>
       </section>
 
-      <ProjectGallery images={project.images} />
+      <ProjectGallery images={project.images} locale={locale} />
 
       <section className="site-container pb-14 lg:pb-20">
         <ProjectFacts facts={project.keyFacts} />
@@ -125,7 +125,7 @@ export function ProjectDetailContent({ slug, locale = "en" }: { slug: string; lo
           <dl className="grid gap-x-8 gap-y-5 border-t border-black/10 pt-6 sm:grid-cols-2">
             <div><dt className="text-xs uppercase tracking-[0.14em] text-[var(--color-stone)]">{copy.propertyType}</dt><dd className="mt-2 text-sm font-medium">{project.propertyTypes.join(" · ")}</dd></div>
             <div><dt className="text-xs uppercase tracking-[0.14em] text-[var(--color-stone)]">{copy.bedrooms}</dt><dd className="mt-2 text-sm font-medium">{project.bedroomsLabel}</dd></div>
-            <div><dt className="text-xs uppercase tracking-[0.14em] text-[var(--color-stone)]">{copy.size}</dt><dd className="mt-2 text-sm font-medium">{formatSqftRange(project.sizeFromSqft, project.sizeToSqft)}</dd></div>
+            <div><dt className="text-xs uppercase tracking-[0.14em] text-[var(--color-stone)]">{copy.size}</dt><dd className="mt-2 text-sm font-medium">{formatSqftRange(project.sizeFromSqft, project.sizeToSqft, locale)}</dd></div>
             <div><dt className="text-xs uppercase tracking-[0.14em] text-[var(--color-stone)]">{copy.handover}</dt><dd className="mt-2 text-sm font-medium">{project.handoverLabel}</dd></div>
           </dl>
         </div>
@@ -138,11 +138,11 @@ export function ProjectDetailContent({ slug, locale = "en" }: { slug: string; lo
       </ProjectSection>
 
       <ProjectSection eyebrow={copy.paymentEyebrow} title={copy.paymentTitle}>
-        <PaymentPlan milestones={project.paymentPlan} />
+        <PaymentPlan milestones={project.paymentPlan} locale={locale} />
       </ProjectSection>
 
       <ProjectSection eyebrow={copy.floorPlansEyebrow} title={copy.floorPlansTitle}>
-        <FloorPlans plans={project.floorPlans} />
+        <FloorPlans plans={project.floorPlans} locale={locale} />
       </ProjectSection>
 
       <ProjectSection id="units" eyebrow={copy.unitsEyebrow} title={copy.unitsTitle}>
@@ -151,7 +151,7 @@ export function ProjectDetailContent({ slug, locale = "en" }: { slug: string; lo
 
       {investmentEligible && project.investment && project.priceFromAed !== null ? (
         <ProjectSection id="investment" eyebrow={copy.investmentEyebrow} title={copy.investmentTitle}>
-          <Suspense fallback={<div className="text-sm text-[var(--color-stone)]">Loading investment simulator…</div>}>
+          <Suspense fallback={<div className="text-sm text-[var(--color-stone)]">{locale === "fr" ? "Chargement du simulateur d’investissement…" : "Loading investment simulator…"}</div>}>
             <InvestmentSimulator
               projectTitle={project.title}
               projectSlug={project.slug}
@@ -162,6 +162,7 @@ export function ProjectDetailContent({ slug, locale = "en" }: { slug: string; lo
               paymentPlan={project.paymentPlan}
               projectCategory={project.category}
               compactHeading
+              locale={locale}
             />
           </Suspense>
         </ProjectSection>
@@ -172,16 +173,16 @@ export function ProjectDetailContent({ slug, locale = "en" }: { slug: string; lo
       </ProjectSection>
 
       <ProjectSection eyebrow={copy.documentsEyebrow} title={copy.documentsTitle}>
-        <ProjectDocuments documents={project.documents} projectTitle={project.title} />
+        <ProjectDocuments documents={project.documents} projectTitle={project.title} locale={locale} />
       </ProjectSection>
 
       <ProjectSection eyebrow={copy.regulatoryEyebrow} title={copy.regulatoryTitle}>
-        <RegulatoryCard regulatory={project.regulatory} />
+        <RegulatoryCard regulatory={project.regulatory} locale={locale} />
       </ProjectSection>
 
       {updates.length > 0 ? (
         <ProjectSection eyebrow={copy.updatesEyebrow} title={copy.updatesTitle}>
-          <ConstructionTimeline updates={updates} />
+          <ConstructionTimeline updates={updates} locale={locale} />
         </ProjectSection>
       ) : null}
 
@@ -191,7 +192,7 @@ export function ProjectDetailContent({ slug, locale = "en" }: { slug: string; lo
           <div className="mt-7 grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
             {related.map((item) => {
               const preview = previewBySlug.get(item.slug);
-              return preview ? <ProjectCard key={item.slug} project={preview} /> : null;
+              return preview ? <ProjectCard key={item.slug} project={preview} locale={locale} /> : null;
             })}
           </div>
         </section>

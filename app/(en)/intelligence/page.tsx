@@ -5,6 +5,7 @@ import { intelligenceProfilesForLocale, projectsForLocale } from "@/data/localiz
 import { formatDateTimeDubai, formatProjectPrice } from "@/lib/format";
 import { websitePageMetadata } from "@/lib/cms/website-metadata";
 import { localizedHref } from "@/lib/i18n/locale";
+import { translateMarketPositionBand, translateRiskBand } from "@/lib/i18n/intelligence-labels";
 import { getIntelligenceSummary } from "@/lib/intelligence";
 import type { KeyHoldLocale } from "@/types/localization";
 
@@ -49,14 +50,14 @@ export function IntelligenceContent({ locale = "en" as KeyHoldLocale }: { locale
       <div className="mt-12 grid gap-5 md:grid-cols-2">
         {cards.map(({ project, profile, summary }) => summary ? (
           <article key={project.slug} className="border border-black/10 p-6 sm:p-7">
-            <div className="flex flex-wrap items-center justify-between gap-3"><StatusBadge status={profile.dataStatus} /><span className="text-xs text-[var(--color-stone)]">{copy.reviewed} {formatDateTimeDubai(profile.lastReviewedAt)}</span></div>
-            <p className="mt-5 text-[0.66rem] uppercase tracking-[0.14em] text-[var(--color-stone)]">{project.location} · {formatProjectPrice(project)}</p>
+            <div className="flex flex-wrap items-center justify-between gap-3"><StatusBadge status={profile.dataStatus} locale={locale} /><span className="text-xs text-[var(--color-stone)]">{copy.reviewed} {formatDateTimeDubai(profile.lastReviewedAt, locale)}</span></div>
+            <p className="mt-5 text-[0.66rem] uppercase tracking-[0.14em] text-[var(--color-stone)]">{project.location} · {formatProjectPrice(project, locale)}</p>
             <h2 className="font-display mt-2 text-3xl">{project.title}</h2>
             <div className="mt-6 grid grid-cols-2 gap-4 border-y border-black/10 py-5 sm:grid-cols-4">
               <div><p className="text-[0.62rem] uppercase tracking-[0.1em] text-[var(--color-stone)]">{copy.score}</p><p className="font-display mt-1 text-2xl">{summary.investmentScore.toFixed(1)}</p></div>
-              <div><p className="text-[0.62rem] uppercase tracking-[0.1em] text-[var(--color-stone)]">{copy.risk}</p><p className="font-display mt-1 text-2xl">{summary.riskBand}</p></div>
+              <div><p className="text-[0.62rem] uppercase tracking-[0.1em] text-[var(--color-stone)]">{copy.risk}</p><p className="font-display mt-1 text-2xl">{translateRiskBand(summary.riskBand, locale)}</p></div>
               <div><p className="text-[0.62rem] uppercase tracking-[0.1em] text-[var(--color-stone)]">{copy.liquidity}</p><p className="font-display mt-1 text-2xl">{summary.liquidityScore.toFixed(1)}</p></div>
-              <div><p className="text-[0.62rem] uppercase tracking-[0.1em] text-[var(--color-stone)]">{copy.market}</p><p className="mt-1 text-sm leading-5">{summary.marketPosition.band}</p></div>
+              <div><p className="text-[0.62rem] uppercase tracking-[0.1em] text-[var(--color-stone)]">{copy.market}</p><p className="mt-1 text-sm leading-5">{translateMarketPositionBand(summary.marketPosition.band, locale)}</p></div>
             </div>
             <p className="mt-5 text-sm leading-7 text-[var(--color-stone)]">{profile.verdict.headline}</p>
             <Link href={`${localizedHref(`/projects/${project.slug}`, locale)}#intelligence`} className="text-link mt-5 inline-block">{copy.open}</Link>

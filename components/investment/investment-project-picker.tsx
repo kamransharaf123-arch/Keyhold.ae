@@ -3,8 +3,15 @@
 import { useMemo, useState } from "react";
 import { InvestmentSimulator } from "@/components/investment/investment-simulator";
 import type { Project } from "@/types/real-estate";
+import type { KeyHoldLocale } from "@/types/localization";
 
-export function InvestmentProjectPicker({ projects }: { projects: Project[] }) {
+const COPY = {
+  en: { empty: "No acquisition project currently has investment assumptions configured.", choose: "Choose a demo project model" },
+  fr: { empty: "Aucun projet d’acquisition ne dispose actuellement d’hypothèses d’investissement configurées.", choose: "Choisir un modèle de projet de démonstration" },
+} as const;
+
+export function InvestmentProjectPicker({ projects, locale = "en" }: { projects: Project[]; locale?: KeyHoldLocale }) {
+  const copy = COPY[locale];
   const eligible = useMemo(
     () => projects.filter((project) => project.investment && project.priceFromAed !== null),
     [projects],
@@ -15,7 +22,7 @@ export function InvestmentProjectPicker({ projects }: { projects: Project[] }) {
   if (!project || !project.investment || project.priceFromAed === null) {
     return (
       <div className="border border-black/10 bg-[var(--color-bone)] p-6 text-sm leading-7 text-[var(--color-stone)]">
-        No acquisition project currently has investment assumptions configured.
+        {copy.empty}
       </div>
     );
   }
@@ -23,7 +30,7 @@ export function InvestmentProjectPicker({ projects }: { projects: Project[] }) {
   return (
     <div className="space-y-8">
       <label className="block max-w-xl">
-        <span className="mb-2 block text-xs font-medium text-[var(--color-stone)]">Choose a demo project model</span>
+        <span className="mb-2 block text-xs font-medium text-[var(--color-stone)]">{copy.choose}</span>
         <select
           value={project.slug}
           onChange={(event) => setSlug(event.target.value)}
@@ -44,6 +51,7 @@ export function InvestmentProjectPicker({ projects }: { projects: Project[] }) {
         defaultUnitSizeSqft={project.investment.defaultUnitSizeSqft}
         paymentPlan={project.paymentPlan}
         projectCategory={project.category}
+        locale={locale}
       />
     </div>
   );

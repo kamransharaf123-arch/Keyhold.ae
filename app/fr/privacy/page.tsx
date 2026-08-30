@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PrivacyContent } from "@/app/privacy/page";
+import { PrivacyContent } from "@/app/(en)/privacy/page";
 import { websitePageMetadata } from "@/lib/cms/website-metadata";
 
 export async function generateMetadata(): Promise<Metadata> {

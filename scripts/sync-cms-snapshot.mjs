@@ -116,6 +116,7 @@ try {
     if (!area) throw new Error(`Published project ${row.slug} references an unpublished/missing area.`);
 
     const paymentPlan = sortByOrder(milestonesByProject.get(row.id) || []).map((item) => ({
+      id: item.id,
       label: item.label,
       percentage: Number(item.percentage),
       timing: item.timing,
@@ -228,7 +229,7 @@ try {
     date: new Intl.DateTimeFormat("en", { month: "long", year: "numeric", timeZone: "Asia/Dubai" }).format(new Date(row.published_at)),
   }));
 
-  const services = serviceRows.map((row) => ({ title: row.title, text: row.text }));
+  const services = serviceRows.map((row) => ({ slug: row.slug, title: row.title, text: row.text }));
   let websiteEnabled = false;
   let website = null;
   try {

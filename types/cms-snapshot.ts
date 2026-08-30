@@ -14,7 +14,7 @@ export type CmsSnapshot = {
   constructionUpdates: ConstructionUpdate[];
   intelligenceProfiles: ProjectIntelligenceProfile[];
   insights: Array<{ slug: string; category: string; title: string; excerpt: string; date: string }>;
-  services: Array<{ title: string; text: string }>;
+  services: Array<{ slug: string; title: string; text: string }>;
   siteSettings: null | {
     name: string;
     email: string;

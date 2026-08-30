@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { WhoWeAreContent } from "@/app/who-we-are/page";
+import { WhoWeAreContent } from "@/app/(en)/who-we-are/page";
 import { websitePageMetadata } from "@/lib/cms/website-metadata";
 
 export async function generateMetadata(): Promise<Metadata> {

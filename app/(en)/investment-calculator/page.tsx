@@ -32,7 +32,7 @@ export function InvestmentCalculatorContent({ locale = "en" as KeyHoldLocale }: 
 
       <section className="site-container pb-20">
         <Suspense fallback={<div className="text-sm text-[var(--color-stone)]">{copy.loading}</div>}>
-          <InvestmentProjectPicker projects={eligibleProjects} />
+          <InvestmentProjectPicker projects={eligibleProjects} locale={locale} />
         </Suspense>
       </section>
     </>

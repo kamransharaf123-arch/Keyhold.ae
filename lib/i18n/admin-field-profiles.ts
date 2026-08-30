@@ -43,7 +43,7 @@ export const translationFieldProfiles: Partial<Record<TranslationEntityType, Tra
   ],
   unit: [
     { key: "propertyType", label: "Property type" },
-    { key: "viewLabel", label: "View label" },
+    { key: "view", label: "View label" },
   ],
   "payment-milestone": [
     { key: "label", label: "Milestone label" },

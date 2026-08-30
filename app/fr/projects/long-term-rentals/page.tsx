@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { LongTermRentalsContent } from "@/app/projects/long-term-rentals/page";
+import { LongTermRentalsContent } from "@/app/(en)/projects/long-term-rentals/page";
 import { websitePageMetadata } from "@/lib/cms/website-metadata";
 
 export async function generateMetadata(): Promise<Metadata> {

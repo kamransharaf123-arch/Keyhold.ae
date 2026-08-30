@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { projects as enProjects } from "@/data/catalog";
 import { projectsForLocale } from "@/data/localized-catalog";
-import { ProjectDetailContent } from "@/app/projects/[slug]/page";
+import { ProjectDetailContent } from "@/app/(en)/projects/[slug]/page";
 import { websitePageMetadata } from "@/lib/cms/website-metadata";
 
 export function generateStaticParams() {

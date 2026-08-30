@@ -10,7 +10,7 @@ const requiredFiles = [
   "lib/investment.ts",
   "components/investment/investment-simulator.tsx",
   "components/investment/investment-project-picker.tsx",
-  "app/investment-calculator/page.tsx",
+  "app/(en)/investment-calculator/page.tsx",
 ];
 
 for (const file of requiredFiles) {
@@ -26,7 +26,7 @@ const realEstateTypes = read("types/real-estate.ts");
 const investmentLib = read("lib/investment.ts");
 const simulator = read("components/investment/investment-simulator.tsx");
 const picker = read("components/investment/investment-project-picker.tsx");
-const projectPage = read("app/projects/[slug]/page.tsx");
+const projectPage = read("app/(en)/projects/[slug]/page.tsx");
 const unitSelector = read("components/real-estate/unit-selector.tsx");
 const comparison = read("components/discovery/project-comparison.tsx");
 const discoveryCard = read("components/discovery/discovery-project-card.tsx");
