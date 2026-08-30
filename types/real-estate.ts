@@ -4,6 +4,27 @@ export type UnitAvailability = "available" | "reserved" | "sold" | "unknown";
 
 export type DocumentAvailability = "available" | "request-only" | "coming-soon";
 
+export type InvestmentGoal =
+  | "Capital growth"
+  | "Rental income"
+  | "Low initial cash"
+  | "Ready income"
+  | "Family living"
+  | "Waterfront"
+  | "Holiday home"
+  | "Golden Visa planning";
+
+export type LifestyleTag =
+  | "Waterfront"
+  | "Beach"
+  | "Marina"
+  | "City centre"
+  | "Family"
+  | "Golf"
+  | "Walkable"
+  | "Quiet"
+  | "Short-stay";
+
 export type ProjectImage = {
   src: string;
   alt: string;
@@ -85,6 +106,16 @@ export type AreaProfile = {
   summary: string;
   emirate: "Dubai";
   highlights: string[];
+  mapPosition: {
+    x: number;
+    y: number;
+  };
+};
+
+export type ProjectDiscoveryProfile = {
+  investmentGoals: InvestmentGoal[];
+  lifestyleTags: LifestyleTag[];
+  keywords: string[];
 };
 
 export type Project = {
@@ -117,7 +148,9 @@ export type Project = {
   documents: ProjectDocument[];
   regulatory: RegulatoryInfo;
   availabilityLastVerifiedAt: string;
+  publishedAt: string;
   featured: boolean;
   constructionProgress?: number;
+  discovery: ProjectDiscoveryProfile;
   keyFacts: Array<{ label: string; value: string }>;
 };

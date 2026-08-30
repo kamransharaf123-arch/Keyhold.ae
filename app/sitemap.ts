@@ -10,6 +10,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/projects/ready",
     "/projects/short-term-rentals",
     "/projects/long-term-rentals",
+    "/discover",
+    "/compare",
     "/updates",
     "/insights",
     "/services",

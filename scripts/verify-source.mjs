@@ -37,6 +37,8 @@ const requiredRoutes = [
   "app/projects/ready/page.tsx",
   "app/projects/short-term-rentals/page.tsx",
   "app/projects/long-term-rentals/page.tsx",
+  "app/discover/page.tsx",
+  "app/compare/page.tsx",
   "app/updates/page.tsx",
   "app/insights/page.tsx",
   "app/services/page.tsx",

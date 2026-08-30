@@ -5,8 +5,8 @@ import type {
   Project,
 } from "@/types/real-estate";
 
-// MODULE 2 DEMO DATA ONLY.
-// All project names, prices, payment plans, units and commercial terms below are placeholders.
+// MODULE 2 DEMO DATA ONLY. MODULE 3 adds discovery tags to the same placeholder inventory.
+// All project names, prices, payment plans, units, discovery tags and commercial terms below are placeholders.
 // Replace them with verified developer/owner data before any public launch.
 
 export const developers: DeveloperProfile[] = [
@@ -40,6 +40,7 @@ export const areas: AreaProfile[] = [
     summary: "A premium waterfront community used here as a location taxonomy example for KeyHold inventory.",
     emirate: "Dubai",
     highlights: ["Waterfront living", "Hospitality", "Luxury residential"],
+    mapPosition: { x: 26, y: 40 },
   },
   {
     slug: "downtown-dubai",
@@ -47,6 +48,7 @@ export const areas: AreaProfile[] = [
     summary: "A central Dubai district used to demonstrate area-to-project relationships and area landing pages.",
     emirate: "Dubai",
     highlights: ["Central location", "Urban lifestyle", "Mixed-use district"],
+    mapPosition: { x: 54, y: 54 },
   },
   {
     slug: "dubai-hills-estate",
@@ -54,6 +56,7 @@ export const areas: AreaProfile[] = [
     summary: "A master-planned Dubai community used here as a demo location for villa and family-oriented inventory.",
     emirate: "Dubai",
     highlights: ["Master-planned community", "Family living", "Golf and green space"],
+    mapPosition: { x: 43, y: 69 },
   },
   {
     slug: "dubai-creek-harbour",
@@ -61,6 +64,7 @@ export const areas: AreaProfile[] = [
     summary: "A waterfront district used as a demo area for off-plan and ready inventory structures.",
     emirate: "Dubai",
     highlights: ["Waterfront", "New-build inventory", "City connectivity"],
+    mapPosition: { x: 69, y: 49 },
   },
   {
     slug: "dubai-marina",
@@ -68,6 +72,7 @@ export const areas: AreaProfile[] = [
     summary: "A waterfront residential district used as a demo location for rental inventory.",
     emirate: "Dubai",
     highlights: ["Marina lifestyle", "Rental demand", "Walkable amenities"],
+    mapPosition: { x: 31, y: 58 },
   },
 ];
 
@@ -125,8 +130,14 @@ export const projects: Project[] = [
     documents: commonDocuments,
     regulatory: { registrationStatus: "pending-verification" },
     availabilityLastVerifiedAt: "2026-08-30T00:00:00+04:00",
+    publishedAt: "2026-08-28T09:00:00+04:00",
     featured: true,
     constructionProgress: 64,
+    discovery: {
+      investmentGoals: ["Capital growth", "Low initial cash", "Waterfront", "Golden Visa planning"],
+      lifestyleTags: ["Waterfront", "Walkable"],
+      keywords: ["creek", "new launch", "waterfront", "off-plan", "apartment"],
+    },
     keyFacts: [
       { label: "Starting price", value: "AED 2.10M" },
       { label: "Payment plan", value: "20 / 50 / 30" },
@@ -172,7 +183,13 @@ export const projects: Project[] = [
     documents: commonDocuments,
     regulatory: { registrationStatus: "pending-verification" },
     availabilityLastVerifiedAt: "2026-08-30T00:00:00+04:00",
+    publishedAt: "2026-08-26T09:00:00+04:00",
     featured: true,
+    discovery: {
+      investmentGoals: ["Ready income", "Rental income", "Golden Visa planning"],
+      lifestyleTags: ["City centre", "Walkable"],
+      keywords: ["downtown", "ready", "city", "apartment", "penthouse"],
+    },
     keyFacts: [
       { label: "Starting price", value: "AED 3.40M" },
       { label: "Status", value: "Ready" },
@@ -216,7 +233,13 @@ export const projects: Project[] = [
     documents: [{ id: "floor-plans", label: "Floor plan pack", kind: "Floor Plans", availability: "request-only" }],
     regulatory: { registrationStatus: "pending-verification" },
     availabilityLastVerifiedAt: "2026-08-30T00:00:00+04:00",
+    publishedAt: "2026-08-24T09:00:00+04:00",
     featured: true,
+    discovery: {
+      investmentGoals: ["Rental income", "Ready income"],
+      lifestyleTags: ["Marina", "Waterfront", "Walkable"],
+      keywords: ["marina", "annual rental", "long-term", "waterfront", "apartment"],
+    },
     keyFacts: [
       { label: "Annual rent", value: "From AED 240K" },
       { label: "Bedrooms", value: "2–3" },
@@ -267,8 +290,14 @@ export const projects: Project[] = [
     documents: commonDocuments,
     regulatory: { registrationStatus: "pending-verification" },
     availabilityLastVerifiedAt: "2026-08-30T00:00:00+04:00",
+    publishedAt: "2026-08-22T09:00:00+04:00",
     featured: false,
     constructionProgress: 38,
+    discovery: {
+      investmentGoals: ["Capital growth", "Low initial cash", "Family living", "Golden Visa planning"],
+      lifestyleTags: ["Family", "Golf", "Quiet"],
+      keywords: ["villa", "golf", "family", "off-plan", "dubai hills"],
+    },
     keyFacts: [
       { label: "Starting price", value: "AED 5.80M" },
       { label: "Payment plan", value: "10 / 50 / 40" },
@@ -312,7 +341,13 @@ export const projects: Project[] = [
     documents: [],
     regulatory: { registrationStatus: "pending-verification" },
     availabilityLastVerifiedAt: "2026-08-30T00:00:00+04:00",
+    publishedAt: "2026-08-20T09:00:00+04:00",
     featured: false,
+    discovery: {
+      investmentGoals: ["Holiday home", "Rental income", "Waterfront"],
+      lifestyleTags: ["Beach", "Waterfront", "Short-stay"],
+      keywords: ["palm", "beach", "holiday home", "short-term", "sea view"],
+    },
     keyFacts: [
       { label: "Nightly rate", value: "From AED 1,850" },
       { label: "Bedrooms", value: "2" },
@@ -354,7 +389,13 @@ export const projects: Project[] = [
     documents: commonDocuments,
     regulatory: { registrationStatus: "pending-verification" },
     availabilityLastVerifiedAt: "2026-08-30T00:00:00+04:00",
+    publishedAt: "2026-08-18T09:00:00+04:00",
     featured: false,
+    discovery: {
+      investmentGoals: ["Ready income", "Rental income", "Waterfront", "Golden Visa planning"],
+      lifestyleTags: ["Waterfront", "Walkable"],
+      keywords: ["creek", "ready", "secondary", "apartment", "waterfront"],
+    },
     keyFacts: [
       { label: "Asking price", value: "AED 2.95M" },
       { label: "Bedrooms", value: "2" },

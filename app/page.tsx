@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRightIcon, ArrowUpRightIcon } from "@/components/icons";
 import { CtaBand } from "@/components/cta-band";
 import { ProjectCard } from "@/components/project-card";
+import { QuickDiscovery } from "@/components/discovery/quick-discovery";
 import { SectionHeading } from "@/components/section-heading";
 import { UpdateCard } from "@/components/update-card";
 import { featuredProjects, insights, services, updates } from "@/data/site";
@@ -50,6 +51,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <QuickDiscovery />
 
       <section className="border-b border-black/[0.08] bg-[var(--color-bone)]">
         <div className="site-container grid divide-y divide-black/10 py-2 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
