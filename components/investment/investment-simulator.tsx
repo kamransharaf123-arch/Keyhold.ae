@@ -7,6 +7,7 @@ import type { InvestmentInputs, InvestmentProfile, InvestmentScenarioKey } from 
 import type { KeyHoldLocale } from "@/types/localization";
 import { applyMechanicalStressTest, buildPaymentSchedule, calculateInvestment, getScenarioInputs, summarizePaymentSchedule } from "@/lib/investment";
 import { formatAed } from "@/lib/format";
+import { SaveAnalysisButton } from "@/components/client/save-analysis-button";
 
 const scenarioKeys: InvestmentScenarioKey[] = ["conservative", "expected", "optimistic"];
 
@@ -555,6 +556,18 @@ export function InvestmentSimulator({
             <MetricCard label={copy.totalRoi(inputs.holdYears)} value={formatPercent(result.totalRoiPct)} detail={copy.totalRoiDetail} />
             <MetricCard label={copy.annualisedReturn} value={formatPercent(result.annualizedReturnPct)} detail={copy.annualisedReturnDetail} />
             <MetricCard label={copy.equityMultiple} value={`${result.equityMultiple.toFixed(2)}×`} detail={copy.equityMultipleDetail} />
+          </div>
+
+          <div className="flex justify-end">
+            <SaveAnalysisButton
+              locale={locale}
+              projectSlug={projectSlug}
+              unitId={selectedUnit?.id ?? null}
+              scenarioKey={scenarioKey}
+              name={projectTitle}
+              inputs={inputs as unknown as Record<string, unknown>}
+              outputs={result as unknown as Record<string, unknown>}
+            />
           </div>
 
           <div className="border border-black/10 p-5 sm:p-6">

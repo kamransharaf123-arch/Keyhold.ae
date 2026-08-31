@@ -10,6 +10,7 @@ const links = [
   ["Areas", "/admin/areas"],
   ["Construction Updates", "/admin/updates"],
   ["Intelligence", "/admin/intelligence"],
+  ["Clients", "/admin/clients"],
   ["Content", "/admin/content"],
   ["Website Studio", "/admin/website"],
   ["Site Settings", "/admin/settings"],

@@ -11,6 +11,7 @@ import { getIntelligenceSummary } from "@/lib/intelligence";
 import { formatAed, formatDateTimeDubai, formatProjectPrice, formatSqftRange } from "@/lib/format";
 import { localizedHref } from "@/lib/i18n/locale";
 import { translateMarketPositionBand, translateRiskBand } from "@/lib/i18n/intelligence-labels";
+import { SaveComparisonButton } from "@/components/client/save-comparison-button";
 import type { AreaProfile, DeveloperProfile, Project } from "@/types/real-estate";
 import type { KeyHoldLocale } from "@/types/localization";
 
@@ -155,7 +156,10 @@ export function ProjectComparison({ projects, developers, areas, locale = "en" }
           <h1 className="font-display mt-3 text-5xl tracking-[-0.04em]">{copy.title}</h1>
           <p className="mt-4 max-w-2xl text-sm leading-7 text-[var(--color-stone)]">{copy.intro}</p>
         </div>
-        <Link href={localizedHref("/discover", locale)} className="button border border-black/10">{copy.addOrChange}</Link>
+        <div className="flex flex-wrap gap-3">
+          <Link href={localizedHref("/discover", locale)} className="button border border-black/10">{copy.addOrChange}</Link>
+          <SaveComparisonButton slugs={selected.map((project) => project.slug)} locale={locale} />
+        </div>
       </div>
 
       <div className="mt-8 overflow-x-auto border border-black/10 bg-[var(--color-soft-white)]">

@@ -49,6 +49,7 @@ function useHeaderContent() {
     projectsMenuLabel: settings?.projectsMenuLabel || label("Projects", locale),
     headerCtaLabel: settings?.headerCtaLabel || (locale === "fr" ? "Parler à un conseiller" : "Speak to an Advisor"),
     headerCtaHref: settings?.headerCtaHref || "/contact",
+    myKeyHoldLabel: locale === "fr" ? "Mon KeyHold" : "My KeyHold",
     brandName: settings?.logoText || "KEYHOLD",
     home,
     restPrimary,
@@ -99,7 +100,7 @@ function DesktopNav() {
 }
 
 function MobileNav() {
-  const { locale, projectsMenuLabel, dropdown, home, restPrimary } = useHeaderContent();
+  const { locale, projectsMenuLabel, dropdown, home, restPrimary, myKeyHoldLabel } = useHeaderContent();
   return (
     <details className="relative lg:hidden">
       <summary
@@ -128,6 +129,11 @@ function MobileNav() {
           </Link>
         ))}
         <div className="mt-2 border-t border-black/[0.08] pt-3">
+          <Link className="mobile-nav-link" href={localizedHref("/account", locale)}>
+            {myKeyHoldLabel}
+          </Link>
+        </div>
+        <div className="mt-2 border-t border-black/[0.08] pt-3">
           <LanguageSwitcher />
         </div>
       </div>
@@ -136,7 +142,7 @@ function MobileNav() {
 }
 
 export function SiteHeader() {
-  const { locale, headerCtaLabel, headerCtaHref, brandName } = useHeaderContent();
+  const { locale, headerCtaLabel, headerCtaHref, myKeyHoldLabel, brandName } = useHeaderContent();
   return (
     <MotionHeader className="sticky top-0 z-40 border-b border-black/[0.08] bg-[color:rgba(247,244,238,0.94)] backdrop-blur-xl">
       <div className="site-container grid min-h-20 grid-cols-[1fr_auto] items-center gap-5 lg:grid-cols-[1fr_auto_1fr]">
@@ -145,6 +151,9 @@ export function SiteHeader() {
         </div>
         <DesktopNav />
         <div className="hidden items-center justify-self-end gap-4 lg:flex">
+          <Link href={localizedHref("/account", locale)} className="nav-link text-xs">
+            {myKeyHoldLabel}
+          </Link>
           <LanguageSwitcher />
           <Link href={localizedHref(headerCtaHref, locale)} className="button button-dark text-xs">
             {headerCtaLabel}

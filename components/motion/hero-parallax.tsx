@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 import { useMotionPreference } from "@/components/motion/use-motion-preference";
+import { allowCinematicParallax } from "@/lib/performance/browser-capabilities";
 
 type HeroParallaxProps = {
   media: ReactNode;
@@ -18,11 +19,16 @@ export function HeroParallax({ media, children, className = "", mediaClassName =
   useEffect(() => {
     const root = rootRef.current;
     const mediaNode = mediaRef.current;
-    if (!root || !mediaNode || !motion.ready || !motion.enabled || document.body.dataset.khHeroParallax === "off") return;
+    if (!root || !mediaNode || !motion.ready || !motion.enabled || document.body.dataset.khHeroParallax === "off" || !allowCinematicParallax()) {
+      mediaNode?.style.removeProperty("--kh-parallax-y");
+      return;
+    }
 
     let frame = 0;
+    let active = false;
     const render = () => {
       frame = 0;
+      if (!active) return;
       const rect = root.getBoundingClientRect();
       const viewport = Math.max(1, window.innerHeight);
       if (rect.bottom < -160 || rect.top > viewport + 160) return;
@@ -33,15 +39,35 @@ export function HeroParallax({ media, children, className = "", mediaClassName =
       mediaNode.style.setProperty("--kh-parallax-y", `${translate.toFixed(2)}px`);
     };
     const schedule = () => {
-      if (!frame) frame = window.requestAnimationFrame(render);
+      if (active && !frame) frame = window.requestAnimationFrame(render);
     };
-    render();
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule, { passive: true });
-    return () => {
+    const start = () => {
+      if (active) return;
+      active = true;
+      mediaNode.style.willChange = "transform";
+      window.addEventListener("scroll", schedule, { passive: true });
+      window.addEventListener("resize", schedule, { passive: true });
+      schedule();
+    };
+    const stop = () => {
+      if (!active) return;
+      active = false;
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
-      if (frame) window.cancelAnimationFrame(frame);
+      mediaNode.style.willChange = "auto";
+      if (frame) {
+        window.cancelAnimationFrame(frame);
+        frame = 0;
+      }
+    };
+    const observer = new IntersectionObserver(
+      (entries) => (entries[0]?.isIntersecting ? start() : stop()),
+      { rootMargin: "160px 0px" },
+    );
+    observer.observe(root);
+    return () => {
+      observer.disconnect();
+      stop();
     };
   }, [motion.enabled, motion.maxParallaxPx, motion.ready]);
 

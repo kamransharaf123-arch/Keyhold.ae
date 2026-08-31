@@ -15,7 +15,9 @@
     "verify:module6": "node scripts/verify-module-6.mjs",
     "verify:module6.1": "node scripts/verify-module-6-1.mjs",
     "verify:module6-2": "node scripts/verify-module-6-2.mjs",
-    "verify": "npm run verify:module2 && npm run verify:module3 && npm run verify:module4 && npm run verify:module5 && npm run verify:module6 && npm run verify:module6.1 && npm run verify:module6-2 && npm run verify:source && npm run typecheck && npm run build",
+    "verify:module7": "node scripts/verify-module-7.mjs",
+    "verify:module7:performance": "node scripts/verify-module-7-performance.mjs",
+    "verify": "npm run verify:module2 && npm run verify:module3 && npm run verify:module4 && npm run verify:module5 && npm run verify:module6 && npm run verify:module6.1 && npm run verify:module6-2 && npm run verify:module7 && npm run verify:module7:performance && npm run verify:source && npm run typecheck && npm run build",
     "prebuild": "node scripts/sync-cms-snapshot.mjs",
     "cms:grant-admin": "node scripts/grant-admin.mjs"
   },

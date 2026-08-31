@@ -14,6 +14,7 @@ import { ProjectGallery } from "@/components/real-estate/project-gallery";
 import { ProjectSection } from "@/components/real-estate/section-shell";
 import { RegulatoryCard } from "@/components/real-estate/regulatory-card";
 import { UnitSelector } from "@/components/real-estate/unit-selector";
+import { SaveProjectButton } from "@/components/client/save-project-button";
 import { projects as enProjects } from "@/data/catalog";
 import { projectsForLocale, areasForLocale, developersForLocale, constructionUpdatesForLocale } from "@/data/localized-catalog";
 import { formatDateTimeDubai, formatProjectPrice, formatSqftRange } from "@/lib/format";
@@ -110,6 +111,7 @@ export function ProjectDetailContent({ slug, locale = "en" }: { slug: string; lo
           <Link href={`${localizedHref("/contact", locale)}?project=${encodeURIComponent(project.title)}`} className="button button-dark">{copy.enquire}</Link>
           {investmentEligible ? <a href="#investment" className="button border border-black/10 hover:bg-[var(--color-bone)]">{copy.simulate}</a> : null}
           <a href="#units" className="button border border-black/10 hover:bg-[var(--color-bone)]">{copy.viewUnits}</a>
+          <SaveProjectButton slug={project.slug} locale={locale} />
         </div>
       </section>
 

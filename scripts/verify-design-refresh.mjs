@@ -35,7 +35,7 @@ if (!globals.includes("outline: 2px solid var(--color-teal);")) {
   errors.push("Focus treatment is not using the positive teal focus color.");
 }
 
-const home = read("app/page.tsx");
+const home = read("app/(en)/page.tsx");
 if (!home.includes("rgba(25,52,49,0.82)")) errors.push("Home hero does not use the warm deep-teal overlay.");
 if (!home.includes("bg-[var(--color-teal-soft)]")) errors.push("Home is missing the positive teal-soft discovery surface.");
 if (!home.includes("bg-[var(--color-champagne-soft)]")) errors.push("Home is missing the warm champagne services surface.");

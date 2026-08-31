@@ -19,7 +19,7 @@ export function FloorPlans({ plans, locale = "en" }: { plans: FloorPlan[]; local
       {plans.map((plan) => (
         <article key={plan.id} className="border border-black/10 bg-[var(--color-soft-white)]">
           <div className="relative aspect-[4/3] bg-[var(--color-bone)]">
-            <Image src={plan.image} alt={copy.alt(plan.label)} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-contain p-8" />
+            <Image src={plan.image} alt={copy.alt(plan.label)} fill sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw" className="object-contain p-8" />
           </div>
           <div className="border-t border-black/10 p-5">
             <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-stone)]">{plan.propertyType}</p>
