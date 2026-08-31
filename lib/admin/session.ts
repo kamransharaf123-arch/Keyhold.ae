@@ -118,30 +118,38 @@ export async function authenticateAdmin(email: string, password: string): Promis
 }
 
 export async function getAdminUser(): Promise<AdminUser | null> {
-  const store = await cookies();
-  let accessToken = store.get(ACCESS_COOKIE)?.value ?? "";
-  const refreshToken = store.get(REFRESH_COOKIE)?.value ?? "";
-  if (!accessToken && !refreshToken) return null;
+  try {
+    const store = await cookies();
+    let accessToken = store.get(ACCESS_COOKIE)?.value ?? "";
+    const refreshToken = store.get(REFRESH_COOKIE)?.value ?? "";
+    if (!accessToken && !refreshToken) return null;
 
-  let authUser = accessToken ? await getAuthUser(accessToken) : null;
-  if (!authUser && refreshToken) {
-    const refreshed = await refreshSession(refreshToken);
-    if (!refreshed) {
+    let authUser = accessToken ? await getAuthUser(accessToken) : null;
+    if (!authUser && refreshToken) {
+      const refreshed = await refreshSession(refreshToken);
+      if (!refreshed) {
+        await clearSessionCookies();
+        return null;
+      }
+      await setSessionCookies(refreshed);
+      accessToken = refreshed.access_token;
+      authUser = refreshed.user;
+    }
+
+    if (!authUser || !accessToken) return null;
+    const admin = await resolveAdmin(accessToken, authUser);
+    if (!admin) {
       await clearSessionCookies();
       return null;
     }
-    await setSessionCookies(refreshed);
-    accessToken = refreshed.access_token;
-    authUser = refreshed.user;
-  }
-
-  if (!authUser || !accessToken) return null;
-  const admin = await resolveAdmin(accessToken, authUser);
-  if (!admin) {
-    await clearSessionCookies();
+    return admin;
+  } catch (error) {
+    // A Supabase Auth/PostgREST outage, bad credentials, or a schema mismatch must never crash
+    // /admin/login or any requireAdmin() page — every admin route resolves its session through
+    // this function, so an uncaught throw here takes the whole admin app down with it.
+    console.error("[admin-session] getAdminUser failed; treating the request as unauthenticated.", error);
     return null;
   }
-  return admin;
 }
 
 export async function requireAdmin(roles?: AdminRole[]): Promise<AdminUser> {

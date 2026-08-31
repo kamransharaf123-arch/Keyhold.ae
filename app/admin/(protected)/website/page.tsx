@@ -17,20 +17,32 @@ const tools = [
   ["Translations", "/admin/website/translations", "Advanced EN/FR translation ledger and recovery editor."],
 ] as const;
 
+async function safeCount(table: string, query: string): Promise<number> {
+  try {
+    const rows = await cmsSelect<{ id?: string; locale?: string }>(table, query);
+    return rows.length;
+  } catch (error) {
+    // These are optional overview metrics, not data the page needs to function — a missing or
+    // unreachable table must show as "0", not take down the whole Website Studio overview.
+    console.error(`[admin-website] Failed to read ${table}; showing 0.`, error);
+    return 0;
+  }
+}
+
 export default async function WebsiteAdminPage() {
   await requireAdmin();
   const [pages, sections, nav, media, people, testimonials, faqs, forms, locales, translations] = await Promise.all([
-    cmsSelect<{ id: string }>("cms_pages", "select=id"),
-    cmsSelect<{ id: string }>("cms_page_sections", "select=id"),
-    cmsSelect<{ id: string }>("cms_navigation_items", "select=id"),
-    cmsSelect<{ id: string }>("cms_media_library", "select=id"),
-    cmsSelect<{ id: string }>("cms_people", "select=id"),
-    cmsSelect<{ id: string }>("cms_testimonials", "select=id"),
-    cmsSelect<{ id: string }>("cms_faqs", "select=id"),
-    cmsSelect<{ id: string }>("cms_form_copy", "select=id"),
-    cmsSelect<{ locale: string }>("cms_locale_settings", "select=locale&enabled=eq.true"),
-    cmsSelect<{ id: string }>("cms_translations", "select=id&status=eq.published"),
+    safeCount("cms_pages", "select=id"),
+    safeCount("cms_page_sections", "select=id"),
+    safeCount("cms_navigation_items", "select=id"),
+    safeCount("cms_media_library", "select=id"),
+    safeCount("cms_people", "select=id"),
+    safeCount("cms_testimonials", "select=id"),
+    safeCount("cms_faqs", "select=id"),
+    safeCount("cms_form_copy", "select=id"),
+    safeCount("cms_locale_settings", "select=locale&enabled=eq.true"),
+    safeCount("cms_translations", "select=id&status=eq.published"),
   ]);
-  const metrics = [["Pages", pages.length], ["Sections", sections.length], ["Navigation", nav.length], ["Media", media.length], ["Team", people.length], ["Testimonials", testimonials.length], ["FAQs", faqs.length], ["Forms", forms.length], ["Languages", locales.length], ["Published translations", translations.length]] as const;
+  const metrics = [["Pages", pages], ["Sections", sections], ["Navigation", nav], ["Media", media], ["Team", people], ["Testimonials", testimonials], ["FAQs", faqs], ["Forms", forms], ["Languages", locales], ["Published translations", translations]] as const;
   return <><AdminPageHeader eyebrow="Website manager" title="Website Content" description="Everything editorial on the public KeyHold site should be controlled here. Architecture, permissions and financial formulas remain protected in code."/><div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">{metrics.map(([label,value])=><div key={label} className="border border-black/10 bg-[var(--color-soft-white)] p-5"><p className="eyebrow">{label}</p><p className="font-display mt-2 text-4xl">{value}</p></div>)}</div><div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">{tools.map(([title,href,text])=><AdminCard key={href} title={title}><p className="text-sm leading-7 text-[var(--color-stone)]">{text}</p><Link href={href} className="text-link mt-5 inline-flex">Open manager →</Link></AdminCard>)}</div></>;
 }

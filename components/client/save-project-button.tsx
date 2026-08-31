@@ -3,9 +3,21 @@
 import { useState, useTransition } from "react";
 import { saveProjectAction } from "@/app/client-actions";
 
+const COPY = {
+  en: { save: "Save", saved: "Saved", unavailable: "This property cannot be saved yet." },
+  fr: { save: "Enregistrer", saved: "Enregistré", unavailable: "Ce bien ne peut pas encore être enregistré." },
+} as const;
+
 export function SaveProjectButton({ slug, locale = "en" }: { slug: string; locale?: "en" | "fr" }) {
   const [saved, setSaved] = useState(false);
+  const [unavailable, setUnavailable] = useState(false);
   const [pending, startTransition] = useTransition();
+  const copy = COPY[locale];
+
+  if (unavailable) {
+    return <p className="text-sm text-[var(--color-stone)]">{copy.unavailable}</p>;
+  }
+
   return (
     <button
       type="button"
@@ -14,10 +26,11 @@ export function SaveProjectButton({ slug, locale = "en" }: { slug: string; local
       className="button min-h-11 border border-black/10 hover:bg-[var(--color-bone)]"
       onClick={() => startTransition(async () => {
         const result = await saveProjectAction({ slug, locale });
-        if (result?.saved !== undefined) setSaved(result.saved);
+        if (result.unavailable) setUnavailable(true);
+        else if (result.saved !== undefined) setSaved(result.saved);
       })}
     >
-      {pending ? "…" : saved ? (locale === "fr" ? "Enregistré" : "Saved") : (locale === "fr" ? "Enregistrer" : "Save")}
+      {pending ? "…" : saved ? copy.saved : copy.save}
     </button>
   );
 }

@@ -69,15 +69,15 @@ export async function logoutClientAction(formData: FormData): Promise<void> {
   redirect(clientPath(locale, "/login"));
 }
 
-async function projectIdForSlug(token: string, slug: string): Promise<string> {
+async function projectIdForSlug(token: string, slug: string): Promise<string | null> {
   const rows = await clientRest<Array<{ id: string }>>(`cms_projects?select=id&slug=eq.${encodeURIComponent(slug)}&status=eq.published&limit=1`, { token });
-  if (!rows[0]) throw new Error("Project not found.");
-  return rows[0].id;
+  return rows[0]?.id ?? null;
 }
 
-export async function saveProjectAction(input: { slug: string; locale: ClientLocale }): Promise<{ saved: boolean }> {
+export async function saveProjectAction(input: { slug: string; locale: ClientLocale }): Promise<{ saved: boolean; unavailable?: boolean }> {
   const context = await requireClientContext(input.locale);
   const projectId = await projectIdForSlug(context.accessToken, cleanText(input.slug, 120));
+  if (!projectId) return { saved: false, unavailable: true };
   const existing = await clientRest<Array<{ project_id: string }>>(`client_saved_projects?select=project_id&project_id=eq.${projectId}&limit=1`, { token: context.accessToken });
   if (!existing[0]) {
     await clientRest("client_saved_projects", { token: context.accessToken, method: "POST", prefer: "return=minimal", body: { user_id: context.user.id, project_id: projectId } });
@@ -122,7 +122,7 @@ export async function deleteComparisonAction(formData: FormData): Promise<void> 
 
 export async function saveInvestmentAnalysisAction(input: { locale: ClientLocale; projectSlug?: string | null; unitId?: string | null; name: string; scenarioKey?: string | null; inputsJson: string; outputsJson: string }): Promise<{ saved: boolean }> {
   const context = await requireClientContext(input.locale);
-  const projectId = input.projectSlug ? await projectIdForSlug(context.accessToken, cleanText(input.projectSlug, 120)).catch(() => null) : null;
+  const projectId = input.projectSlug ? await projectIdForSlug(context.accessToken, cleanText(input.projectSlug, 120)) : null;
   const body = {
     user_id: context.user.id,
     project_id: projectId,
