@@ -40,7 +40,7 @@ export function AreaExplorerMap({ areas, selectedAreaSlugs, onToggleArea, locale
               type="button"
               aria-pressed={selected}
               onClick={() => onToggleArea(area.slug)}
-              className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-full border px-3 py-2 text-[0.68rem] font-semibold shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-95 ${
+              className={`absolute min-h-9 -translate-x-1/2 -translate-y-1/2 rounded-full border px-3 py-2 text-[0.68rem] font-semibold shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-95 ${
                 selected
                   ? "border-[var(--color-teal)] bg-[var(--color-teal)] text-[var(--color-soft-white)]"
                   : "border-black/10 bg-[color:rgba(252,251,248,0.94)] text-[var(--color-graphite)] hover:border-[var(--color-teal)]"

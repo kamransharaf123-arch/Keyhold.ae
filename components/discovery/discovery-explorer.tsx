@@ -8,7 +8,6 @@ import { AreaExplorerMap } from "@/components/discovery/area-explorer-map";
 import { DiscoveryProjectCard } from "@/components/discovery/discovery-project-card";
 import { SmartFinder } from "@/components/discovery/smart-finder";
 import { ChevronDownIcon } from "@/components/icons";
-import { StaggerReveal } from "@/components/motion";
 import { localizedHref } from "@/lib/i18n/locale";
 import {
   EMPTY_DISCOVERY_FILTERS,
@@ -214,7 +213,7 @@ function parseMoneyInput(value: string): number | null {
 
 function CheckboxRow({ checked, label, count, onChange }: { checked: boolean; label: string; count?: number; onChange: () => void }) {
   return (
-    <label className="flex min-h-10 cursor-pointer items-center justify-between gap-3 text-sm">
+    <label className="-mx-2 flex min-h-10 cursor-pointer items-center justify-between gap-3 rounded-lg px-2 text-sm transition-colors hover:bg-[var(--color-bone)]">
       <span className="flex items-center gap-3">
         <input type="checkbox" checked={checked} onChange={onChange} className="size-4 accent-[var(--color-graphite)]" />
         <span>{label}</span>
@@ -338,8 +337,15 @@ export function DiscoveryExplorer({ projects, developers, areas, locale = "en" }
           />
         </label>
         <div className="flex flex-wrap gap-2">
-          <button type="button" onClick={() => setFinderOpen((open) => !open)} className="button border border-black/10 bg-[var(--color-soft-white)] text-xs">
+          <button
+            type="button"
+            onClick={() => setFinderOpen((open) => !open)}
+            aria-expanded={finderOpen}
+            aria-controls="guided-finder-panel"
+            className="button inline-flex items-center gap-2 border border-black/10 bg-[var(--color-soft-white)] text-xs"
+          >
             {finderOpen ? copy.closeGuidedFinder : copy.guidedFinder}
+            <ChevronDownIcon className={`size-3.5 transition-transform duration-200 ease-[var(--kh-ease-out)] ${finderOpen ? "rotate-180" : ""}`} />
           </button>
           <button type="button" onClick={() => document.getElementById("filters-panel")?.scrollIntoView({ behavior: "smooth", block: "start" })} className="button button-dark text-xs">
             {copy.filters} {filterCount > 0 ? `(${filterCount})` : ""}
@@ -347,7 +353,13 @@ export function DiscoveryExplorer({ projects, developers, areas, locale = "en" }
         </div>
       </div>
 
-      {finderOpen ? <div className="mt-5"><SmartFinder areas={areas} onApply={(patch) => { commitFilters({ ...EMPTY_DISCOVERY_FILTERS, ...patch }, { scroll: true }); setFinderOpen(false); }} locale={locale} /></div> : null}
+      <div id="guided-finder-panel" data-state={finderOpen ? "open" : "closed"} className="kh-accordion-panel">
+        <div inert={!finderOpen} className="kh-accordion-panel-inner">
+          <div className="mt-5">
+            <SmartFinder areas={areas} onApply={(patch) => { commitFilters({ ...EMPTY_DISCOVERY_FILTERS, ...patch }, { scroll: true }); setFinderOpen(false); }} locale={locale} />
+          </div>
+        </div>
+      </div>
 
       <div className="mt-5">
         <AreaExplorerMap areas={areas} selectedAreaSlugs={filters.areaSlugs} onToggleArea={(slug) => patchFilters({ areaSlugs: toggleItem(filters.areaSlugs, slug) })} locale={locale} />
@@ -384,7 +396,7 @@ export function DiscoveryExplorer({ projects, developers, areas, locale = "en" }
             </div>
             <label className="text-sm">
               <span className="mr-3 text-xs uppercase tracking-[0.12em] text-[var(--color-stone)]">{copy.sort}</span>
-              <select value={filters.sort} onChange={(event: ChangeEvent<HTMLSelectElement>) => patchFilters({ sort: event.target.value as DiscoverySort })} className="min-h-11 border border-black/10 bg-[var(--color-soft-white)] px-3 text-base md:text-sm">
+              <select value={filters.sort} onChange={(event: ChangeEvent<HTMLSelectElement>) => patchFilters({ sort: event.target.value as DiscoverySort })} className="min-h-11 border border-black/10 bg-[var(--color-soft-white)] px-3 text-base outline-none transition-colors focus:border-[var(--color-champagne)] md:text-sm">
                 <option value="relevance">{copy.sortRelevance}</option>
                 <option value="price-asc">{copy.sortPriceAsc}</option>
                 <option value="price-desc">{copy.sortPriceDesc}</option>
@@ -404,7 +416,7 @@ export function DiscoveryExplorer({ projects, developers, areas, locale = "en" }
           ) : <div className="h-5" />}
 
           {results.length > 0 ? (
-            <StaggerReveal className="grid gap-5">
+            <div key={JSON.stringify(filters)} className="kh-results-fade grid gap-5">
               {results.map((project) => (
                 <DiscoveryProjectCard
                   key={project.slug}
@@ -416,7 +428,7 @@ export function DiscoveryExplorer({ projects, developers, areas, locale = "en" }
                   locale={locale}
                 />
               ))}
-            </StaggerReveal>
+            </div>
           ) : (
             <div className="kh-state-swap border border-black/10 bg-[var(--color-bone)] p-8 sm:p-12">
               <p className="eyebrow">{copy.noExactMatch}</p>
@@ -463,13 +475,13 @@ export function DiscoveryExplorer({ projects, developers, areas, locale = "en" }
 
         <FilterSection title={copy.priceRent}>
           <div className="grid grid-cols-2 gap-2">
-            <label className="text-xs text-[var(--color-stone)]">{copy.minAed}<input value={filters.minPriceAed ?? ""} onChange={(event: ChangeEvent<HTMLInputElement>) => patchFilters({ minPriceAed: parseMoneyInput(event.target.value) })} inputMode="numeric" placeholder="0" className="mt-1 min-h-11 w-full border border-black/10 px-3 text-base text-[var(--color-graphite)] md:text-sm" /></label>
-            <label className="text-xs text-[var(--color-stone)]">{copy.maxAed}<input value={filters.maxPriceAed ?? ""} onChange={(event: ChangeEvent<HTMLInputElement>) => patchFilters({ maxPriceAed: parseMoneyInput(event.target.value) })} inputMode="numeric" placeholder={copy.any} className="mt-1 min-h-11 w-full border border-black/10 px-3 text-base text-[var(--color-graphite)] md:text-sm" /></label>
+            <label className="text-xs text-[var(--color-stone)]">{copy.minAed}<input value={filters.minPriceAed ?? ""} onChange={(event: ChangeEvent<HTMLInputElement>) => patchFilters({ minPriceAed: parseMoneyInput(event.target.value) })} inputMode="numeric" placeholder="0" className="mt-1 min-h-11 w-full border border-black/10 px-3 text-base text-[var(--color-graphite)] outline-none transition-colors focus:border-[var(--color-champagne)] md:text-sm" /></label>
+            <label className="text-xs text-[var(--color-stone)]">{copy.maxAed}<input value={filters.maxPriceAed ?? ""} onChange={(event: ChangeEvent<HTMLInputElement>) => patchFilters({ maxPriceAed: parseMoneyInput(event.target.value) })} inputMode="numeric" placeholder={copy.any} className="mt-1 min-h-11 w-full border border-black/10 px-3 text-base text-[var(--color-graphite)] outline-none transition-colors focus:border-[var(--color-champagne)] md:text-sm" /></label>
           </div>
         </FilterSection>
 
         <FilterSection title={copy.cashAvailable}>
-          <label className="text-xs text-[var(--color-stone)]">{copy.maxFirstMilestone}<input value={filters.maxInitialCashAed ?? ""} onChange={(event: ChangeEvent<HTMLInputElement>) => patchFilters({ maxInitialCashAed: parseMoneyInput(event.target.value) })} inputMode="numeric" placeholder={copy.cashExample} className="mt-1 min-h-11 w-full border border-black/10 px-3 text-base text-[var(--color-graphite)] md:text-sm" /></label>
+          <label className="text-xs text-[var(--color-stone)]">{copy.maxFirstMilestone}<input value={filters.maxInitialCashAed ?? ""} onChange={(event: ChangeEvent<HTMLInputElement>) => patchFilters({ maxInitialCashAed: parseMoneyInput(event.target.value) })} inputMode="numeric" placeholder={copy.cashExample} className="mt-1 min-h-11 w-full border border-black/10 px-3 text-base text-[var(--color-graphite)] outline-none transition-colors focus:border-[var(--color-champagne)] md:text-sm" /></label>
           {filters.maxInitialCashAed !== null ? <p className="mt-2 text-xs text-[var(--color-stone)]">{copy.showingInventory(formatAed(filters.maxInitialCashAed, { compact: true }))}</p> : null}
         </FilterSection>
 
@@ -516,8 +528,8 @@ export function DiscoveryExplorer({ projects, developers, areas, locale = "en" }
 
         <FilterSection title={copy.saveSearch}>
           <div className="flex gap-2">
-            <input value={saveName} onChange={(event: ChangeEvent<HTMLInputElement>) => setSaveName(event.target.value)} placeholder={copy.searchName} className="min-h-11 min-w-0 flex-1 border border-black/10 px-3 text-base md:text-sm" />
-            <button type="button" onClick={saveCurrentSearch} className="min-h-11 border border-black/10 px-3 text-xs font-semibold hover:border-[var(--color-teal)]">{copy.save}</button>
+            <input value={saveName} onChange={(event: ChangeEvent<HTMLInputElement>) => setSaveName(event.target.value)} placeholder={copy.searchName} className="min-h-11 min-w-0 flex-1 border border-black/10 px-3 text-base outline-none transition-colors focus:border-[var(--color-champagne)] md:text-sm" />
+            <button type="button" onClick={saveCurrentSearch} className="min-h-11 border border-black/10 px-3 text-xs font-semibold transition-colors active:scale-95 hover:border-[var(--color-teal)]">{copy.save}</button>
           </div>
           <p className="mt-2 text-[0.68rem] leading-5 text-[var(--color-stone)]">{copy.savedLocally}</p>
           {savedSearches.length > 0 ? <div className="mt-4 grid gap-2">{savedSearches.map((search) => <div key={search.id} className="flex items-center justify-between gap-2 border-t border-black/[0.08] pt-2"><button type="button" onClick={() => loadSavedSearch(search)} className="min-w-0 truncate text-left text-xs font-medium hover:underline">{search.name}</button><button type="button" onClick={() => deleteSavedSearch(search.id)} aria-label={copy.deleteSaved(search.name)} className="px-2 text-xs text-[var(--color-stone)] hover:text-[var(--color-graphite)]">×</button></div>)}</div> : null}

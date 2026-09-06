@@ -87,35 +87,35 @@ export function SmartFinder({ areas, onApply, locale = "en" }: SmartFinderProps)
       <div className="mt-7 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         <label className="text-sm">
           <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-stone)]">{copy.primaryGoal}</span>
-          <select value={goal} onChange={(event: ChangeEvent<HTMLSelectElement>) => setGoal(event.target.value as InvestmentGoal | "")} className="min-h-12 w-full border border-black/10 bg-[var(--color-soft-white)] px-3 text-base md:text-sm">
+          <select value={goal} onChange={(event: ChangeEvent<HTMLSelectElement>) => setGoal(event.target.value as InvestmentGoal | "")} className="min-h-12 w-full border border-black/10 bg-[var(--color-soft-white)] px-3 text-base outline-none transition-colors focus:border-[var(--color-teal)] md:text-sm">
             <option value="">{copy.anyGoal}</option>
             {goalValues.map((value) => <option key={value} value={value}>{goalLabels[value]}</option>)}
           </select>
         </label>
         <label className="text-sm">
           <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-stone)]">{copy.propertyRoute}</span>
-          <select value={category} onChange={(event: ChangeEvent<HTMLSelectElement>) => setCategory(event.target.value as ProjectCategory | "")} className="min-h-12 w-full border border-black/10 bg-[var(--color-soft-white)] px-3 text-base md:text-sm">
+          <select value={category} onChange={(event: ChangeEvent<HTMLSelectElement>) => setCategory(event.target.value as ProjectCategory | "")} className="min-h-12 w-full border border-black/10 bg-[var(--color-soft-white)] px-3 text-base outline-none transition-colors focus:border-[var(--color-teal)] md:text-sm">
             <option value="">{copy.anyRoute}</option>
             {categoryOptions.map((option) => <option key={option} value={option}>{option}</option>)}
           </select>
         </label>
         <label className="text-sm">
           <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-stone)]">{copy.lifestyle}</span>
-          <select value={lifestyle} onChange={(event: ChangeEvent<HTMLSelectElement>) => setLifestyle(event.target.value as LifestyleTag | "")} className="min-h-12 w-full border border-black/10 bg-[var(--color-soft-white)] px-3 text-base md:text-sm">
+          <select value={lifestyle} onChange={(event: ChangeEvent<HTMLSelectElement>) => setLifestyle(event.target.value as LifestyleTag | "")} className="min-h-12 w-full border border-black/10 bg-[var(--color-soft-white)] px-3 text-base outline-none transition-colors focus:border-[var(--color-teal)] md:text-sm">
             <option value="">{copy.anyLifestyle}</option>
             {lifestyleOptions.map((option) => <option key={option} value={option}>{option}</option>)}
           </select>
         </label>
         <label className="text-sm">
           <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-stone)]">{copy.preferredArea}</span>
-          <select value={areaSlug} onChange={(event: ChangeEvent<HTMLSelectElement>) => setAreaSlug(event.target.value)} className="min-h-12 w-full border border-black/10 bg-[var(--color-soft-white)] px-3 text-base md:text-sm">
+          <select value={areaSlug} onChange={(event: ChangeEvent<HTMLSelectElement>) => setAreaSlug(event.target.value)} className="min-h-12 w-full border border-black/10 bg-[var(--color-soft-white)] px-3 text-base outline-none transition-colors focus:border-[var(--color-teal)] md:text-sm">
             <option value="">{copy.anywhere}</option>
             {areas.map((area) => <option key={area.slug} value={area.slug}>{area.name}</option>)}
           </select>
         </label>
         <label className="text-sm">
           <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-stone)]">{copy.maxPrice}</span>
-          <select value={budget} onChange={(event: ChangeEvent<HTMLSelectElement>) => setBudget(event.target.value)} className="min-h-12 w-full border border-black/10 bg-[var(--color-soft-white)] px-3 text-base md:text-sm">
+          <select value={budget} onChange={(event: ChangeEvent<HTMLSelectElement>) => setBudget(event.target.value)} className="min-h-12 w-full border border-black/10 bg-[var(--color-soft-white)] px-3 text-base outline-none transition-colors focus:border-[var(--color-teal)] md:text-sm">
             <option value="">{copy.noMax}</option>
             <option value="1000000">AED 1M</option>
             <option value="2000000">AED 2M</option>
@@ -126,7 +126,7 @@ export function SmartFinder({ areas, onApply, locale = "en" }: SmartFinderProps)
         </label>
         <label className="text-sm">
           <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-stone)]">{copy.cashToday}</span>
-          <select value={cashToday} onChange={(event: ChangeEvent<HTMLSelectElement>) => setCashToday(event.target.value)} className="min-h-12 w-full border border-black/10 bg-[var(--color-soft-white)] px-3 text-base md:text-sm">
+          <select value={cashToday} onChange={(event: ChangeEvent<HTMLSelectElement>) => setCashToday(event.target.value)} className="min-h-12 w-full border border-black/10 bg-[var(--color-soft-white)] px-3 text-base outline-none transition-colors focus:border-[var(--color-teal)] md:text-sm">
             <option value="">{copy.notSpecified}</option>
             <option value="250000">AED 250K</option>
             <option value="500000">AED 500K</option>

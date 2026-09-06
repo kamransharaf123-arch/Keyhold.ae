@@ -410,6 +410,16 @@ body[data-kh-page-intro="on"] .kh-page-intro {
   }
 }
 
+/* A result set re-populating (filter/sort change) -- fast and uniform, not a
+   per-card cascade, since this repeats many times per session. */
+@keyframes kh-results-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.kh-results-fade {
+  animation: kh-results-fade-in 260ms var(--kh-ease-out);
+}
+
 /* Reduced motion always wins, regardless of CMS settings. */
 @media (prefers-reduced-motion: reduce) {
   .kh-reveal,
@@ -445,4 +455,5 @@ body[data-kh-page-intro="on"] .kh-page-intro {
   .kh-lightbox,
   .kh-lightbox-image,
   .kh-lightbox-control { transition: none !important; transform: none !important; }
+  .kh-results-fade { animation: none !important; }
 }
