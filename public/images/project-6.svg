@@ -1,11 +1,51 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1250">
-<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#9a8d80"/><stop offset="1" stop-color="#d2bfa5"/></linearGradient></defs>
-<rect width="1000" height="1250" fill="url(#g)"/>
-<rect x="120" y="210" width="760" height="820" fill="#4a4139" opacity=".88"/>
-<g fill="#f0e7d9" opacity=".28">
-<rect x="165" y="255" width="160" height="170"/><rect x="360" y="255" width="160" height="170"/><rect x="555" y="255" width="160" height="170"/>
-<rect x="165" y="470" width="160" height="170"/><rect x="360" y="470" width="160" height="170"/><rect x="555" y="470" width="160" height="170"/>
-<rect x="165" y="685" width="160" height="170"/><rect x="360" y="685" width="160" height="170"/><rect x="555" y="685" width="160" height="170"/>
+<defs>
+  <linearGradient id="sky" x1="0.1" y1="0" x2="0.5" y2="1">
+    <stop offset="0" stop-color="#2b241d"/>
+    <stop offset="0.5" stop-color="#c78368"/>
+    <stop offset="1" stop-color="#f5e8e2"/>
+  </linearGradient>
+  <linearGradient id="resort" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#332a22"/>
+    <stop offset="1" stop-color="#1c1712"/>
+  </linearGradient>
+  <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
+    <stop offset="0" stop-color="#ffe6cf" stop-opacity=".9"/>
+    <stop offset="1" stop-color="#ffe6cf" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="soft"><feGaussianBlur stdDeviation="16"/></filter>
+</defs>
+<rect width="1000" height="1250" fill="url(#sky)"/>
+<circle cx="500" cy="360" r="180" fill="url(#sun)" filter="url(#soft)"/>
+
+<!-- low resort building -->
+<g fill="url(#resort)">
+  <rect x="220" y="820" width="560" height="150" rx="6"/>
+  <rect x="300" y="760" width="180" height="60" rx="4"/>
 </g>
-<path d="M0 1020 C220 940 430 1080 1000 930 L1000 1250 L0 1250Z" fill="#171717" opacity=".32"/>
+<g fill="#f7e8d8" opacity=".3">
+  <rect x="260" y="855" width="55" height="65"/>
+  <rect x="350" y="855" width="55" height="65"/>
+  <rect x="440" y="855" width="55" height="65"/>
+  <rect x="530" y="855" width="55" height="65"/>
+  <rect x="620" y="855" width="55" height="65"/>
+</g>
+
+<!-- palm fronds -->
+<g fill="#7a5c3a" stroke="#7a5c3a">
+  <path d="M120 980 L120 700" stroke-width="12" stroke-linecap="round"/>
+  <path d="M120 720 C 60 660, 20 620, 40 560 C 90 610, 115 660, 120 720Z" opacity=".85"/>
+  <path d="M120 720 C 180 660, 220 620, 200 560 C 150 610, 125 660, 120 720Z" opacity=".85"/>
+  <path d="M120 700 C 70 665, 50 630, 90 590 C 115 630, 122 665, 120 700Z" opacity=".7"/>
+  <path d="M120 700 C 170 665, 190 630, 150 590 C 125 630, 118 665, 120 700Z" opacity=".7"/>
+</g>
+<g fill="#7a5c3a" stroke="#7a5c3a" opacity=".7">
+  <path d="M900 980 L900 760" stroke-width="9" stroke-linecap="round"/>
+  <path d="M900 780 C 855 735, 825 705, 840 660 C 880 700, 898 735, 900 780Z"/>
+  <path d="M900 780 C 945 735, 975 705, 960 660 C 920 700, 902 735, 900 780Z"/>
+</g>
+
+<!-- beach horizon -->
+<path d="M0 1000 C 260 970, 520 1030, 780 1000 S 940 985, 1000 995 L1000 1250 L0 1250Z" fill="#eadfc4" opacity=".55"/>
+<path d="M0 1060 C 300 1030, 600 1080, 1000 1050 L1000 1250 L0 1250Z" fill="#dcc9a3" opacity=".6"/>
 </svg>

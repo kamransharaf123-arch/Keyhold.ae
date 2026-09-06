@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1250">
+<defs>
+  <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#f2ebdd"/>
+    <stop offset="1" stop-color="#e4d9c2"/>
+  </linearGradient>
+  <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#c7ae86"/>
+    <stop offset="1" stop-color="#a68b63"/>
+  </linearGradient>
+  <linearGradient id="view" x1="0.2" y1="0" x2="0.6" y2="1">
+    <stop offset="0" stop-color="#35645f"/>
+    <stop offset="1" stop-color="#b99a68"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+    <stop offset="0" stop-color="#fff6e2" stop-opacity=".7"/>
+    <stop offset="1" stop-color="#fff6e2" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="soft"><feGaussianBlur stdDeviation="12"/></filter>
+</defs>
+<rect width="1000" height="1250" fill="url(#wall)"/>
+<rect x="0" y="920" width="1000" height="330" fill="url(#floor)"/>
+<rect x="0" y="900" width="1000" height="20" fill="#8f7650" opacity=".5"/>
+
+<!-- window with skyline view -->
+<rect x="120" y="140" width="760" height="640" rx="6" fill="url(#view)"/>
+<circle cx="760" cy="260" r="110" fill="url(#glow)" filter="url(#soft)"/>
+<g fill="#1c2b28" opacity=".85">
+  <rect x="520" y="420" width="70" height="360"/>
+  <rect x="610" y="360" width="55" height="420"/>
+  <rect x="690" y="460" width="80" height="320"/>
+</g>
+<rect x="120" y="140" width="760" height="640" rx="6" fill="none" stroke="#8f7650" stroke-width="14"/>
+<path d="M500 140 L500 780M120 460 L880 460" stroke="#8f7650" stroke-width="8"/>
+
+<!-- furniture silhouettes -->
+<g fill="#2a231b" opacity=".82">
+  <rect x="160" y="960" width="320" height="130" rx="24"/>
+  <rect x="180" y="900" width="60" height="80" rx="16"/>
+  <rect x="400" y="900" width="60" height="80" rx="16"/>
+  <rect x="560" y="1020" width="220" height="50" rx="10"/>
+</g>
+<g fill="#eadfc4" opacity=".4">
+  <rect x="600" y="1000" width="60" height="20" rx="4"/>
+  <rect x="680" y="1000" width="60" height="20" rx="4"/>
+</g>
+
+<rect x="0" y="0" width="1000" height="1250" fill="#1b1b1b" opacity=".04"/>
+</svg>

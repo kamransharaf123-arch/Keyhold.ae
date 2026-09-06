@@ -174,8 +174,8 @@ export const projects: Project[] = [
     heroImage: "/images/project-1.svg",
     images: [
       { src: "/images/project-1.svg", alt: "Demo exterior artwork for Coastal Residences", category: "Exterior" },
-      { src: "/images/project-2.svg", alt: "Demo interior artwork for Coastal Residences", category: "Interior" },
-      { src: "/images/project-3.svg", alt: "Demo amenity artwork for Coastal Residences", category: "Amenities" },
+      { src: "/images/interior-1.svg", alt: "Demo interior artwork for Coastal Residences", category: "Interior" },
+      { src: "/images/amenity-1.svg", alt: "Demo amenity artwork for Coastal Residences", category: "Amenities" },
       { src: "/images/project-4.svg", alt: "Demo master plan artwork for Coastal Residences", category: "Master Plan" },
     ],
     priceFromAed: 2_100_000,
@@ -245,8 +245,8 @@ export const projects: Project[] = [
     heroImage: "/images/project-2.svg",
     images: [
       { src: "/images/project-2.svg", alt: "Demo exterior artwork for Downtown Collection", category: "Exterior" },
-      { src: "/images/project-3.svg", alt: "Demo interior artwork for Downtown Collection", category: "Interior" },
-      { src: "/images/project-5.svg", alt: "Demo amenity artwork for Downtown Collection", category: "Amenities" },
+      { src: "/images/interior-1.svg", alt: "Demo interior artwork for Downtown Collection", category: "Interior" },
+      { src: "/images/amenity-1.svg", alt: "Demo amenity artwork for Downtown Collection", category: "Amenities" },
     ],
     priceFromAed: 3_400_000,
     bedroomsLabel: "2–4 bedrooms",
@@ -306,7 +306,7 @@ export const projects: Project[] = [
     heroImage: "/images/project-3.svg",
     images: [
       { src: "/images/project-3.svg", alt: "Demo marina rental artwork", category: "Exterior" },
-      { src: "/images/project-2.svg", alt: "Demo marina rental interior artwork", category: "Interior" },
+      { src: "/images/interior-1.svg", alt: "Demo marina rental interior artwork", category: "Interior" },
     ],
     priceFromAed: null,
     rentalPriceFromAed: 240_000,
@@ -356,8 +356,8 @@ export const projects: Project[] = [
     heroImage: "/images/project-4.svg",
     images: [
       { src: "/images/project-4.svg", alt: "Demo villa exterior artwork", category: "Exterior" },
-      { src: "/images/project-5.svg", alt: "Demo villa interior artwork", category: "Interior" },
-      { src: "/images/project-2.svg", alt: "Demo villa amenity artwork", category: "Amenities" },
+      { src: "/images/interior-1.svg", alt: "Demo villa interior artwork", category: "Interior" },
+      { src: "/images/amenity-1.svg", alt: "Demo villa amenity artwork", category: "Amenities" },
     ],
     priceFromAed: 5_800_000,
     bedroomsLabel: "4–5 bedrooms",
@@ -423,7 +423,7 @@ export const projects: Project[] = [
     heroImage: "/images/project-5.svg",
     images: [
       { src: "/images/project-5.svg", alt: "Demo short-term rental artwork", category: "Exterior" },
-      { src: "/images/project-6.svg", alt: "Demo short-term rental interior artwork", category: "Interior" },
+      { src: "/images/interior-1.svg", alt: "Demo short-term rental interior artwork", category: "Interior" },
     ],
     priceFromAed: null,
     rentalPriceFromAed: 1_850,
@@ -473,7 +473,7 @@ export const projects: Project[] = [
     heroImage: "/images/project-6.svg",
     images: [
       { src: "/images/project-6.svg", alt: "Demo creekside ready home artwork", category: "Exterior" },
-      { src: "/images/project-3.svg", alt: "Demo ready home interior artwork", category: "Interior" },
+      { src: "/images/interior-1.svg", alt: "Demo ready home interior artwork", category: "Interior" },
     ],
     priceFromAed: 2_950_000,
     bedroomsLabel: "2 bedrooms",

@@ -1,11 +1,40 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 675">
-<defs><linearGradient id="u" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6f7d7d"/><stop offset="1" stop-color="#c9b89d"/></linearGradient></defs>
-<rect width="900" height="675" fill="url(#u)"/>
-<g fill="#2a3435" opacity=".9">
-<rect x="110" y="170" width="170" height="370"/><rect x="310" y="90" width="210" height="450"/><rect x="550" y="215" width="220" height="325"/>
+<defs>
+  <linearGradient id="sky" x1="0.1" y1="0" x2="0.5" y2="1">
+    <stop offset="0" stop-color="#2a2320"/>
+    <stop offset="0.5" stop-color="#9b5f49"/>
+    <stop offset="1" stop-color="#f5e8e2"/>
+  </linearGradient>
+  <linearGradient id="built" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#332621"/>
+    <stop offset="1" stop-color="#1a1310"/>
+  </linearGradient>
+  <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
+    <stop offset="0" stop-color="#ffe9d6" stop-opacity=".85"/>
+    <stop offset="1" stop-color="#ffe9d6" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="soft"><feGaussianBlur stdDeviation="12"/></filter>
+</defs>
+<rect width="900" height="675" fill="url(#sky)"/>
+<circle cx="450" cy="150" r="130" fill="url(#sun)" filter="url(#soft)"/>
+
+<!-- mostly complete, near topping-out -->
+<g fill="url(#built)">
+  <rect x="360" y="230" width="150" height="410" rx="3"/>
 </g>
-<g stroke="#f1e6d6" stroke-opacity=".3">
-<path d="M140 240h110M140 300h110M140 360h110M350 170h130M350 240h130M350 310h130M350 380h130M585 280h150M585 340h150M585 400h150"/>
+<g stroke="#fceee5" stroke-opacity=".22" stroke-width="2">
+  <path d="M382 260h106M382 300h106M382 340h106M382 380h106M382 420h106M382 460h106M382 500h106M382 540h106M382 580h106M382 620h106"/>
 </g>
-<rect y="540" width="900" height="135" fill="#171717" opacity=".28"/>
+<g fill="none" stroke="#fceee5" stroke-opacity=".55" stroke-width="3">
+  <rect x="380" y="170" width="110" height="60"/>
+</g>
+
+<g stroke="#fceee5" stroke-opacity=".8" stroke-width="4">
+  <path d="M300 640 L300 195"/>
+  <path d="M300 205 L560 205"/>
+  <path d="M300 205 L275 235"/>
+  <path d="M520 205 L520 245"/>
+</g>
+
+<path d="M0 615 C 220 585, 480 635, 720 605 S 860 595, 900 605 L900 675 L0 675Z" fill="#170f0b" opacity=".35"/>
 </svg>

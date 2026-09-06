@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type TouchEvent } from "react";
 import { ChevronLeftIcon, ChevronRightIcon, CloseIcon } from "@/components/icons";
 import { ImageReveal } from "@/components/motion";
 import type { ProjectImage } from "@/types/real-estate";
@@ -110,10 +110,23 @@ function GalleryLightbox({
 }) {
   const [index, setIndex] = useState(startIndex);
   const panelRef = useRef<HTMLDivElement | null>(null);
+  const touchStartX = useRef<number | null>(null);
   const image = images[index];
 
   const goPrev = useCallback(() => setIndex((current) => (current - 1 + images.length) % images.length), [images.length]);
   const goNext = useCallback(() => setIndex((current) => (current + 1) % images.length), [images.length]);
+
+  function handleTouchStart(event: TouchEvent) {
+    touchStartX.current = event.touches[0]?.clientX ?? null;
+  }
+  function handleTouchEnd(event: TouchEvent) {
+    if (touchStartX.current === null) return;
+    const deltaX = (event.changedTouches[0]?.clientX ?? touchStartX.current) - touchStartX.current;
+    touchStartX.current = null;
+    if (Math.abs(deltaX) < 48) return;
+    if (deltaX > 0) goPrev();
+    else goNext();
+  }
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -153,7 +166,13 @@ function GalleryLightbox({
           <CloseIcon className="size-5" />
         </button>
       </div>
-      <div ref={panelRef} tabIndex={-1} className="relative flex-1 px-2 pb-4 outline-none sm:px-6 sm:pb-6">
+      <div
+        ref={panelRef}
+        tabIndex={-1}
+        className="relative flex-1 px-2 pb-4 outline-none sm:px-6 sm:pb-6"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         <div key={image.src} className="kh-lightbox-image relative h-full w-full">
           <Image src={image.src} alt={image.alt} fill sizes="100vw" className="object-contain" priority />
         </div>
@@ -178,6 +197,22 @@ function GalleryLightbox({
           </>
         ) : null}
       </div>
+      {images.length > 1 ? (
+        <div className="scrollbar-none flex gap-2 overflow-x-auto px-4 pb-4 sm:px-6 sm:pb-6">
+          {images.map((thumb, thumbIndex) => (
+            <button
+              key={`${thumb.src}-${thumbIndex}`}
+              type="button"
+              onClick={() => setIndex(thumbIndex)}
+              aria-label={thumb.alt}
+              aria-current={thumbIndex === index}
+              className={`kh-lightbox-thumb relative aspect-[4/3] h-14 shrink-0 overflow-hidden sm:h-16 ${thumbIndex === index ? "kh-lightbox-thumb-active" : ""}`}
+            >
+              <Image src={thumb.src} alt="" fill sizes="80px" className="object-cover" />
+            </button>
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 }

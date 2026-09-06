@@ -1,11 +1,49 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 675">
-<defs><linearGradient id="u" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b7a48f"/><stop offset="1" stop-color="#d8c6ad"/></linearGradient></defs>
-<rect width="900" height="675" fill="url(#u)"/>
-<g fill="#5a5149" opacity=".9">
-<rect x="110" y="170" width="170" height="370"/><rect x="310" y="90" width="210" height="450"/><rect x="550" y="215" width="220" height="325"/>
+<defs>
+  <linearGradient id="sky" x1="0.1" y1="0" x2="0.5" y2="1">
+    <stop offset="0" stop-color="#24312f"/>
+    <stop offset="0.55" stop-color="#497c78"/>
+    <stop offset="1" stop-color="#e4efed"/>
+  </linearGradient>
+  <linearGradient id="built" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#2e3e3b"/>
+    <stop offset="1" stop-color="#161f1d"/>
+  </linearGradient>
+  <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
+    <stop offset="0" stop-color="#fbf3df" stop-opacity=".8"/>
+    <stop offset="1" stop-color="#fbf3df" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="soft"><feGaussianBlur stdDeviation="12"/></filter>
+</defs>
+<rect width="900" height="675" fill="url(#sky)"/>
+<circle cx="740" cy="170" r="120" fill="url(#sun)" filter="url(#soft)"/>
+
+<!-- completed lower floors -->
+<g fill="url(#built)">
+  <rect x="330" y="380" width="150" height="260" rx="3"/>
+  <rect x="540" y="330" width="110" height="310" rx="3"/>
 </g>
-<g stroke="#f1e6d6" stroke-opacity=".3">
-<path d="M140 240h110M140 300h110M140 360h110M350 170h130M350 240h130M350 310h130M350 380h130M585 280h150M585 340h150M585 400h150"/>
+<g stroke="#eef3ee" stroke-opacity=".22" stroke-width="2">
+  <path d="M355 410h100M355 450h100M355 490h100M355 530h100M355 570h100M355 610h100"/>
+  <path d="M560 365h70M560 405h70M560 445h70M560 485h70M560 525h70M560 565h70M560 605h70"/>
 </g>
-<rect y="540" width="900" height="135" fill="#171717" opacity=".28"/>
+
+<!-- under-construction wireframe upper floors -->
+<g fill="none" stroke="#eef3ee" stroke-opacity=".55" stroke-width="3">
+  <rect x="330" y="230" width="150" height="150"/>
+  <path d="M330 270h150M330 310h150M330 350h150"/>
+  <rect x="540" y="180" width="110" height="150"/>
+  <path d="M540 215h110M540 250h110M540 285h110M540 320h110"/>
+</g>
+
+<!-- crane -->
+<g stroke="#eef3ee" stroke-opacity=".8" stroke-width="4">
+  <path d="M240 640 L240 150"/>
+  <path d="M240 160 L470 160"/>
+  <path d="M240 160 L210 190"/>
+  <path d="M420 160 L420 210"/>
+  <path d="M240 190 L400 210"/>
+</g>
+
+<path d="M0 620 C 220 590, 480 640, 720 610 S 860 600, 900 610 L900 675 L0 675Z" fill="#101917" opacity=".4"/>
 </svg>

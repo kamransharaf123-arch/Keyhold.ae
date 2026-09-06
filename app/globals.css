@@ -225,6 +225,14 @@ textarea:focus-visible {
   background: linear-gradient(135deg, var(--color-champagne-soft), var(--color-soft-white) 72%);
 }
 
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
 .animate-rise {
   animation: rise-in 700ms cubic-bezier(0.2, 0.72, 0.2, 1) both;
 }

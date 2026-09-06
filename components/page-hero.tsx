@@ -8,8 +8,8 @@ type PageHeroProps = {
 
 export function PageHero({ eyebrow, title, description }: PageHeroProps) {
   return (
-    <section className="border-b border-black/[0.07] bg-[linear-gradient(135deg,var(--color-champagne-soft),var(--color-soft-white)_58%,var(--color-teal-soft))]">
-      <div className="site-container py-20 sm:py-28 lg:py-32">
+    <section className="kh-page-hero border-b border-black/[0.07] bg-[linear-gradient(135deg,var(--color-champagne-soft),var(--color-soft-white)_58%,var(--color-teal-soft))]">
+      <div className="site-container relative py-20 sm:py-28 lg:py-32">
         <Reveal delayMs={40}>
           <p className="eyebrow">{eyebrow}</p>
         </Reveal>

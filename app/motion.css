@@ -46,6 +46,28 @@ body {
 .kh-stagger[data-motion-ready="true"][data-motion-visible="true"] > *:nth-child(6) { transition-delay: calc(var(--kh-stagger-step) * 5); }
 .kh-stagger[data-motion-ready="true"][data-motion-visible="true"] > *:nth-child(n+7) { transition-delay: calc(var(--kh-stagger-step) * 6); }
 
+/* Directional-alternating stagger variant: a grid where every tile rising
+   in the same direction reads flat gets left/right variety instead. Applied
+   as an extra class alongside .kh-stagger, so timing/delays stay shared. */
+.kh-stagger-alt[data-motion-ready="true"] > *:nth-child(odd) {
+  transform: translate3d(-18px, calc(var(--kh-reveal-distance) * .55), 0);
+}
+.kh-stagger-alt[data-motion-ready="true"] > *:nth-child(even) {
+  transform: translate3d(18px, calc(var(--kh-reveal-distance) * .55), 0);
+}
+.kh-stagger-alt[data-motion-ready="true"][data-motion-visible="true"] > * {
+  transform: translate3d(0, 0, 0);
+}
+
+/* Scale-materialize variant for occasional editorial-break sections (used
+   sparingly -- most sections keep the standard rise-in fade). */
+.kh-reveal-scale[data-motion-ready="true"][data-motion-visible="false"] {
+  transform: scale(.96);
+}
+.kh-reveal-scale[data-motion-ready="true"][data-motion-visible="true"] {
+  transform: scale(1);
+}
+
 /* Hero media materializing on first load (homepage only), independent of the
    parallax transform HeroParallax drives on its own wrapper via JS. */
 @keyframes kh-hero-media-in {
@@ -53,7 +75,11 @@ body {
   to { opacity: .8; transform: scale(1); }
 }
 .kh-hero-media-in {
-  animation: kh-hero-media-in 1400ms var(--kh-ease-out) both;
+  animation: kh-hero-media-in 1400ms var(--kh-ease-out) both, kh-hero-kenburns 26s ease-in-out 1400ms infinite alternate;
+}
+@keyframes kh-hero-kenburns {
+  from { transform: scale(1); }
+  to { transform: scale(1.09); }
 }
 
 /* Cinematic hero: no layout shift, tiny bounded parallax only. */
@@ -78,6 +104,27 @@ body {
   object-fit: cover;
 }
 .kh-cinematic-hero-content { position: relative; z-index: 1; }
+.kh-cinematic-hero-atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+.kh-cinematic-hero-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 90% 75% at 62% 38%, transparent 55%, rgba(12, 18, 16, .4) 100%);
+}
+
+/* Floating card that bridges the hero into the page below. */
+.kh-hero-float-card {
+  box-shadow: 0 30px 70px -28px rgba(20, 28, 26, 0.32), 0 2px 0 rgba(20, 28, 26, 0.04);
+}
 body[data-kh-hero-ambient="on"] .kh-cinematic-hero::before,
 body[data-kh-hero-ambient="on"] .kh-cinematic-hero::after {
   position: absolute;
@@ -105,6 +152,38 @@ body[data-kh-hero-ambient="on"] .kh-cinematic-hero::after {
 @keyframes kh-ambient-drift {
   from { transform: translate3d(-1.5%, -1%, 0) scale(.98); }
   to { transform: translate3d(2%, 1.5%, 0) scale(1.04); }
+}
+
+/* Interior PageHero: a lighter, quieter echo of the homepage's ambient glow so
+   editorial pages feel alive without borrowing the homepage's cinematic treatment. */
+.kh-page-hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+body[data-kh-hero-ambient="on"] .kh-page-hero::before,
+body[data-kh-hero-ambient="on"] .kh-page-hero::after {
+  position: absolute;
+  z-index: -1;
+  width: 30rem;
+  height: 30rem;
+  border-radius: 999px;
+  content: "";
+  pointer-events: none;
+  filter: blur(64px);
+  opacity: .22;
+}
+body[data-kh-hero-ambient="on"] .kh-page-hero::before {
+  top: -15rem;
+  right: -8rem;
+  background: var(--color-teal);
+  animation: kh-ambient-drift var(--kh-ambient-duration) ease-in-out infinite alternate;
+}
+body[data-kh-hero-ambient="on"] .kh-page-hero::after {
+  bottom: -17rem;
+  left: -10rem;
+  background: var(--color-champagne);
+  animation: kh-ambient-drift var(--kh-ambient-duration) ease-in-out infinite alternate-reverse;
 }
 
 /* Headline word reveal. */
@@ -164,8 +243,40 @@ body[data-kh-hero-ambient="on"] .kh-cinematic-hero::after {
   transition: transform 420ms var(--kh-ease-out);
   pointer-events: none;
 }
-.kh-motion-image { overflow: clip; }
+.kh-motion-image { position: relative; overflow: clip; }
 .kh-motion-image img { transition: transform 550ms var(--kh-ease-out), filter 500ms var(--kh-ease-soft); }
+.kh-motion-image::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(15, 22, 20, .38), rgba(15, 22, 20, 0) 45%);
+  opacity: 0;
+  transition: opacity 420ms var(--kh-ease-out);
+}
+.kh-card-cta { z-index: 2; }
+
+/* Compact favorite/save toggle on card imagery. */
+.kh-card-favorite {
+  position: relative;
+  z-index: 2;
+  transition: transform 200ms var(--kh-ease-out), background-color 200ms ease;
+}
+.kh-card-favorite[aria-pressed="true"] {
+  background-color: var(--color-terracotta);
+}
+.kh-card-favorite:active {
+  transform: scale(0.9);
+  transition-duration: 100ms;
+}
+@media (hover: hover) and (pointer: fine) {
+  .kh-card-favorite:hover {
+    background-color: var(--color-terracotta-deep);
+  }
+  .kh-card-favorite[aria-pressed="true"]:hover {
+    background-color: var(--color-terracotta-deep);
+  }
+}
 .kh-motion-arrow { display: inline-block; transition: transform 260ms var(--kh-ease-out); }
 
 @media (hover: hover) and (pointer: fine) {
@@ -178,6 +289,7 @@ body[data-kh-hero-ambient="on"] .kh-cinematic-hero::after {
   }
   body[data-kh-card-hover="on"] .kh-motion-card:hover::after { transform: scaleX(1); }
   body[data-kh-card-hover="on"] .kh-motion-card:hover .kh-motion-image img { transform: scale(1.035); }
+  body[data-kh-card-hover="on"] .kh-motion-card:hover .kh-motion-image::after { opacity: 1; }
   /* Standalone image reveals (no .kh-motion-card ancestor, e.g. gallery thumbnails) get their own direct hover-zoom. */
   body[data-kh-card-hover="on"] .kh-motion-image:hover img { transform: scale(1.035); }
   body[data-kh-card-hover="on"] .kh-motion-card:hover .kh-motion-arrow { transform: translateX(4px); }
@@ -303,11 +415,15 @@ body[data-kh-chart-motion="on"] [data-kh-chart][data-motion-ready="true"][data-m
 
 /* Short page intro, intentionally not a blocking route transition. */
 body[data-kh-page-intro="on"] .kh-page-intro {
-  animation: kh-page-intro var(--kh-motion-duration) var(--kh-ease-out) both;
+  /* backwards (not both/forwards): once the entrance finishes, the animation
+     must stop holding transform: translate3d(0,0,0) -- any transform value,
+     even a no-op identity one, creates a containing block that breaks
+     position:fixed descendants (the gallery lightbox, any modal) sitewide. */
+  animation: kh-page-intro var(--kh-motion-duration) var(--kh-ease-out) backwards;
 }
 @keyframes kh-page-intro {
-  from { opacity: 0; transform: translate3d(0, 10px, 0); }
-  to { opacity: 1; transform: translate3d(0, 0, 0); }
+  from { opacity: 0; transform: translate3d(0, 10px, 0) scale(.99); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
 }
 
 /* Editorial signatures */
@@ -333,13 +449,16 @@ body[data-kh-page-intro="on"] .kh-page-intro {
 
 /* Header polish without changing navigation structure. */
 .kh-site-header {
-  transition: background-color 300ms ease, border-color 300ms ease, box-shadow 300ms ease, backdrop-filter 300ms ease;
+  transition: background-color 300ms ease, border-color 300ms ease, box-shadow 300ms ease, backdrop-filter 300ms ease, transform 340ms var(--kh-ease-out);
 }
 .kh-site-header[data-scrolled="true"] {
   background: color-mix(in srgb, var(--color-soft-white) 90%, transparent);
   border-color: color-mix(in srgb, var(--color-teal) 16%, transparent);
   box-shadow: 0 10px 34px rgba(36, 49, 47, .05);
   backdrop-filter: blur(16px) saturate(1.05);
+}
+.kh-site-header[data-nav-hidden="true"] {
+  transform: translate3d(0, -100%, 0);
 }
 
 /* Animated disclosure: floating dropdown/menu panels (nav, filters trigger, etc.). */
@@ -356,6 +475,44 @@ body[data-kh-page-intro="on"] .kh-page-intro {
   opacity: 1;
   transform: scale(1) translateY(0);
 }
+
+/* Mobile nav: a full-height slide-over sheet rather than a small anchored dropdown. */
+.kh-mobile-sheet {
+  transform: translate3d(100%, 0, 0);
+  transition: transform 380ms var(--kh-ease-out), visibility 0ms linear 380ms;
+  box-shadow: -24px 0 60px rgba(20, 28, 26, 0.14);
+  visibility: hidden;
+}
+.kh-mobile-sheet[data-state="open"] {
+  transform: translate3d(0, 0, 0);
+  visibility: visible;
+  transition: transform 380ms var(--kh-ease-out);
+}
+.kh-mobile-sheet-backdrop {
+  background: rgba(15, 22, 20, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 320ms ease;
+}
+.kh-mobile-sheet-backdrop[data-state="open"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+.kh-mobile-sheet-link {
+  opacity: 0;
+  transform: translate3d(14px, 0, 0);
+  transition: opacity 320ms var(--kh-ease-out), transform 320ms var(--kh-ease-out);
+}
+.kh-mobile-sheet[data-state="open"] .kh-mobile-sheet-link {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+.kh-mobile-sheet[data-state="open"] .kh-mobile-sheet-link:nth-child(1) { transition-delay: calc(var(--kh-stagger-step) * 0); }
+.kh-mobile-sheet[data-state="open"] .kh-mobile-sheet-link:nth-child(2) { transition-delay: calc(var(--kh-stagger-step) * 1); }
+.kh-mobile-sheet[data-state="open"] .kh-mobile-sheet-link:nth-child(3) { transition-delay: calc(var(--kh-stagger-step) * 2); }
+.kh-mobile-sheet[data-state="open"] .kh-mobile-sheet-link:nth-child(4) { transition-delay: calc(var(--kh-stagger-step) * 3); }
+.kh-mobile-sheet[data-state="open"] .kh-mobile-sheet-link:nth-child(5) { transition-delay: calc(var(--kh-stagger-step) * 4); }
+.kh-mobile-sheet[data-state="open"] .kh-mobile-sheet-link:nth-child(n+6) { transition-delay: calc(var(--kh-stagger-step) * 5); }
 
 /* Animated disclosure: inline accordion panels (mobile filters, advanced fields). */
 .kh-accordion-panel {
@@ -409,6 +566,24 @@ body[data-kh-page-intro="on"] .kh-page-intro {
     background-color: rgba(255, 255, 255, 0.14);
   }
 }
+.kh-lightbox-thumb {
+  opacity: .45;
+  transition: opacity 200ms ease, outline-color 200ms ease;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+}
+.kh-lightbox-thumb-active {
+  opacity: 1;
+  outline-color: rgba(255, 255, 255, 0.85);
+}
+@media (hover: hover) and (pointer: fine) {
+  .kh-lightbox-thumb:hover {
+    opacity: .8;
+  }
+  .kh-lightbox-thumb-active:hover {
+    opacity: 1;
+  }
+}
 
 /* A result set re-populating (filter/sort change) -- fast and uniform, not a
    per-card cascade, since this repeats many times per session. */
@@ -454,6 +629,7 @@ body[data-kh-page-intro="on"] .kh-page-intro {
   .kh-motion-image img,
   .kh-motion-arrow,
   .kh-cinematic-hero-media,
+  .kh-site-header,
   .kh-page-intro {
     opacity: 1 !important;
     transform: none !important;
@@ -463,9 +639,14 @@ body[data-kh-page-intro="on"] .kh-page-intro {
   .kh-image-reveal::after,
   .kh-cinematic-hero::before,
   .kh-cinematic-hero::after,
+  .kh-page-hero::before,
+  .kh-page-hero::after,
   .kh-scroll-cue-line::after { display: none !important; }
   .kh-progress-fill { width: var(--kh-progress-value) !important; }
   .kh-dropdown-panel { transition: opacity 0.01ms !important; transform: none !important; }
+  .kh-mobile-sheet { transition: visibility 0.01ms !important; transform: none !important; }
+  .kh-mobile-sheet-backdrop,
+  .kh-mobile-sheet-link { transition: opacity 0.01ms !important; transform: none !important; }
   .kh-accordion-panel,
   .kh-accordion-panel-inner { transition: opacity 0.01ms !important; }
   .kh-bar-fill { width: var(--kh-bar-fill-width, 100%) !important; transition: none !important; }
@@ -475,6 +656,8 @@ body[data-kh-page-intro="on"] .kh-page-intro {
   .kh-route-card,
   .kh-route-card::after { transition: none !important; }
   .kh-card-cta { transition: none !important; transform: none !important; background-color: var(--color-teal) !important; }
+  .kh-card-favorite { transition: none !important; transform: none !important; }
+  .kh-motion-image::after { transition: none !important; }
   .kh-lightbox,
   .kh-lightbox-image,
   .kh-lightbox-control { transition: none !important; transform: none !important; }

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { SaveProjectButton } from "@/components/client/save-project-button";
 import { formatAed, formatDateTimeDubai, formatProjectPrice, formatSqftRange } from "@/lib/format";
 import { getInitialCashRequirement, getPaymentPlanSignature, hasAvailableUnit } from "@/lib/discovery";
 import { localizedHref } from "@/lib/i18n/locale";
@@ -50,12 +51,17 @@ export function DiscoveryProjectCard({
 
   return (
     <article className="kh-motion-card grid overflow-hidden border border-black/10 bg-[var(--color-soft-white)] sm:grid-cols-[15rem_1fr] lg:grid-cols-[17rem_1fr]">
-      <Link href={projectHref} className="kh-motion-image relative min-h-64 overflow-hidden bg-[var(--color-warm-grey)] sm:min-h-full" aria-label={`Open ${project.title}`}>
-        <Image src={project.heroImage} alt="" fill sizes="(max-width: 640px) 100vw, 280px" className="object-cover" />
-        <span className="absolute left-4 top-4 bg-[color:rgba(234,240,230,0.94)] px-3 py-2 text-[0.63rem] font-semibold uppercase tracking-[0.15em] text-[var(--color-sage-deep)] backdrop-blur">
-          {project.category}
-        </span>
-      </Link>
+      <div className="relative min-h-64 sm:min-h-full">
+        <Link href={projectHref} className="kh-motion-image absolute inset-0 overflow-hidden bg-[var(--color-warm-grey)]" aria-label={`Open ${project.title}`}>
+          <Image src={project.heroImage} alt="" fill sizes="(max-width: 640px) 100vw, 280px" className="object-cover" />
+          <span className="absolute left-4 top-4 z-[2] bg-[color:rgba(234,240,230,0.94)] px-3 py-2 text-[0.63rem] font-semibold uppercase tracking-[0.15em] text-[var(--color-sage-deep)] backdrop-blur">
+            {project.category}
+          </span>
+        </Link>
+        <div className="absolute right-4 top-4 z-[2]">
+          <SaveProjectButton slug={project.slug} locale={locale} compact />
+        </div>
+      </div>
       <div className="flex min-w-0 flex-col p-5 sm:p-6">
         <div className="flex flex-wrap items-start justify-between gap-5">
           <div className="min-w-0">

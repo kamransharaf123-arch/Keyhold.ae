@@ -130,7 +130,7 @@ function FallbackHomeSections({ locale }: { locale: KeyHoldLocale }) {
         </StaggerReveal>
       </Reveal>
 
-      <Reveal as="section" className="site-container py-20 lg:py-28">
+      <Reveal as="section" className="site-container py-24 lg:py-36">
         <span className="kh-section-index">{sectionIndex.discover}</span>
         <SectionHeading eyebrow={SECTION_HEADINGS.featured[locale].eyebrow} title={SECTION_HEADINGS.featured[locale].title} description={SECTION_HEADINGS.featured[locale].description} href={localizedHref("/projects", locale)} linkLabel={SECTION_HEADINGS.featured[locale].link} />
         <StaggerReveal className="grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
@@ -142,7 +142,7 @@ function FallbackHomeSections({ locale }: { locale: KeyHoldLocale }) {
         <div className="site-container py-20 lg:py-28">
           <span className="kh-section-index">{sectionIndex.route}</span>
           <SectionHeading eyebrow={explore.eyebrow} title={explore.title} description={explore.description} />
-          <StaggerReveal as="div" className="grid border-l border-t border-black/10 sm:grid-cols-2 xl:grid-cols-4">
+          <StaggerReveal as="div" className="kh-stagger-alt grid border-l border-t border-black/10 sm:grid-cols-2 xl:grid-cols-4">
             {propertyTypes.map((item, index) => (
               <Link key={item.title} href={localizedHref(item.href, locale)} className="kh-route-card group min-h-64 border-b border-r border-black/10 p-7 transition-colors hover:bg-[var(--color-teal-soft)]">
                 <div className="flex items-start justify-between gap-4">
@@ -163,8 +163,8 @@ function FallbackHomeSections({ locale }: { locale: KeyHoldLocale }) {
         <StaggerReveal>{updates.slice(0, 3).map((update) => <UpdateCard key={update.slug} update={update} locale={locale} />)}</StaggerReveal>
       </Reveal>
 
-      <Reveal as="section" className="bg-[var(--color-charcoal)] text-[var(--color-bone)]">
-        <div className="site-container py-20 lg:py-28">
+      <Reveal as="section" className="kh-reveal-scale bg-[var(--color-charcoal)] text-[var(--color-bone)]">
+        <div className="site-container py-28 lg:py-40">
           <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
             <div>
               <span className="kh-section-index text-[#dbc79f]">{sectionIndex.understand}</span>
@@ -201,7 +201,7 @@ function FallbackHomeSections({ locale }: { locale: KeyHoldLocale }) {
       </Reveal>
 
       <Reveal as="section" className="border-y border-black/[0.08] bg-[var(--color-champagne-soft)]">
-        <div className="site-container py-20 lg:py-28">
+        <div className="site-container py-14 lg:py-20">
           <span className="kh-section-index">{sectionIndex.services}</span>
           <SectionHeading eyebrow={SECTION_HEADINGS.services[locale].eyebrow} title={SECTION_HEADINGS.services[locale].title} href={localizedHref("/services", locale)} linkLabel={SECTION_HEADINGS.services[locale].link} />
           <StaggerReveal className="grid gap-x-8 gap-y-0 md:grid-cols-2 xl:grid-cols-3">
@@ -243,7 +243,7 @@ export function HomeContent({ locale = "en" as KeyHoldLocale }: { locale?: KeyHo
   return (
     <>
       <HeroParallax
-        className="relative min-h-[78svh] overflow-hidden bg-[var(--color-charcoal)] text-[var(--color-bone)]"
+        className="relative min-h-[100svh] overflow-hidden bg-[var(--color-charcoal)] text-[var(--color-bone)]"
         media={
           <>
             <Image
@@ -254,11 +254,13 @@ export function HomeContent({ locale = "en" as KeyHoldLocale }: { locale?: KeyHo
               sizes="100vw"
               className="kh-hero-media-in object-cover"
             />
-            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(25,52,49,0.82),rgba(35,67,63,0.34)_64%,rgba(35,67,63,0.08))]" />
+            <div className="absolute inset-0 bg-[linear-gradient(100deg,rgba(20,32,29,0.88),rgba(28,44,41,0.4)_58%,rgba(35,67,63,0.1))]" />
+            <div className="kh-cinematic-hero-vignette" />
+            <div className="kh-cinematic-hero-atmosphere" />
           </>
         }
       >
-        <div className="site-container relative flex min-h-[78svh] flex-col justify-end py-14 sm:py-[4.5rem] lg:py-20">
+        <div className="site-container relative flex min-h-[100svh] flex-col justify-end pb-24 pt-32 sm:pb-28 lg:pb-32">
           <div className="max-w-5xl">
             <Reveal delayMs={40}>
               <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#eadfc9]">
@@ -267,7 +269,7 @@ export function HomeContent({ locale = "en" as KeyHoldLocale }: { locale?: KeyHo
             </Reveal>
             <AnimatedHeadline
               text={heroTitle}
-              className="font-display mt-5 max-w-4xl text-5xl leading-[0.98] tracking-[-0.045em] sm:text-6xl md:text-7xl lg:text-[6.4rem]"
+              className="font-display mt-5 max-w-4xl text-5xl leading-[0.98] tracking-[-0.045em] sm:text-6xl md:text-7xl lg:text-[7.2rem]"
             />
             <Reveal delayMs={140}>
               <p className="mt-7 max-w-xl text-base leading-8 text-white/[0.74] sm:text-lg">
@@ -275,7 +277,7 @@ export function HomeContent({ locale = "en" as KeyHoldLocale }: { locale?: KeyHo
               </p>
             </Reveal>
             <Reveal delayMs={220}>
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="mt-9 flex flex-wrap gap-3">
                 <Link href={localizedHref(primaryCtaHref, locale)} className="button button-light">
                   {primaryCtaLabel}
                 </Link>
@@ -287,7 +289,7 @@ export function HomeContent({ locale = "en" as KeyHoldLocale }: { locale?: KeyHo
             </Reveal>
           </div>
           <Reveal delayMs={300}>
-            <div className="mt-10">
+            <div className="mt-14">
               <ScrollCue label={SCROLL_CUE_LABEL[locale]} />
             </div>
           </Reveal>

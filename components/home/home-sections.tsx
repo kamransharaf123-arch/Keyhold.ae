@@ -56,7 +56,7 @@ export function HomeSection({ section, locale }: { section: WebsiteSection; loca
       const projects = chosen.slice(0, limit);
       if (projects.length === 0) return null;
       return (
-        <Reveal as="section" className="site-container py-20 lg:py-28">
+        <Reveal as="section" className="site-container py-24 lg:py-36">
           <SectionHeading eyebrow={section.eyebrow} title={section.title || ""} description={section.body} href={linkLabel ? localizedHref("/projects", locale) : undefined} linkLabel={linkLabel} />
           <StaggerReveal className="grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
             {projects.map((project) => <ProjectCard key={project.slug} project={project} locale={locale} />)}
@@ -68,12 +68,12 @@ export function HomeSection({ section, locale }: { section: WebsiteSection; loca
       const items = (section.payload as { items?: unknown } | undefined)?.items;
       const cards = Array.isArray(items) ? (items as Array<{ title: string; href: string; text: string }>) : [];
       if (cards.length === 0) return null;
-      const wrapClass = section.styleVariant === "soft-teal" ? "bg-[var(--color-sand)]" : section.styleVariant === "dark" ? "bg-[var(--color-charcoal)] text-[var(--color-bone)]" : "";
+      const wrapClass = section.styleVariant === "soft-teal" ? "bg-[var(--color-sand)]" : section.styleVariant === "dark" ? "kh-reveal-scale bg-[var(--color-charcoal)] text-[var(--color-bone)]" : "";
       return (
         <Reveal as="section" className={wrapClass}>
           <div className="site-container py-20 lg:py-28">
             <SectionHeading eyebrow={section.eyebrow} title={section.title || ""} description={section.body} />
-            <StaggerReveal as="div" className="grid border-l border-t border-black/10 sm:grid-cols-2 xl:grid-cols-4">
+            <StaggerReveal as="div" className="kh-stagger-alt grid border-l border-t border-black/10 sm:grid-cols-2 xl:grid-cols-4">
               {cards.map((item, index) => (
                 <Link key={item.title} href={localizedHref(item.href, locale)} className="kh-route-card group min-h-64 border-b border-r border-black/10 p-7 transition-colors hover:bg-[var(--color-teal-soft)]">
                   <div className="flex items-start justify-between gap-4">
@@ -104,8 +104,8 @@ export function HomeSection({ section, locale }: { section: WebsiteSection; loca
     case "feature": {
       const items = itemsFromPayload(section);
       return (
-        <Reveal as="section" className="bg-[var(--color-charcoal)] text-[var(--color-bone)]">
-          <div className="site-container py-20 lg:py-28">
+        <Reveal as="section" className="kh-reveal-scale bg-[var(--color-charcoal)] text-[var(--color-bone)]">
+          <div className="site-container py-28 lg:py-40">
             <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
               <div>
                 <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#dbc79f]">{section.eyebrow}</p>
@@ -156,7 +156,7 @@ export function HomeSection({ section, locale }: { section: WebsiteSection; loca
       if (services.length === 0) return null;
       return (
         <Reveal as="section" className="border-y border-black/[0.08] bg-[var(--color-champagne-soft)]">
-          <div className="site-container py-20 lg:py-28">
+          <div className="site-container py-14 lg:py-20">
             <SectionHeading eyebrow={section.eyebrow} title={section.title || ""} description={section.body} href={linkLabel ? localizedHref("/services", locale) : undefined} linkLabel={linkLabel} />
             <StaggerReveal className="grid gap-x-8 gap-y-0 md:grid-cols-2 xl:grid-cols-3">
               {services.map((service, index) => (

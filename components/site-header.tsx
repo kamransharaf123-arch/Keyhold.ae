@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/logo";
-import { ChevronDownIcon, MenuIcon } from "@/components/icons";
+import { ChevronDownIcon, CloseIcon, MenuIcon } from "@/components/icons";
 import { MotionHeader, useDisclosure } from "@/components/motion";
 import { LanguageSwitcher } from "@/components/website/language-switcher";
 import { primaryNav, projectNav } from "@/data/site";
@@ -113,10 +113,10 @@ function DesktopNav() {
 }
 
 function MobileNav() {
-  const { locale, projectsMenuLabel, dropdown, home, restPrimary, myKeyHoldLabel } = useHeaderContent();
+  const { locale, projectsMenuLabel, dropdown, home, restPrimary, myKeyHoldLabel, brandName } = useHeaderContent();
   const { open, close, toggle, rootRef } = useDisclosure();
   return (
-    <div ref={rootRef as never} className="relative lg:hidden">
+    <div ref={rootRef as never} className="lg:hidden">
       <button
         type="button"
         onClick={toggle}
@@ -127,40 +127,49 @@ function MobileNav() {
       >
         <MenuIcon className="size-5" />
       </button>
-      <div className="absolute right-0 top-[calc(100%+0.8rem)] z-50 w-[min(88vw,22rem)]">
-        <div
-          id="mobile-nav-panel"
-          inert={!open}
-          data-state={open ? "open" : "closed"}
-          style={{ transformOrigin: "top right" }}
-          className="kh-dropdown-panel border border-black/10 bg-[var(--color-soft-white)] p-3 shadow-[0_24px_70px_rgba(36,49,47,0.12)]"
-        >
-          <Link className="mobile-nav-link" href={localizedHref(home.href, locale)} onClick={close}>
-            {home.label}
-          </Link>
-          <div className="my-2 border-y border-black/[0.08] py-2">
-            <div className="px-3 pb-2 pt-1 text-[0.67rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-stone)]">
-              {projectsMenuLabel}
-            </div>
-            {dropdown.map((item) => (
-              <Link key={item.href} className="mobile-nav-link" href={localizedHref(item.href, locale)} onClick={close}>
-                {item.label}
-              </Link>
-            ))}
+      <div
+        aria-hidden="true"
+        data-state={open ? "open" : "closed"}
+        onClick={close}
+        className="kh-mobile-sheet-backdrop fixed inset-0 z-50"
+      />
+      <div
+        id="mobile-nav-panel"
+        inert={!open}
+        data-state={open ? "open" : "closed"}
+        className="kh-mobile-sheet fixed top-0 right-0 z-[51] flex h-dvh w-[min(86vw,23rem)] flex-col overflow-y-auto border-l border-black/10 bg-[var(--color-soft-white)] p-5"
+      >
+        <div className="kh-mobile-sheet-link flex items-center justify-between">
+          <Logo locale={locale} logoText={brandName} />
+          <button type="button" onClick={close} aria-label="Close navigation menu" className="grid size-10 place-items-center rounded-full border border-black/10 transition-colors hover:bg-[var(--color-bone)]">
+            <CloseIcon className="size-4" />
+          </button>
+        </div>
+        <Link className="kh-mobile-sheet-link mobile-nav-link mt-4" href={localizedHref(home.href, locale)} onClick={close}>
+          {home.label}
+        </Link>
+        <div className="kh-mobile-sheet-link my-2 border-y border-black/[0.08] py-2">
+          <div className="px-3 pb-2 pt-1 text-[0.67rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-stone)]">
+            {projectsMenuLabel}
           </div>
-          {restPrimary.map((item) => (
+          {dropdown.map((item) => (
             <Link key={item.href} className="mobile-nav-link" href={localizedHref(item.href, locale)} onClick={close}>
               {item.label}
             </Link>
           ))}
-          <div className="mt-2 border-t border-black/[0.08] pt-3">
-            <Link className="mobile-nav-link" href={localizedHref("/account", locale)} onClick={close}>
-              {myKeyHoldLabel}
-            </Link>
-          </div>
-          <div className="mt-2 border-t border-black/[0.08] pt-3">
-            <LanguageSwitcher />
-          </div>
+        </div>
+        {restPrimary.map((item) => (
+          <Link key={item.href} className="kh-mobile-sheet-link mobile-nav-link" href={localizedHref(item.href, locale)} onClick={close}>
+            {item.label}
+          </Link>
+        ))}
+        <div className="kh-mobile-sheet-link mt-2 border-t border-black/[0.08] pt-3">
+          <Link className="mobile-nav-link" href={localizedHref("/account", locale)} onClick={close}>
+            {myKeyHoldLabel}
+          </Link>
+        </div>
+        <div className="kh-mobile-sheet-link mt-2 border-t border-black/[0.08] pt-3">
+          <LanguageSwitcher />
         </div>
       </div>
     </div>
