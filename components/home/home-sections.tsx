@@ -36,14 +36,14 @@ export function HomeSection({ section, locale }: { section: WebsiteSection; loca
       if (items.length === 0) return null;
       return (
         <Reveal as="section" className="border-b border-black/[0.07] bg-[var(--color-teal-soft)]">
-          <div className="site-container grid divide-y divide-black/10 py-2 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+          <StaggerReveal className="site-container grid divide-y divide-black/10 py-2 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
             {items.map((item) => (
               <div key={item.title} className="py-6 sm:px-7 sm:first:pl-0 sm:last:pr-0">
                 <p className="text-[0.68rem] font-semibold uppercase tracking-[0.17em] text-[var(--color-teal-deep)]">{item.title}</p>
                 <p className="mt-2 max-w-sm text-sm leading-6 text-[var(--color-stone)]">{item.text}</p>
               </div>
             ))}
-          </div>
+          </StaggerReveal>
         </Reveal>
       );
     }
@@ -75,7 +75,7 @@ export function HomeSection({ section, locale }: { section: WebsiteSection; loca
             <SectionHeading eyebrow={section.eyebrow} title={section.title || ""} description={section.body} />
             <StaggerReveal as="div" className="grid border-l border-t border-black/10 sm:grid-cols-2 xl:grid-cols-4">
               {cards.map((item, index) => (
-                <Link key={item.title} href={localizedHref(item.href, locale)} className="kh-motion-card group min-h-64 border-b border-r border-black/10 p-7 transition-colors hover:bg-[var(--color-teal-soft)]">
+                <Link key={item.title} href={localizedHref(item.href, locale)} className="kh-route-card group min-h-64 border-b border-r border-black/10 p-7 transition-colors hover:bg-[var(--color-teal-soft)]">
                   <div className="flex items-start justify-between gap-4">
                     <span className="text-xs text-[var(--color-stone)]">0{index + 1}</span>
                     <ArrowUpRightIcon className="kh-motion-arrow size-5 text-[var(--color-teal)] group-hover:-translate-y-1 group-hover:translate-x-1" />

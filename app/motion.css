@@ -46,6 +46,16 @@ body {
 .kh-stagger[data-motion-ready="true"][data-motion-visible="true"] > *:nth-child(6) { transition-delay: calc(var(--kh-stagger-step) * 5); }
 .kh-stagger[data-motion-ready="true"][data-motion-visible="true"] > *:nth-child(n+7) { transition-delay: calc(var(--kh-stagger-step) * 6); }
 
+/* Hero media materializing on first load (homepage only), independent of the
+   parallax transform HeroParallax drives on its own wrapper via JS. */
+@keyframes kh-hero-media-in {
+  from { opacity: 0; transform: scale(1.06); }
+  to { opacity: .8; transform: scale(1); }
+}
+.kh-hero-media-in {
+  animation: kh-hero-media-in 1400ms var(--kh-ease-out) both;
+}
+
 /* Cinematic hero: no layout shift, tiny bounded parallax only. */
 .kh-cinematic-hero {
   position: relative;
@@ -192,6 +202,36 @@ body[data-kh-hero-ambient="on"] .kh-cinematic-hero::after {
     transform: scale(0.98);
     transition-duration: 100ms;
   }
+}
+
+/* Flush-grid route cards (homepage property-type grid): an accent bar + press
+   feedback instead of .kh-motion-card's lift/shadow, which would open a visible
+   seam against neighbouring cells' shared border lines. */
+.kh-route-card {
+  position: relative;
+}
+.kh-route-card::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  content: "";
+  background: linear-gradient(90deg, var(--color-teal), var(--color-champagne));
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 420ms var(--kh-ease-out);
+  pointer-events: none;
+}
+body[data-kh-card-hover="on"] .kh-route-card {
+  transition: transform 160ms var(--kh-ease-out);
+}
+body[data-kh-card-hover="on"] .kh-route-card:active {
+  transform: scale(0.98);
+  transition-duration: 100ms;
+}
+@media (hover: hover) and (pointer: fine) {
+  body[data-kh-card-hover="on"] .kh-route-card:hover::after { transform: scaleX(1); }
 }
 
 /* Data motion */
@@ -356,4 +396,7 @@ body[data-kh-page-intro="on"] .kh-page-intro {
   .kh-bar-fill { width: var(--kh-bar-fill-width, 100%) !important; transition: none !important; }
   .kh-state-swap,
   .kh-float-in { transition: opacity 0.01ms !important; transform: none !important; }
+  .kh-hero-media-in { animation: none !important; opacity: .8 !important; transform: none !important; }
+  .kh-route-card,
+  .kh-route-card::after { transition: none !important; }
 }

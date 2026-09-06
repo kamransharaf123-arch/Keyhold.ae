@@ -119,7 +119,7 @@ function FallbackHomeSections({ locale }: { locale: KeyHoldLocale }) {
   return (
     <>
       <Reveal as="section" className="border-b border-black/[0.07] bg-[var(--color-teal-soft)]">
-        <div className="site-container grid divide-y divide-black/10 py-2 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+        <StaggerReveal className="site-container grid divide-y divide-black/10 py-2 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           <span className="kh-section-index sr-only">{sectionIndex.trust}</span>
           {trustStrip.map(([title, text]) => (
             <div key={title} className="py-6 sm:px-7 sm:first:pl-0 sm:last:pr-0">
@@ -127,7 +127,7 @@ function FallbackHomeSections({ locale }: { locale: KeyHoldLocale }) {
               <p className="mt-2 max-w-sm text-sm leading-6 text-[var(--color-stone)]">{text}</p>
             </div>
           ))}
-        </div>
+        </StaggerReveal>
       </Reveal>
 
       <Reveal as="section" className="site-container py-20 lg:py-28">
@@ -144,7 +144,7 @@ function FallbackHomeSections({ locale }: { locale: KeyHoldLocale }) {
           <SectionHeading eyebrow={explore.eyebrow} title={explore.title} description={explore.description} />
           <StaggerReveal as="div" className="grid border-l border-t border-black/10 sm:grid-cols-2 xl:grid-cols-4">
             {propertyTypes.map((item, index) => (
-              <Link key={item.title} href={localizedHref(item.href, locale)} className="kh-motion-card group min-h-64 border-b border-r border-black/10 p-7 transition-colors hover:bg-[var(--color-teal-soft)]">
+              <Link key={item.title} href={localizedHref(item.href, locale)} className="kh-route-card group min-h-64 border-b border-r border-black/10 p-7 transition-colors hover:bg-[var(--color-teal-soft)]">
                 <div className="flex items-start justify-between gap-4">
                   <span className="text-xs text-[var(--color-stone)]">0{index + 1}</span>
                   <ArrowUpRightIcon className="kh-motion-arrow size-5 text-[var(--color-teal)] group-hover:-translate-y-1 group-hover:translate-x-1" />
@@ -252,7 +252,7 @@ export function HomeContent({ locale = "en" as KeyHoldLocale }: { locale?: KeyHo
               fill
               priority
               sizes="100vw"
-              className="object-cover opacity-80"
+              className="kh-hero-media-in object-cover"
             />
             <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(25,52,49,0.82),rgba(35,67,63,0.34)_64%,rgba(35,67,63,0.08))]" />
           </>
@@ -273,6 +273,8 @@ export function HomeContent({ locale = "en" as KeyHoldLocale }: { locale?: KeyHo
               <p className="mt-7 max-w-xl text-base leading-8 text-white/[0.74] sm:text-lg">
                 {heroSubtitle}
               </p>
+            </Reveal>
+            <Reveal delayMs={220}>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link href={localizedHref(primaryCtaHref, locale)} className="button button-light">
                   {primaryCtaLabel}
@@ -284,9 +286,11 @@ export function HomeContent({ locale = "en" as KeyHoldLocale }: { locale?: KeyHo
               </div>
             </Reveal>
           </div>
-          <div className="mt-10">
-            <ScrollCue label={SCROLL_CUE_LABEL[locale]} />
-          </div>
+          <Reveal delayMs={300}>
+            <div className="mt-10">
+              <ScrollCue label={SCROLL_CUE_LABEL[locale]} />
+            </div>
+          </Reveal>
         </div>
       </HeroParallax>
 
