@@ -21,13 +21,13 @@ export function ProjectCard({ project, locale = "en" }: ProjectCardProps) {
             src={project.image}
             alt=""
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
             className="object-cover"
           />
           <div className="absolute left-4 top-4 bg-[color:rgba(234,240,230,0.94)] px-3 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.15em] text-[var(--color-sage-deep)] backdrop-blur">
             {project.category}
           </div>
-          <div className="absolute bottom-4 right-4 grid size-11 place-items-center rounded-full bg-[var(--color-teal)] text-[var(--color-soft-white)]">
+          <div className="kh-card-cta absolute bottom-4 right-4 grid size-11 place-items-center rounded-full bg-[var(--color-teal)] text-[var(--color-soft-white)]">
             <ArrowUpRightIcon className="kh-motion-arrow size-5" />
           </div>
         </div>
@@ -37,7 +37,7 @@ export function ProjectCard({ project, locale = "en" }: ProjectCardProps) {
               <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-stone)]">{project.location}</p>
               <h3 className="mt-2 text-xl font-medium tracking-[-0.02em] text-[var(--color-graphite)]">{project.title}</h3>
             </div>
-            <p className="shrink-0 text-sm font-medium text-[var(--color-graphite)]">{project.price}</p>
+            <p className="font-display shrink-0 text-lg text-[var(--color-graphite)]">{project.price}</p>
           </div>
           <p className="mt-2 text-sm text-[var(--color-stone)]">{project.meta}</p>
         </div>

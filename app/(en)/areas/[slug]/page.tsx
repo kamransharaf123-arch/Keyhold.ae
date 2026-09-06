@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/page-hero";
+import { StaggerReveal } from "@/components/motion";
 import { ProjectCard } from "@/components/project-card";
 import { areas } from "@/data/catalog";
 import { areasForLocale } from "@/data/localized-catalog";
@@ -56,12 +57,12 @@ export function AreaDetailContent({ slug, locale = "en" }: { slug: string; local
             <span className="text-sm text-[var(--color-stone)]">{projects.length} {copy.displayed}</span>
           </div>
           {projects.length > 0 ? (
-            <div className="grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
+            <StaggerReveal className="grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
               {projects.map((project) => {
                 const preview = previews.get(project.slug);
                 return preview ? <ProjectCard key={project.slug} project={preview} locale={locale} /> : null;
               })}
-            </div>
+            </StaggerReveal>
           ) : <p className="text-sm text-[var(--color-stone)]">{copy.empty}</p>}
         </div>
       </section>

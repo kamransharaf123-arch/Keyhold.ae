@@ -183,6 +183,13 @@ body[data-kh-hero-ambient="on"] .kh-cinematic-hero::after {
     transform: scale(0.98);
     transition-duration: 100ms;
   }
+  body[data-kh-card-hover="on"] .kh-card-cta {
+    transition: transform 260ms var(--kh-ease-out), background-color 260ms ease;
+  }
+  body[data-kh-card-hover="on"] .kh-motion-card:hover .kh-card-cta {
+    transform: scale(1.08);
+    background-color: var(--color-teal-deep);
+  }
 
   body[data-kh-button-motion="on"] .button {
     position: relative;
@@ -399,4 +406,5 @@ body[data-kh-page-intro="on"] .kh-page-intro {
   .kh-hero-media-in { animation: none !important; opacity: .8 !important; transform: none !important; }
   .kh-route-card,
   .kh-route-card::after { transition: none !important; }
+  .kh-card-cta { transition: none !important; transform: none !important; background-color: var(--color-teal) !important; }
 }

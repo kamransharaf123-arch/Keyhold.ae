@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/page-hero";
+import { StaggerReveal } from "@/components/motion";
 import { ProjectCard } from "@/components/project-card";
 import { developers } from "@/data/catalog";
 import { developersForLocale } from "@/data/localized-catalog";
@@ -49,12 +50,12 @@ export function DeveloperDetailContent({ slug, locale = "en" }: { slug: string; 
           <div><p className="eyebrow">{copy.inventory}</p><h2 className="font-display mt-2 text-3xl">{copy.heading}</h2></div>
           <span className="text-sm text-[var(--color-stone)]">{projects.length} {copy.displayed}</span>
         </div>
-        <div className="grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
+        <StaggerReveal className="grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
           {projects.map((project) => {
             const preview = previews.get(project.slug);
             return preview ? <ProjectCard key={project.slug} project={preview} locale={locale} /> : null;
           })}
-        </div>
+        </StaggerReveal>
       </section>
     </>
   );

@@ -52,7 +52,7 @@ export function DiscoveryProjectCard({
     <article className="kh-motion-card grid overflow-hidden border border-black/10 bg-[var(--color-soft-white)] sm:grid-cols-[15rem_1fr] lg:grid-cols-[17rem_1fr]">
       <Link href={projectHref} className="kh-motion-image relative min-h-64 overflow-hidden bg-[var(--color-warm-grey)] sm:min-h-full" aria-label={`Open ${project.title}`}>
         <Image src={project.heroImage} alt="" fill sizes="(max-width: 640px) 100vw, 280px" className="object-cover" />
-        <span className="absolute left-4 top-4 bg-[color:rgba(228,239,237,0.94)] px-3 py-2 text-[0.63rem] font-semibold uppercase tracking-[0.15em] text-[var(--color-teal-deep)] backdrop-blur">
+        <span className="absolute left-4 top-4 bg-[color:rgba(234,240,230,0.94)] px-3 py-2 text-[0.63rem] font-semibold uppercase tracking-[0.15em] text-[var(--color-sage-deep)] backdrop-blur">
           {project.category}
         </span>
       </Link>
@@ -66,7 +66,7 @@ export function DiscoveryProjectCard({
             <p className="mt-3 max-w-2xl text-sm leading-6 text-[var(--color-stone)]">{project.shortDescription}</p>
           </div>
           <div className="text-right">
-            <p className="text-sm font-semibold">{formatProjectPrice(project, locale)}</p>
+            <p className="font-display text-xl text-[var(--color-graphite)]">{formatProjectPrice(project, locale)}</p>
             <p className="mt-1 text-xs text-[var(--color-stone)]">{formatSqftRange(project.sizeFromSqft, project.sizeToSqft, locale)}</p>
           </div>
         </div>
@@ -104,7 +104,7 @@ export function DiscoveryProjectCard({
               onClick={() => onToggleCompare(project.slug)}
               disabled={!compareSelected && compareDisabled}
               aria-pressed={compareSelected}
-              className={`min-h-11 border px-4 text-xs font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
+              className={`min-h-11 border px-4 text-xs font-semibold transition-colors active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 ${
                 compareSelected
                   ? "border-[var(--color-teal)] bg-[var(--color-teal)] text-white"
                   : "border-black/10 hover:border-[var(--color-teal)] hover:bg-[var(--color-teal-soft)]"

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PageHero } from "@/components/page-hero";
+import { StaggerReveal } from "@/components/motion";
 import { ProjectCard } from "@/components/project-card";
 import type { ProjectPreview } from "@/data/site";
 import { localizedHref } from "@/lib/i18n/locale";
@@ -36,9 +37,9 @@ export function ProjectCategoryPage({
           <Link href={localizedHref("/contact", locale)} className="text-link">{copy.request}</Link>
         </div>
         {items.length > 0 ? (
-          <div className="grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
+          <StaggerReveal className="grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
             {items.map((project) => <ProjectCard key={project.slug} project={project} locale={locale} />)}
-          </div>
+          </StaggerReveal>
         ) : (
           <div className="border border-black/10 bg-[var(--color-bone)] p-8 text-sm leading-7 text-[var(--color-stone)]">
             {copy.empty}

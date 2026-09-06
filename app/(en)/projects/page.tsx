@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHero } from "@/components/page-hero";
+import { StaggerReveal } from "@/components/motion";
 import { ProjectCard } from "@/components/project-card";
 import { projectNav } from "@/data/site";
 import { websitePageByKey } from "@/data/website-content";
@@ -47,9 +48,9 @@ export function ProjectsContent({ locale = "en" as KeyHoldLocale }: { locale?: K
             </Link>
           ))}
         </div>
-        <div className="grid gap-x-6 gap-y-12 py-12 md:grid-cols-2 xl:grid-cols-3">
+        <StaggerReveal className="grid gap-x-6 gap-y-12 py-12 md:grid-cols-2 xl:grid-cols-3">
           {projectCatalog.map((project) => <ProjectCard key={project.slug} project={project} locale={locale} />)}
-        </div>
+        </StaggerReveal>
       </section>
     </>
   );
