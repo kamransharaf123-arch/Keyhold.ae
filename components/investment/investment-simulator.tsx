@@ -800,6 +800,22 @@ function FinancingComparisonCard({
   );
 }
 
+export function InvestmentSimulatorSkeleton() {
+  return (
+    <div className="space-y-6" aria-label="Loading investment simulator">
+      <div className="h-16 animate-pulse motion-reduce:animate-none border border-black/10 bg-black/[0.04]" />
+      <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+        <div className="h-80 animate-pulse motion-reduce:animate-none border border-black/10 bg-black/[0.04]" />
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          {Array.from({ length: 8 }, (_, index) => (
+            <div key={index} className="h-24 animate-pulse motion-reduce:animate-none border border-black/10 bg-black/[0.04]" />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function NumberField({
   id,
   label,

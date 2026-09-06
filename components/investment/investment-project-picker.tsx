@@ -34,7 +34,7 @@ export function InvestmentProjectPicker({ projects, locale = "en" }: { projects:
         <select
           value={project.slug}
           onChange={(event) => setSlug(event.target.value)}
-          className="min-h-12 w-full border border-black/10 bg-[var(--color-soft-white)] px-4 text-base outline-none focus:border-[var(--color-champagne)]"
+          className="min-h-12 w-full border border-black/10 bg-[var(--color-soft-white)] px-4 text-base outline-none transition-colors focus:border-[var(--color-champagne)]"
         >
           {eligible.map((item) => (
             <option key={item.slug} value={item.slug}>{item.title} · {item.location}</option>

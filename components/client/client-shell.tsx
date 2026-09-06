@@ -29,7 +29,7 @@ export function ClientShell({ locale, user, children }: { locale: ClientLocale; 
           </nav>
           <form action={logoutClientAction} className="mt-4 border-t border-black/8 pt-4">
             <input type="hidden" name="locale" value={locale} />
-            <button className="min-h-11 w-full rounded-xl px-3 text-left text-sm text-[var(--color-stone)] hover:bg-[var(--color-warm-ivory)]" type="submit">{copy.signOut}</button>
+            <button className="min-h-11 w-full rounded-xl px-3 text-left text-sm text-[var(--color-stone)] transition-colors hover:bg-[var(--color-warm-ivory)]" type="submit">{copy.signOut}</button>
           </form>
         </aside>
         <div className="min-w-0">{children}</div>

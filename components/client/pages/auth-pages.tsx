@@ -17,7 +17,7 @@ function AuthShell({ locale, title, text, children }: { locale: ClientLocale; ti
 }
 
 function Input({ label, name, type = "text", autoComplete, required = true }: { label: string; name: string; type?: string; autoComplete?: string; required?: boolean }) {
-  return <label className="grid gap-2 text-sm text-[var(--color-graphite)]"><span>{label}</span><input className="min-h-12 rounded-xl border border-black/12 bg-white px-4 text-base outline-none focus:border-[var(--color-teal)]" name={name} type={type} autoComplete={autoComplete} required={required} /></label>;
+  return <label className="grid gap-2 text-sm text-[var(--color-graphite)]"><span>{label}</span><input className="min-h-12 rounded-xl border border-black/12 bg-white px-4 text-base outline-none transition-colors focus:border-[var(--color-teal)]" name={name} type={type} autoComplete={autoComplete} required={required} /></label>;
 }
 
 export async function ClientLoginPage({ locale, searchParams }: { locale: ClientLocale; searchParams: Promise<Record<string, string | string[] | undefined>> }) {

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
-import { InvestmentSimulator } from "@/components/investment/investment-simulator";
+import { InvestmentSimulator, InvestmentSimulatorSkeleton } from "@/components/investment/investment-simulator";
 import { KeyHoldIntelligence } from "@/components/intelligence/keyhold-intelligence";
 import { notFound } from "next/navigation";
 import { ChevronDownIcon } from "@/components/icons";
@@ -171,7 +171,7 @@ export function ProjectDetailContent({ slug, locale = "en" }: { slug: string; lo
 
       {investmentEligible && project.investment && project.priceFromAed !== null ? (
         <ProjectSection id="investment" eyebrow={copy.investmentEyebrow} title={copy.investmentTitle}>
-          <Suspense fallback={<div className="text-sm text-[var(--color-stone)]">{locale === "fr" ? "Chargement du simulateur d’investissement…" : "Loading investment simulator…"}</div>}>
+          <Suspense fallback={<InvestmentSimulatorSkeleton />}>
             <InvestmentSimulator
               projectTitle={project.title}
               projectSlug={project.slug}

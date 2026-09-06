@@ -420,6 +420,29 @@ body[data-kh-page-intro="on"] .kh-page-intro {
   animation: kh-results-fade-in 260ms var(--kh-ease-out);
 }
 
+/* Global route-transition loading feedback -- a thin top-of-viewport bar. */
+.kh-nav-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 70;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--color-teal), var(--color-champagne));
+  opacity: 0;
+  pointer-events: none;
+}
+.kh-nav-progress[data-state="active"] {
+  width: 88%;
+  opacity: 1;
+  transition: width 4s cubic-bezier(0.1, 0.7, 0.3, 1), opacity 150ms ease;
+}
+.kh-nav-progress[data-state="complete"] {
+  width: 100%;
+  opacity: 0;
+  transition: width 200ms var(--kh-ease-out), opacity 220ms ease 120ms;
+}
+
 /* Reduced motion always wins, regardless of CMS settings. */
 @media (prefers-reduced-motion: reduce) {
   .kh-reveal,
@@ -456,4 +479,6 @@ body[data-kh-page-intro="on"] .kh-page-intro {
   .kh-lightbox-image,
   .kh-lightbox-control { transition: none !important; transform: none !important; }
   .kh-results-fade { animation: none !important; }
+  .kh-nav-progress[data-state="active"] { transition: opacity 0.01ms !important; width: 100% !important; }
+  .kh-nav-progress[data-state="complete"] { transition: opacity 0.01ms !important; }
 }

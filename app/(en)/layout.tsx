@@ -1,5 +1,5 @@
-import type { ReactNode } from "react";
-import { PageIntro } from "@/components/motion";
+import { Suspense, type ReactNode } from "react";
+import { NavigationProgress, PageIntro } from "@/components/motion";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { websiteThemeStyle } from "@/lib/cms/website-theme";
@@ -15,6 +15,9 @@ export default function EnglishRootLayout({ children }: Readonly<{ children: Rea
   return (
     <html lang="en" style={{ ...websiteThemeStyle(), ...websiteMotionStyle() }}>
       <body {...websiteMotionBodyAttributes()}>
+        <Suspense fallback={null}>
+          <NavigationProgress />
+        </Suspense>
         <SiteHeader />
         <PageIntro>{children}</PageIntro>
         <SiteFooter />

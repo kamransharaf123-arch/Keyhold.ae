@@ -13,7 +13,7 @@ export function LanguageSwitcher() {
         href={localizedHref(pathname, "en")}
         hrefLang="en"
         aria-current={current === "en" ? "page" : undefined}
-        className={`rounded-full px-3 py-2 ${current === "en" ? "bg-[var(--color-teal)] text-white" : "text-[var(--color-stone)] hover:text-[var(--color-graphite)]"}`}
+        className={`rounded-full px-3 py-2 transition-colors ${current === "en" ? "bg-[var(--color-teal)] text-white" : "text-[var(--color-stone)] hover:text-[var(--color-graphite)]"}`}
       >
         EN
       </Link>
@@ -21,7 +21,7 @@ export function LanguageSwitcher() {
         href={localizedHref(pathname, "fr")}
         hrefLang="fr"
         aria-current={current === "fr" ? "page" : undefined}
-        className={`rounded-full px-3 py-2 ${current === "fr" ? "bg-[var(--color-teal)] text-white" : "text-[var(--color-stone)] hover:text-[var(--color-graphite)]"}`}
+        className={`rounded-full px-3 py-2 transition-colors ${current === "fr" ? "bg-[var(--color-teal)] text-white" : "text-[var(--color-stone)] hover:text-[var(--color-graphite)]"}`}
       >
         FR
       </Link>
