@@ -332,6 +332,7 @@ export function InvestmentSimulator({
   );
   const [edited, setEdited] = useState(false);
   const [stressActive, setStressActive] = useState(false);
+  const [advancedOpen, setAdvancedOpen] = useState(false);
 
   const result = useMemo(() => calculateInvestment(inputs), [inputs]);
   const paymentSchedule = useMemo(
@@ -506,17 +507,25 @@ export function InvestmentSimulator({
                 <p className="mt-1 text-xs text-[var(--color-stone)]">{copy.financingCompare}</p>
               </div>
               <div className="inline-flex border border-black/10 p-1">
-                <button type="button" onClick={() => update("useMortgage", false)} aria-pressed={!inputs.useMortgage} className={`min-h-10 px-4 text-xs font-medium ${!inputs.useMortgage ? "bg-[var(--color-teal)] text-white" : "hover:bg-[var(--color-bone)]"}`}>{copy.cash}</button>
-                <button type="button" onClick={() => update("useMortgage", true)} aria-pressed={inputs.useMortgage} className={`min-h-10 px-4 text-xs font-medium ${inputs.useMortgage ? "bg-[var(--color-teal)] text-white" : "hover:bg-[var(--color-bone)]"}`}>{copy.mortgage}</button>
+                <button type="button" onClick={() => update("useMortgage", false)} aria-pressed={!inputs.useMortgage} className={`min-h-10 px-4 text-xs font-medium transition-colors active:scale-95 ${!inputs.useMortgage ? "bg-[var(--color-teal)] text-white" : "hover:bg-[var(--color-bone)]"}`}>{copy.cash}</button>
+                <button type="button" onClick={() => update("useMortgage", true)} aria-pressed={inputs.useMortgage} className={`min-h-10 px-4 text-xs font-medium transition-colors active:scale-95 ${inputs.useMortgage ? "bg-[var(--color-teal)] text-white" : "hover:bg-[var(--color-bone)]"}`}>{copy.mortgage}</button>
               </div>
             </div>
           </div>
 
-          <details className="group border-t border-black/10 pt-5">
-            <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between text-sm font-medium">
+          <div className="border-t border-black/10 pt-5">
+            <button
+              type="button"
+              onClick={() => setAdvancedOpen((value) => !value)}
+              aria-expanded={advancedOpen}
+              aria-controls={fieldId(projectSlug, "advanced-panel")}
+              className="flex min-h-11 w-full items-center justify-between text-left text-sm font-medium"
+            >
               {copy.advanced}
-              <span aria-hidden="true" className="text-[var(--color-champagne-ink)] transition-transform group-open:rotate-45">+</span>
-            </summary>
+              <span aria-hidden="true" className={`text-[var(--color-champagne-ink)] transition-transform duration-200 ease-[var(--kh-ease-out)] ${advancedOpen ? "rotate-45" : ""}`}>+</span>
+            </button>
+            <div id={fieldId(projectSlug, "advanced-panel")} data-state={advancedOpen ? "open" : "closed"} className="kh-accordion-panel">
+            <div inert={!advancedOpen} className="kh-accordion-panel-inner">
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
               <NumberField id={fieldId(projectSlug, "size")} label={copy.unitSize} value={inputs.unitSizeSqft} suffix="sqft" step={10} onChange={(value) => updateNumber("unitSizeSqft", value)} />
               <NumberField id={fieldId(projectSlug, "service")} label={copy.serviceCharge} value={inputs.serviceChargePerSqftAed} prefix="AED" step={1} onChange={(value) => updateNumber("serviceChargePerSqftAed", value)} />
@@ -543,7 +552,9 @@ export function InvestmentSimulator({
                 </>
               ) : null}
             </div>
-          </details>
+            </div>
+            </div>
+          </div>
         </div>
 
         <div className="space-y-6" aria-live="polite">
@@ -665,7 +676,7 @@ export function InvestmentSimulator({
                   <span className="font-display text-2xl">{item.percentage}%</span>
                 </div>
                 <div className="mt-3 h-1.5 bg-[var(--color-warm-grey)]" aria-hidden="true">
-                  <div className="h-full bg-[var(--color-teal)] transition-[width] duration-500" style={{ width: `${Math.min(100, Math.max(0, item.percentage))}%` }} />
+                  <div className="h-full bg-[var(--color-teal)] transition-[width] duration-500 ease-[var(--kh-ease-out)]" style={{ width: `${Math.min(100, Math.max(0, item.percentage))}%` }} />
                 </div>
                 <p className="mt-3 font-medium">{formatAed(item.amountAed, { compact: true })}</p>
                 <p className="mt-1 text-xs text-[var(--color-stone)]">{item.timing}</p>
@@ -728,7 +739,7 @@ export function InvestmentSimulator({
               <div key={year.year} className="grid gap-2 sm:grid-cols-[5rem_1fr_auto] sm:items-center">
                 <span className="text-xs font-medium">{copy.year} {year.year}</span>
                 <div className="h-2 bg-[var(--color-warm-grey)]" aria-hidden="true">
-                  <div className="h-full bg-[var(--color-sage)] transition-[width] duration-500" style={{ width: `${width}%` }} />
+                  <div className="h-full bg-[var(--color-sage)] transition-[width] duration-500 ease-[var(--kh-ease-out)]" style={{ width: `${width}%` }} />
                 </div>
                 <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs sm:justify-end">
                   <span>{formatAed(year.propertyValueAed, { compact: true })} {copy.valueLabel}</span>

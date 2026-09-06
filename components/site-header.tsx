@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/logo";
 import { ChevronDownIcon, MenuIcon } from "@/components/icons";
-import { MotionHeader } from "@/components/motion";
+import { MotionHeader, useDisclosure } from "@/components/motion";
 import { LanguageSwitcher } from "@/components/website/language-switcher";
 import { primaryNav, projectNav } from "@/data/site";
 import { websiteCmsEnabled, websiteNavigation, websiteSettings } from "@/data/website-content";
@@ -59,6 +59,7 @@ function useHeaderContent() {
 
 function DesktopNav() {
   const { locale, projectsMenuLabel, dropdown, home, restPrimary } = useHeaderContent();
+  const { open, close, toggle, rootRef } = useDisclosure();
   return (
     <nav aria-label="Primary navigation" className="hidden lg:block">
       <ul className="flex items-center gap-7 xl:gap-9">
@@ -67,17 +68,29 @@ function DesktopNav() {
             {home.label}
           </Link>
         </li>
-        <li>
-          <details className="group relative">
-            <summary className="nav-link flex cursor-pointer list-none items-center gap-1.5 [&::-webkit-details-marker]:hidden">
-              {projectsMenuLabel}
-              <ChevronDownIcon className="size-4 transition-transform duration-300 group-open:rotate-180" />
-            </summary>
-            <div className="absolute left-1/2 top-[calc(100%+1.25rem)] z-50 w-72 -translate-x-1/2 border border-black/10 bg-[var(--color-soft-white)] p-2 shadow-[0_20px_60px_rgba(36,49,47,0.10)]">
+        <li ref={rootRef as never} className="relative">
+          <button
+            type="button"
+            onClick={toggle}
+            aria-expanded={open}
+            aria-controls="projects-dropdown-panel"
+            className="nav-link flex items-center gap-1.5"
+          >
+            {projectsMenuLabel}
+            <ChevronDownIcon className={`size-4 transition-transform duration-200 ease-[var(--kh-ease-out)] ${open ? "rotate-180" : ""}`} />
+          </button>
+          <div className="absolute left-1/2 top-[calc(100%+1.25rem)] z-50 w-72 -translate-x-1/2">
+            <div
+              id="projects-dropdown-panel"
+              inert={!open}
+              data-state={open ? "open" : "closed"}
+              className="kh-dropdown-panel border border-black/10 bg-[var(--color-soft-white)] p-2 shadow-[0_20px_60px_rgba(36,49,47,0.10)]"
+            >
               {dropdown.map((item) => (
                 <Link
                   key={item.href}
                   href={localizedHref(item.href, locale)}
+                  onClick={close}
                   className="flex items-center justify-between px-4 py-3.5 text-sm text-[var(--color-graphite)] transition-colors hover:bg-[var(--color-teal-soft)] hover:text-[var(--color-teal-deep)]"
                 >
                   {item.label}
@@ -85,7 +98,7 @@ function DesktopNav() {
                 </Link>
               ))}
             </div>
-          </details>
+          </div>
         </li>
         {restPrimary.map((item) => (
           <li key={item.href}>
@@ -101,43 +114,56 @@ function DesktopNav() {
 
 function MobileNav() {
   const { locale, projectsMenuLabel, dropdown, home, restPrimary, myKeyHoldLabel } = useHeaderContent();
+  const { open, close, toggle, rootRef } = useDisclosure();
   return (
-    <details className="relative lg:hidden">
-      <summary
+    <div ref={rootRef as never} className="relative lg:hidden">
+      <button
+        type="button"
+        onClick={toggle}
         aria-label="Open navigation menu"
-        className="grid size-11 cursor-pointer list-none place-items-center rounded-full border border-black/10 [&::-webkit-details-marker]:hidden"
+        aria-expanded={open}
+        aria-controls="mobile-nav-panel"
+        className="grid size-11 place-items-center rounded-full border border-black/10"
       >
         <MenuIcon className="size-5" />
-      </summary>
-      <div className="absolute right-0 top-[calc(100%+0.8rem)] z-50 w-[min(88vw,22rem)] border border-black/10 bg-[var(--color-soft-white)] p-3 shadow-[0_24px_70px_rgba(36,49,47,0.12)]">
-        <Link className="mobile-nav-link" href={localizedHref(home.href, locale)}>
-          {home.label}
-        </Link>
-        <div className="my-2 border-y border-black/[0.08] py-2">
-          <div className="px-3 pb-2 pt-1 text-[0.67rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-stone)]">
-            {projectsMenuLabel}
+      </button>
+      <div className="absolute right-0 top-[calc(100%+0.8rem)] z-50 w-[min(88vw,22rem)]">
+        <div
+          id="mobile-nav-panel"
+          inert={!open}
+          data-state={open ? "open" : "closed"}
+          style={{ transformOrigin: "top right" }}
+          className="kh-dropdown-panel border border-black/10 bg-[var(--color-soft-white)] p-3 shadow-[0_24px_70px_rgba(36,49,47,0.12)]"
+        >
+          <Link className="mobile-nav-link" href={localizedHref(home.href, locale)} onClick={close}>
+            {home.label}
+          </Link>
+          <div className="my-2 border-y border-black/[0.08] py-2">
+            <div className="px-3 pb-2 pt-1 text-[0.67rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-stone)]">
+              {projectsMenuLabel}
+            </div>
+            {dropdown.map((item) => (
+              <Link key={item.href} className="mobile-nav-link" href={localizedHref(item.href, locale)} onClick={close}>
+                {item.label}
+              </Link>
+            ))}
           </div>
-          {dropdown.map((item) => (
-            <Link key={item.href} className="mobile-nav-link" href={localizedHref(item.href, locale)}>
+          {restPrimary.map((item) => (
+            <Link key={item.href} className="mobile-nav-link" href={localizedHref(item.href, locale)} onClick={close}>
               {item.label}
             </Link>
           ))}
-        </div>
-        {restPrimary.map((item) => (
-          <Link key={item.href} className="mobile-nav-link" href={localizedHref(item.href, locale)}>
-            {item.label}
-          </Link>
-        ))}
-        <div className="mt-2 border-t border-black/[0.08] pt-3">
-          <Link className="mobile-nav-link" href={localizedHref("/account", locale)}>
-            {myKeyHoldLabel}
-          </Link>
-        </div>
-        <div className="mt-2 border-t border-black/[0.08] pt-3">
-          <LanguageSwitcher />
+          <div className="mt-2 border-t border-black/[0.08] pt-3">
+            <Link className="mobile-nav-link" href={localizedHref("/account", locale)} onClick={close}>
+              {myKeyHoldLabel}
+            </Link>
+          </div>
+          <div className="mt-2 border-t border-black/[0.08] pt-3">
+            <LanguageSwitcher />
+          </div>
         </div>
       </div>
-    </details>
+    </div>
   );
 }
 

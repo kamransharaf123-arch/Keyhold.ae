@@ -6,5 +6,7 @@ export { HeroParallax } from "./hero-parallax";
 export { ImageReveal } from "./image-reveal";
 export { MotionHeader } from "./motion-header";
 export { Reveal } from "./reveal";
+export { PageIntro } from "./page-intro";
 export { ScrollCue } from "./scroll-cue";
 export { StaggerReveal } from "./stagger-reveal";
+export { useDisclosure } from "./use-disclosure";

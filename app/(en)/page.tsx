@@ -147,7 +147,7 @@ function FallbackHomeSections({ locale }: { locale: KeyHoldLocale }) {
               <Link key={item.title} href={localizedHref(item.href, locale)} className="kh-motion-card group min-h-64 border-b border-r border-black/10 p-7 transition-colors hover:bg-[var(--color-teal-soft)]">
                 <div className="flex items-start justify-between gap-4">
                   <span className="text-xs text-[var(--color-stone)]">0{index + 1}</span>
-                  <ArrowUpRightIcon className="kh-motion-arrow size-5 text-[var(--color-teal)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
+                  <ArrowUpRightIcon className="kh-motion-arrow size-5 text-[var(--color-teal)] group-hover:-translate-y-1 group-hover:translate-x-1" />
                 </div>
                 <h3 className="font-display mt-16 text-3xl tracking-[-0.03em]">{item.title}</h3>
                 <p className="mt-3 max-w-xs text-sm leading-6 text-[var(--color-stone)]">{item.text}</p>

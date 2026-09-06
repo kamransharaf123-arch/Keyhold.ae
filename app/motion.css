@@ -155,7 +155,7 @@ body[data-kh-hero-ambient="on"] .kh-cinematic-hero::after {
   pointer-events: none;
 }
 .kh-motion-image { overflow: clip; }
-.kh-motion-image img { transition: transform 850ms var(--kh-ease-out), filter 500ms var(--kh-ease-soft); }
+.kh-motion-image img { transition: transform 550ms var(--kh-ease-out), filter 500ms var(--kh-ease-soft); }
 .kh-motion-arrow { display: inline-block; transition: transform 260ms var(--kh-ease-out); }
 
 @media (hover: hover) and (pointer: fine) {
@@ -169,6 +169,10 @@ body[data-kh-hero-ambient="on"] .kh-cinematic-hero::after {
   body[data-kh-card-hover="on"] .kh-motion-card:hover::after { transform: scaleX(1); }
   body[data-kh-card-hover="on"] .kh-motion-card:hover .kh-motion-image img { transform: scale(1.035); }
   body[data-kh-card-hover="on"] .kh-motion-card:hover .kh-motion-arrow { transform: translateX(4px); }
+  body[data-kh-card-hover="on"] .kh-motion-card:active {
+    transform: scale(0.98);
+    transition-duration: 100ms;
+  }
 
   body[data-kh-button-motion="on"] .button {
     position: relative;
@@ -177,6 +181,17 @@ body[data-kh-hero-ambient="on"] .kh-cinematic-hero::after {
   }
   body[data-kh-button-motion="on"] .button:hover { transform: translate3d(0, -2px, 0); }
   body[data-kh-button-motion="on"] .button:active { transform: translate3d(0, 0, 0) scale(.985); }
+}
+
+/* Touch has no :hover, so cards need their own press feedback outside the fine-pointer block above. */
+@media (hover: none), (pointer: coarse) {
+  body[data-kh-card-hover="on"] .kh-motion-card {
+    transition: transform 160ms var(--kh-ease-out);
+  }
+  body[data-kh-card-hover="on"] .kh-motion-card:active {
+    transform: scale(0.98);
+    transition-duration: 100ms;
+  }
 }
 
 /* Data motion */
@@ -189,6 +204,39 @@ body[data-kh-hero-ambient="on"] .kh-cinematic-hero::after {
   transition: width var(--kh-motion-duration-slow) var(--kh-ease-out);
 }
 .kh-progress-value { min-width: 3ch; font-variant-numeric: tabular-nums; font-size: .75rem; color: var(--color-stone); }
+
+/* Shared "fills in on reveal" bar treatment — score bars, supply pipeline, payment-plan segments. */
+.kh-bar-fill {
+  width: 0;
+  transition: width var(--kh-motion-duration-slow) var(--kh-ease-out);
+}
+[data-kh-chart][data-motion-visible="true"] .kh-bar-fill {
+  width: var(--kh-bar-fill-width, 100%);
+}
+
+/* Content that swaps in (e.g. a zero-results state) instead of teleporting. */
+.kh-state-swap {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms var(--kh-ease-out), transform 300ms var(--kh-ease-out);
+
+  @starting-style {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* A floating surface arriving, toast-style (sticky/fixed bars, not popovers). */
+.kh-float-in {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 320ms var(--kh-ease-soft), transform 320ms var(--kh-ease-soft);
+
+  @starting-style {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
 
 body[data-kh-chart-motion="on"] [data-kh-chart][data-motion-ready="true"] path,
 body[data-kh-chart-motion="on"] [data-kh-chart][data-motion-ready="true"] polygon,
@@ -245,6 +293,41 @@ body[data-kh-page-intro="on"] .kh-page-intro {
   backdrop-filter: blur(16px) saturate(1.05);
 }
 
+/* Animated disclosure: floating dropdown/menu panels (nav, filters trigger, etc.). */
+.kh-dropdown-panel {
+  transform-origin: top center;
+  transition: opacity 180ms var(--kh-ease-out), transform 180ms var(--kh-ease-out);
+}
+.kh-dropdown-panel[data-state="closed"] {
+  opacity: 0;
+  transform: scale(0.96) translateY(-6px);
+  pointer-events: none;
+}
+.kh-dropdown-panel[data-state="open"] {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* Animated disclosure: inline accordion panels (mobile filters, advanced fields). */
+.kh-accordion-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 280ms var(--kh-ease-out);
+}
+.kh-accordion-panel[data-state="open"] {
+  grid-template-rows: 1fr;
+}
+.kh-accordion-panel-inner {
+  overflow: hidden;
+  min-height: 0;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+.kh-accordion-panel[data-state="open"] .kh-accordion-panel-inner {
+  opacity: 1;
+  transition-delay: 60ms;
+}
+
 /* Reduced motion always wins, regardless of CMS settings. */
 @media (prefers-reduced-motion: reduce) {
   .kh-reveal,
@@ -267,4 +350,10 @@ body[data-kh-page-intro="on"] .kh-page-intro {
   .kh-cinematic-hero::after,
   .kh-scroll-cue-line::after { display: none !important; }
   .kh-progress-fill { width: var(--kh-progress-value) !important; }
+  .kh-dropdown-panel { transition: opacity 0.01ms !important; transform: none !important; }
+  .kh-accordion-panel,
+  .kh-accordion-panel-inner { transition: opacity 0.01ms !important; }
+  .kh-bar-fill { width: var(--kh-bar-fill-width, 100%) !important; transition: none !important; }
+  .kh-state-swap,
+  .kh-float-in { transition: opacity 0.01ms !important; transform: none !important; }
 }

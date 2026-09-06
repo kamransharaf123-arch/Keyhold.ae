@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { AreaExplorerMap } from "@/components/discovery/area-explorer-map";
 import { DiscoveryProjectCard } from "@/components/discovery/discovery-project-card";
 import { SmartFinder } from "@/components/discovery/smart-finder";
+import { ChevronDownIcon } from "@/components/icons";
 import { StaggerReveal } from "@/components/motion";
 import { localizedHref } from "@/lib/i18n/locale";
 import {
@@ -271,6 +272,7 @@ export function DiscoveryExplorer({ projects, developers, areas, locale = "en" }
   const views = useMemo(() => [...new Set(projects.flatMap(getProjectViews))].sort(), [projects]);
   const paymentPlans = useMemo(() => [...new Set(projects.map(getPaymentPlanSignature).filter((value): value is string => Boolean(value)))].sort(), [projects]);
   const filterCount = activeFilterCount(filters);
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(() => filterCount > 0);
 
   function commitFilters(next: DiscoveryFilters, options?: { scroll?: boolean }) {
     setFilters(next);
@@ -353,10 +355,23 @@ export function DiscoveryExplorer({ projects, developers, areas, locale = "en" }
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[18rem_minmax(0,1fr)] xl:grid-cols-[20rem_minmax(0,1fr)]">
         <aside id="filters-panel" className="self-start lg:sticky lg:top-28">
-          <details className="border border-black/10 bg-[var(--color-soft-white)] lg:hidden" open={filterCount > 0}>
-            <summary className="cursor-pointer list-none px-5 py-4 text-sm font-semibold [&::-webkit-details-marker]:hidden">{copy.refineResults} {filterCount > 0 ? `· ${filterCount} ${copy.active}` : ""}</summary>
-            <div className="border-t border-black/10 p-5">{renderFilters()}</div>
-          </details>
+          <div className="border border-black/10 bg-[var(--color-soft-white)] lg:hidden">
+            <button
+              type="button"
+              onClick={() => setMobileFiltersOpen((value) => !value)}
+              aria-expanded={mobileFiltersOpen}
+              aria-controls="mobile-filters-panel"
+              className="flex min-h-11 w-full items-center justify-between gap-3 px-5 py-4 text-left text-sm font-semibold"
+            >
+              <span>{copy.refineResults} {filterCount > 0 ? `· ${filterCount} ${copy.active}` : ""}</span>
+              <ChevronDownIcon className={`size-4 shrink-0 transition-transform duration-200 ease-[var(--kh-ease-out)] ${mobileFiltersOpen ? "rotate-180" : ""}`} />
+            </button>
+            <div id="mobile-filters-panel" data-state={mobileFiltersOpen ? "open" : "closed"} className="kh-accordion-panel">
+              <div inert={!mobileFiltersOpen} className="kh-accordion-panel-inner">
+                <div className="border-t border-black/10 p-5">{renderFilters()}</div>
+              </div>
+            </div>
+          </div>
           <div className="hidden border border-black/10 bg-[var(--color-soft-white)] p-5 lg:block">{renderFilters()}</div>
         </aside>
 
@@ -403,7 +418,7 @@ export function DiscoveryExplorer({ projects, developers, areas, locale = "en" }
               ))}
             </StaggerReveal>
           ) : (
-            <div className="border border-black/10 bg-[var(--color-bone)] p-8 sm:p-12">
+            <div className="kh-state-swap border border-black/10 bg-[var(--color-bone)] p-8 sm:p-12">
               <p className="eyebrow">{copy.noExactMatch}</p>
               <h3 className="font-display mt-4 text-4xl tracking-[-0.035em]">{copy.noMatchTitle}</h3>
               <p className="mt-4 max-w-2xl text-sm leading-7 text-[var(--color-stone)]">{copy.noMatchBody}</p>
@@ -417,7 +432,7 @@ export function DiscoveryExplorer({ projects, developers, areas, locale = "en" }
       </div>
 
       {compareSlugs.length > 0 ? (
-        <div className="sticky bottom-4 z-30 mx-auto mt-8 flex max-w-4xl flex-wrap items-center justify-between gap-4 border border-black/10 bg-[color:rgba(252,251,248,0.96)] p-4 shadow-[0_16px_50px_rgba(17,17,17,0.12)] backdrop-blur">
+        <div className="kh-float-in sticky bottom-4 z-30 mx-auto mt-8 flex max-w-4xl flex-wrap items-center justify-between gap-4 border border-black/10 bg-[color:rgba(252,251,248,0.96)] p-4 shadow-[0_16px_50px_rgba(17,17,17,0.12)] backdrop-blur">
           <div>
             <p className="text-sm font-semibold">{copy.compareCount(compareSlugs.length)}</p>
             <p className="mt-1 text-xs text-[var(--color-stone)]">{copy.compareNote}</p>
@@ -459,7 +474,7 @@ export function DiscoveryExplorer({ projects, developers, areas, locale = "en" }
         </FilterSection>
 
         <FilterSection title={copy.bedrooms}>
-          <div className="flex flex-wrap gap-2">{bedroomOptions.map((bedroom) => <button key={bedroom} type="button" aria-pressed={filters.bedrooms.includes(bedroom)} onClick={() => patchFilters({ bedrooms: toggleItem(filters.bedrooms, bedroom) })} className={`min-h-10 min-w-10 border px-3 text-xs ${filters.bedrooms.includes(bedroom) ? "border-[var(--color-teal)] bg-[var(--color-teal)] text-white" : "border-black/10"}`}>{bedroom}</button>)}</div>
+          <div className="flex flex-wrap gap-2">{bedroomOptions.map((bedroom) => <button key={bedroom} type="button" aria-pressed={filters.bedrooms.includes(bedroom)} onClick={() => patchFilters({ bedrooms: toggleItem(filters.bedrooms, bedroom) })} className={`min-h-10 min-w-10 border px-3 text-xs transition-colors active:scale-95 ${filters.bedrooms.includes(bedroom) ? "border-[var(--color-teal)] bg-[var(--color-teal)] text-white" : "border-black/10 hover:border-[var(--color-teal)]"}`}>{bedroom}</button>)}</div>
         </FilterSection>
 
         <FilterSection title={copy.area}>

@@ -149,11 +149,16 @@ textarea:focus-visible {
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.035em;
-  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, transform 160ms var(--kh-ease-out), box-shadow 200ms ease;
 }
 
 .button:hover {
   transform: translateY(-1px);
+}
+
+.button:active {
+  transform: scale(0.97);
+  transition-duration: 100ms;
 }
 
 /* Kept as button-dark for backward compatibility, but visually this is now KeyHold's positive primary action. */

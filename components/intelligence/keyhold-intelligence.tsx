@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { intelligenceProfilesForLocale } from "@/data/localized-catalog";
 import { ChartReveal, CountUp } from "@/components/motion";
 import { PriceHistoryChart } from "@/components/intelligence/price-history-chart";
@@ -66,6 +67,8 @@ const COPY = {
   },
 } as const;
 
+type BarFillStyle = CSSProperties & { "--kh-bar-fill-width"?: string };
+
 function ScoreBar({ label, score, rationale, weight, weightLabel }: { label: string; score: number; rationale: string; weight: number; weightLabel: string }) {
   const width = `${Math.max(0, Math.min(100, score * 10))}%`;
   return (
@@ -78,7 +81,9 @@ function ScoreBar({ label, score, rationale, weight, weightLabel }: { label: str
         <p className="font-display text-2xl">{score.toFixed(1)} / 10</p>
       </div>
       <div className="mt-3 h-1.5 overflow-hidden bg-[var(--color-warm-grey)]" aria-hidden="true">
-        <div className="h-full bg-[var(--color-teal)]" style={{ width }} />
+        <ChartReveal className="h-full">
+          <div className="kh-bar-fill h-full bg-[var(--color-teal)]" style={{ "--kh-bar-fill-width": width } as BarFillStyle} />
+        </ChartReveal>
       </div>
       <p className="mt-2 text-xs leading-5 text-[var(--color-stone)]">{rationale}</p>
     </div>
@@ -198,7 +203,7 @@ export function KeyHoldIntelligence({ project, locale = "en" }: { project: Proje
           <p className="eyebrow">{copy.supplyPipeline}</p>
           <h3 className="font-display mt-2 text-3xl">{copy.illustrativeSupply}</h3>
           <div className="mt-6 space-y-5">
-            {profile.supplyPipeline.map((item) => <div key={item.period}><div className="flex items-center justify-between gap-4 text-sm"><span>{item.period}</span><span>{item.estimatedUnits.toLocaleString("en-US")} {copy.units}* · {translateStatusLabel(item.sourceStatus, locale)}</span></div><div className="mt-2 h-2 bg-[var(--color-warm-grey)]"><div className="h-full bg-[var(--color-teal)]" style={{ width: `${(item.estimatedUnits / maxSupply) * 100}%` }} /></div>{item.note ? <p className="mt-1 text-xs text-[var(--color-stone)]">{item.note}</p> : null}</div>)}
+            {profile.supplyPipeline.map((item) => <div key={item.period}><div className="flex items-center justify-between gap-4 text-sm"><span>{item.period}</span><span>{item.estimatedUnits.toLocaleString("en-US")} {copy.units}* · {translateStatusLabel(item.sourceStatus, locale)}</span></div><div className="mt-2 h-2 overflow-hidden bg-[var(--color-warm-grey)]"><ChartReveal className="h-full"><div className="kh-bar-fill h-full bg-[var(--color-teal)]" style={{ "--kh-bar-fill-width": `${(item.estimatedUnits / maxSupply) * 100}%` } as BarFillStyle} /></ChartReveal></div>{item.note ? <p className="mt-1 text-xs text-[var(--color-stone)]">{item.note}</p> : null}</div>)}
           </div>
           <p className="mt-5 text-[0.7rem] leading-5 text-[var(--color-stone)]">{copy.supplyFootnote}</p>
         </div>

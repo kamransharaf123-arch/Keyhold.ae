@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { PageIntro } from "@/components/motion";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { websiteThemeStyle } from "@/lib/cms/website-theme";
@@ -15,7 +16,7 @@ export default function EnglishRootLayout({ children }: Readonly<{ children: Rea
     <html lang="en" style={{ ...websiteThemeStyle(), ...websiteMotionStyle() }}>
       <body {...websiteMotionBodyAttributes()}>
         <SiteHeader />
-        <main className="kh-page-intro">{children}</main>
+        <PageIntro>{children}</PageIntro>
         <SiteFooter />
       </body>
     </html>
