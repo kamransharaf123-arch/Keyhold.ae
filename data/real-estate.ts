@@ -303,9 +303,9 @@ export const projects: Project[] = [
     shortDescription: "Demo annual rental inventory with unit-level availability.",
     overview:
       "Marina Private Homes is placeholder long-term rental inventory showing that rental periods and pricing can live in the same property engine without being confused with sale pricing.",
-    heroImage: "/images/project-3.svg",
+    heroImage: "/images/project-4.svg",
     images: [
-      { src: "/images/project-3.svg", alt: "Demo marina rental artwork", category: "Exterior" },
+      { src: "/images/project-4.svg", alt: "Demo marina rental artwork", category: "Exterior" },
       { src: "/images/interior-1.svg", alt: "Demo marina rental interior artwork", category: "Interior" },
     ],
     priceFromAed: null,
@@ -353,9 +353,9 @@ export const projects: Project[] = [
     shortDescription: "Demo off-plan villa community structured for larger family homes.",
     overview:
       "Desert Golf Villas preserves the Module 1 demo inventory while moving it into the structured Module 2 property engine. It demonstrates villa-specific size ranges, payment milestones, floor plans and unit availability.",
-    heroImage: "/images/project-4.svg",
+    heroImage: "/images/project-5.svg",
     images: [
-      { src: "/images/project-4.svg", alt: "Demo villa exterior artwork", category: "Exterior" },
+      { src: "/images/project-5.svg", alt: "Demo villa exterior artwork", category: "Exterior" },
       { src: "/images/interior-1.svg", alt: "Demo villa interior artwork", category: "Interior" },
       { src: "/images/amenity-1.svg", alt: "Demo villa amenity artwork", category: "Amenities" },
     ],
@@ -420,9 +420,9 @@ export const projects: Project[] = [
     shortDescription: "Demo premium short-stay inventory for Module 2.",
     overview:
       "Palm View Residence demonstrates short-term rental inventory, with nightly pricing and availability represented without pretending that rates are live. Production rates must come from a verified operating source.",
-    heroImage: "/images/project-5.svg",
+    heroImage: "/images/project-6.svg",
     images: [
-      { src: "/images/project-5.svg", alt: "Demo short-term rental artwork", category: "Exterior" },
+      { src: "/images/project-6.svg", alt: "Demo short-term rental artwork", category: "Exterior" },
       { src: "/images/interior-1.svg", alt: "Demo short-term rental interior artwork", category: "Interior" },
     ],
     priceFromAed: null,
@@ -470,9 +470,9 @@ export const projects: Project[] = [
     shortDescription: "Demo ready apartment with secondary-market style unit data.",
     overview:
       "Creekside Ready Home is placeholder inventory for a single-unit ready listing. It demonstrates how KeyHold can support a project record even when the public proposition is centred on one available home.",
-    heroImage: "/images/project-6.svg",
+    heroImage: "/images/project-3.svg",
     images: [
-      { src: "/images/project-6.svg", alt: "Demo creekside ready home artwork", category: "Exterior" },
+      { src: "/images/project-3.svg", alt: "Demo creekside ready home artwork", category: "Exterior" },
       { src: "/images/interior-1.svg", alt: "Demo ready home interior artwork", category: "Interior" },
     ],
     priceFromAed: 2_950_000,
