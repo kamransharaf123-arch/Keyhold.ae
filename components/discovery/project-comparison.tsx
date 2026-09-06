@@ -172,7 +172,7 @@ export function ProjectComparison({ projects, developers, areas, locale = "en" }
               </div>
               <p className="mt-4 text-[0.65rem] uppercase tracking-[0.14em] text-[var(--color-stone)]">{project.location}</p>
               <Link href={localizedHref(`/projects/${project.slug}`, locale)} className="font-display mt-1 block text-2xl tracking-[-0.03em] hover:underline">{project.title}</Link>
-              <button type="button" onClick={() => removeProject(project.slug)} className="mt-3 text-xs font-semibold text-[var(--color-stone)] underline underline-offset-4">{copy.remove}</button>
+              <button type="button" onClick={() => removeProject(project.slug)} className="mt-3 text-xs font-semibold text-[var(--color-stone)] underline underline-offset-4 transition-colors active:scale-95 hover:text-[var(--color-terracotta-deep)]">{copy.remove}</button>
             </div>
           ))}
           {rows.map((row) => (
