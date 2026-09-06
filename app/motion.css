@@ -178,6 +178,8 @@ body[data-kh-hero-ambient="on"] .kh-cinematic-hero::after {
   }
   body[data-kh-card-hover="on"] .kh-motion-card:hover::after { transform: scaleX(1); }
   body[data-kh-card-hover="on"] .kh-motion-card:hover .kh-motion-image img { transform: scale(1.035); }
+  /* Standalone image reveals (no .kh-motion-card ancestor, e.g. gallery thumbnails) get their own direct hover-zoom. */
+  body[data-kh-card-hover="on"] .kh-motion-image:hover img { transform: scale(1.035); }
   body[data-kh-card-hover="on"] .kh-motion-card:hover .kh-motion-arrow { transform: translateX(4px); }
   body[data-kh-card-hover="on"] .kh-motion-card:active {
     transform: scale(0.98);
@@ -375,6 +377,39 @@ body[data-kh-page-intro="on"] .kh-page-intro {
   transition-delay: 60ms;
 }
 
+/* Full-screen gallery lightbox. */
+.kh-lightbox {
+  opacity: 1;
+  transition: opacity 250ms var(--kh-ease-out);
+
+  @starting-style {
+    opacity: 0;
+  }
+}
+.kh-lightbox-image {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 220ms var(--kh-ease-out), transform 220ms var(--kh-ease-out);
+
+  @starting-style {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+.kh-lightbox-control {
+  color: white;
+  transition: background-color 200ms ease, transform 160ms var(--kh-ease-out);
+}
+.kh-lightbox-control:active {
+  transform: scale(0.94);
+  transition-duration: 100ms;
+}
+@media (hover: hover) and (pointer: fine) {
+  .kh-lightbox-control:hover {
+    background-color: rgba(255, 255, 255, 0.14);
+  }
+}
+
 /* Reduced motion always wins, regardless of CMS settings. */
 @media (prefers-reduced-motion: reduce) {
   .kh-reveal,
@@ -407,4 +442,7 @@ body[data-kh-page-intro="on"] .kh-page-intro {
   .kh-route-card,
   .kh-route-card::after { transition: none !important; }
   .kh-card-cta { transition: none !important; transform: none !important; background-color: var(--color-teal) !important; }
+  .kh-lightbox,
+  .kh-lightbox-image,
+  .kh-lightbox-control { transition: none !important; transform: none !important; }
 }

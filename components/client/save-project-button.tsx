@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { saveProjectAction } from "@/app/client-actions";
+import { BookmarkIcon } from "@/components/icons";
 
 const COPY = {
   en: { save: "Save", saved: "Saved", unavailable: "This property cannot be saved yet." },
@@ -23,13 +24,14 @@ export function SaveProjectButton({ slug, locale = "en" }: { slug: string; local
       type="button"
       aria-pressed={saved}
       disabled={pending}
-      className="button min-h-11 border border-black/10 hover:bg-[var(--color-bone)]"
+      className="button inline-flex min-h-11 items-center gap-2 border border-black/10 hover:bg-[var(--color-bone)]"
       onClick={() => startTransition(async () => {
         const result = await saveProjectAction({ slug, locale });
         if (result.unavailable) setUnavailable(true);
         else if (result.saved !== undefined) setSaved(result.saved);
       })}
     >
+      <BookmarkIcon filled={saved} className="size-4" />
       {pending ? "…" : saved ? copy.saved : copy.save}
     </button>
   );

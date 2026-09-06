@@ -4,6 +4,8 @@ import { Suspense } from "react";
 import { InvestmentSimulator } from "@/components/investment/investment-simulator";
 import { KeyHoldIntelligence } from "@/components/intelligence/keyhold-intelligence";
 import { notFound } from "next/navigation";
+import { ChevronDownIcon } from "@/components/icons";
+import { AnimatedHeadline, Reveal, StaggerReveal } from "@/components/motion";
 import { ProjectCard } from "@/components/project-card";
 import { ConstructionTimeline } from "@/components/real-estate/construction-timeline";
 import { FloorPlans } from "@/components/real-estate/floor-plans";
@@ -13,6 +15,7 @@ import { ProjectFacts } from "@/components/real-estate/project-facts";
 import { ProjectGallery } from "@/components/real-estate/project-gallery";
 import { ProjectSection } from "@/components/real-estate/section-shell";
 import { RegulatoryCard } from "@/components/real-estate/regulatory-card";
+import { StickyProjectBar } from "@/components/real-estate/sticky-project-bar";
 import { UnitSelector } from "@/components/real-estate/unit-selector";
 import { SaveProjectButton } from "@/components/client/save-project-button";
 import { projects as enProjects } from "@/data/catalog";
@@ -92,34 +95,49 @@ export function ProjectDetailContent({ slug, locale = "en" }: { slug: string; lo
       <section className="site-container py-12 lg:py-16">
         <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
           <div className="max-w-4xl">
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[0.67rem] font-semibold uppercase tracking-[0.16em] text-[var(--color-stone)]">
-              <span>{project.category}</span>
-              <span aria-hidden="true">·</span>
-              {area ? <Link href={localizedHref(`/areas/${area.slug}`, locale)} className="hover:text-[var(--color-graphite)]">{area.name}</Link> : <span>{project.location}</span>}
-              {developer ? <><span aria-hidden="true">·</span><Link href={localizedHref(`/developers/${developer.slug}`, locale)} className="hover:text-[var(--color-graphite)]">{developer.name}</Link></> : null}
+            <Reveal>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[0.67rem] font-semibold uppercase tracking-[0.16em] text-[var(--color-stone)]">
+                <span>{project.category}</span>
+                <span aria-hidden="true">·</span>
+                {area ? <Link href={localizedHref(`/areas/${area.slug}`, locale)} className="hover:text-[var(--color-graphite)]">{area.name}</Link> : <span>{project.location}</span>}
+                {developer ? <><span aria-hidden="true">·</span><Link href={localizedHref(`/developers/${developer.slug}`, locale)} className="hover:text-[var(--color-graphite)]">{developer.name}</Link></> : null}
+              </div>
+            </Reveal>
+            <AnimatedHeadline text={project.title} className="display-title mt-4 text-5xl sm:text-6xl lg:text-7xl" />
+            <Reveal delayMs={140}>
+              <p className="mt-5 max-w-2xl text-base leading-8 text-[var(--color-stone)]">{project.shortDescription}</p>
+            </Reveal>
+          </div>
+          <Reveal delayMs={100}>
+            <div className="lg:text-right">
+              <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-stone)]">{copy.guidePrice}</p>
+              <p className="font-display mt-2 text-3xl">{formatProjectPrice(project, locale)}</p>
+              <p className="mt-2 text-xs text-[var(--color-stone)]">{copy.checked} {formatDateTimeDubai(project.availabilityLastVerifiedAt, locale)}</p>
             </div>
-            <h1 className="display-title mt-4 text-5xl sm:text-6xl lg:text-7xl">{project.title}</h1>
-            <p className="mt-5 max-w-2xl text-base leading-8 text-[var(--color-stone)]">{project.shortDescription}</p>
-          </div>
-          <div className="lg:text-right">
-            <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-stone)]">{copy.guidePrice}</p>
-            <p className="font-display mt-2 text-3xl">{formatProjectPrice(project, locale)}</p>
-            <p className="mt-2 text-xs text-[var(--color-stone)]">{copy.checked} {formatDateTimeDubai(project.availabilityLastVerifiedAt, locale)}</p>
-          </div>
+          </Reveal>
         </div>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link href={`${localizedHref("/contact", locale)}?project=${encodeURIComponent(project.title)}`} className="button button-dark">{copy.enquire}</Link>
-          {investmentEligible ? <a href="#investment" className="button border border-black/10 hover:bg-[var(--color-bone)]">{copy.simulate}</a> : null}
-          <a href="#units" className="button border border-black/10 hover:bg-[var(--color-bone)]">{copy.viewUnits}</a>
-          <SaveProjectButton slug={project.slug} locale={locale} />
-        </div>
+        <Reveal delayMs={220}>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link href={`${localizedHref("/contact", locale)}?project=${encodeURIComponent(project.title)}`} className="button button-dark">{copy.enquire}</Link>
+            {investmentEligible ? <a href="#investment" className="button inline-flex items-center gap-2 border border-black/10 hover:bg-[var(--color-bone)]">{copy.simulate}<ChevronDownIcon className="size-3.5" /></a> : null}
+            <a href="#units" className="button inline-flex items-center gap-2 border border-black/10 hover:bg-[var(--color-bone)]">{copy.viewUnits}<ChevronDownIcon className="size-3.5" /></a>
+            <SaveProjectButton slug={project.slug} locale={locale} />
+          </div>
+        </Reveal>
       </section>
+
+      <StickyProjectBar
+        title={project.title}
+        price={formatProjectPrice(project, locale)}
+        enquireHref={`${localizedHref("/contact", locale)}?project=${encodeURIComponent(project.title)}`}
+        enquireLabel={copy.enquire}
+      />
 
       <ProjectGallery images={project.images} locale={locale} />
 
-      <section className="site-container pb-14 lg:pb-20">
+      <Reveal as="section" className="site-container pb-14 lg:pb-20">
         <ProjectFacts facts={project.keyFacts} />
-      </section>
+      </Reveal>
 
       <ProjectSection eyebrow={copy.overviewEyebrow} title={copy.overviewTitle}>
         <div className="space-y-7">
@@ -189,18 +207,18 @@ export function ProjectDetailContent({ slug, locale = "en" }: { slug: string; lo
       ) : null}
 
       {related.length > 0 ? (
-        <section className="site-container border-t border-black/10 py-14 lg:py-20">
+        <Reveal as="section" className="site-container border-t border-black/10 py-14 lg:py-20">
           <p className="eyebrow">{copy.related}</p>
-          <div className="mt-7 grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
+          <StaggerReveal className="mt-7 grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
             {related.map((item) => {
               const preview = previewBySlug.get(item.slug);
               return preview ? <ProjectCard key={item.slug} project={preview} locale={locale} /> : null;
             })}
-          </div>
-        </section>
+          </StaggerReveal>
+        </Reveal>
       ) : null}
 
-      <section className="site-container pb-20">
+      <Reveal as="section" className="site-container pb-20">
         <div className="bg-[var(--color-charcoal)] p-7 text-[var(--color-bone)] sm:p-10 lg:flex lg:items-center lg:justify-between lg:gap-10">
           <div>
             <p className="text-[0.67rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-champagne)]">{copy.availabilityEyebrow}</p>
@@ -209,7 +227,7 @@ export function ProjectDetailContent({ slug, locale = "en" }: { slug: string; lo
           </div>
           <Link href={`${localizedHref("/contact", locale)}?project=${encodeURIComponent(project.title)}`} className="button button-light mt-6 shrink-0 lg:mt-0">{copy.speakToAdvisor}</Link>
         </div>
-      </section>
+      </Reveal>
     </>
   );
 }
